@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>multivendor-ecommerce-with-ai-automation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -178,6 +180,92 @@
                     <button class="carousel-control-next hero-carousel__control hero-carousel__control--next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" aria-label="Next slide">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="vendors-section" aria-labelledby="vendorsSectionTitle">
+            <div class="container-xl">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-heading__eyebrow">Trusted Sellers</span>
+                        <h2 id="vendorsSectionTitle">Our Vendors</h2>
+                    </div>
+                    <a class="section-heading__link" href="#">View All Vendors</a>
+                </div>
+
+                <div class="owl-carousel vendor-carousel">
+                    <article class="vendor-card">
+                        <div class="vendor-card__logo">
+                            <img src="assets/images/vendor/vendor1.png" alt="Urban Style BD vendor logo">
+                        </div>
+                        <h3>Urban Style BD</h3>
+                        <p>Fashion & apparel</p>
+                        <span>4.8 Rating</span>
+                    </article>
+
+                    <article class="vendor-card">
+                        <div class="vendor-card__logo">
+                            <img src="assets/images/vendor/vendor2.png" alt="Smart Choice vendor logo">
+                        </div>
+                        <h3>Smart Choice</h3>
+                        <p>Daily essentials</p>
+                        <span>4.7 Rating</span>
+                    </article>
+
+                    <article class="vendor-card">
+                        <div class="vendor-card__logo">
+                            <img src="assets/images/vendor/vendor3.png" alt="Prime Mart vendor logo">
+                        </div>
+                        <h3>Prime Mart</h3>
+                        <p>Home & lifestyle</p>
+                        <span>4.9 Rating</span>
+                    </article>
+
+                    <article class="vendor-card">
+                        <div class="vendor-card__logo">
+                            <img src="assets/images/vendor/vendor4.png" alt="Style House vendor logo">
+                        </div>
+                        <h3>Style House</h3>
+                        <p>Men's collection</p>
+                        <span>4.6 Rating</span>
+                    </article>
+
+                    <article class="vendor-card">
+                        <div class="vendor-card__logo">
+                            <img src="assets/images/vendor/vendor5.png" alt="Fashion Hub vendor logo">
+                        </div>
+                        <h3>Fashion Hub</h3>
+                        <p>Trending outfits</p>
+                        <span>4.8 Rating</span>
+                    </article>
+
+                    <article class="vendor-card">
+                        <div class="vendor-card__logo">
+                            <img src="assets/images/vendor/vendor6.jpg" alt="Elite Vendor storefront">
+                        </div>
+                        <h3>Elite Vendor</h3>
+                        <p>Premium products</p>
+                        <span>4.7 Rating</span>
+                    </article>
+
+                    <article class="vendor-card">
+                        <div class="vendor-card__logo">
+                            <img src="assets/images/vendor/vendor7.jpg" alt="Market Pro vendor logo">
+                        </div>
+                        <h3>Market Pro</h3>
+                        <p>Multi-category store</p>
+                        <span>4.5 Rating</span>
+                    </article>
+
+                    <article class="vendor-card">
+                        <div class="vendor-card__logo">
+                            <img src="assets/images/vendor/vendor8.png" alt="Next Bazaar vendor logo">
+                        </div>
+                        <h3>Next Bazaar</h3>
+                        <p>Fast delivery shop</p>
+                        <span>4.9 Rating</span>
+                    </article>
                 </div>
             </div>
         </section>
@@ -409,8 +497,35 @@
         </section>
     </main>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        $(".vendor-carousel").owlCarousel({
+            loop: true,
+            margin: 24,
+            nav: true,
+            dots: false,
+            autoplay: true,
+            autoplayTimeout: 3500,
+            autoplayHoverPause: true,
+            navText: ["‹", "›"],
+            responsive: {
+                0: {
+                    items: 1
+                },
+                576: {
+                    items: 2
+                },
+                768: {
+                    items: 3
+                },
+                1200: {
+                    items: 4
+                }
+            }
+        });
+
         document.querySelectorAll(".search-category__menu .dropdown-item").forEach((item) => {
             item.addEventListener("click", (event) => {
                 event.preventDefault();
