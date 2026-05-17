@@ -103,6 +103,7 @@ a {
 
 .search-bar__category {
     width: 175px;
+    height: 100%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -112,6 +113,47 @@ a {
     font-weight: 800;
     text-transform: uppercase;
     white-space: nowrap;
+}
+
+.search-bar__category::after,
+.shop-category::after {
+    display: none;
+}
+
+.search-category {
+    flex: 0 0 175px;
+}
+
+.search-category__menu,
+.shop-category__menu {
+    min-width: 100%;
+    margin-top: 0;
+    padding: 10px 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: 0 12px 30px rgba(25, 32, 52, .16);
+}
+
+.search-category__menu .dropdown-item,
+.shop-category__menu .dropdown-item {
+    padding: 10px 18px;
+    color: #263047;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.search-category__menu .dropdown-item:hover,
+.search-category__menu .dropdown-item:focus,
+.shop-category__menu .dropdown-item:hover,
+.shop-category__menu .dropdown-item:focus {
+    background: #eef9fc;
+    color: var(--accent);
+}
+
+.search-category__menu .dropdown-item.active,
+.shop-category__menu .dropdown-item.active {
+    background: var(--accent);
+    color: #ffffff;
 }
 
 .category-dot {
@@ -198,6 +240,11 @@ a {
     padding-right: 0;
 }
 
+.shop-category-wrap {
+    flex: 0 0 255px;
+    display: flex;
+}
+
 .shop-category {
     width: 255px;
     min-height: 73px;
@@ -211,11 +258,21 @@ a {
     font-weight: 800;
     letter-spacing: .4px;
     text-transform: uppercase;
+    border: 0;
 }
 
 .shop-category:hover {
     color: #ffffff;
     background: #0caed5;
+}
+
+.shop-category.show {
+    color: #ffffff;
+    background: #0caed5;
+}
+
+.shop-category__menu {
+    width: 255px;
 }
 
 .shop-category__icon {
@@ -422,6 +479,10 @@ a {
         padding: 0 24px;
     }
 
+    .shop-category-wrap {
+        flex: 0 1 auto;
+    }
+
     .header-nav__collapse {
         flex-basis: 100%;
         order: 4;
@@ -489,10 +550,18 @@ a {
         border-top: 1px solid var(--border);
     }
 
+    .search-category {
+        flex: 1 1 100%;
+    }
+
     .shop-category {
         flex: 1 1 auto;
         padding: 0 14px;
         font-size: 12px;
+    }
+
+    .shop-category-wrap {
+        flex: 1 1 auto;
     }
 
     .gift-link {
