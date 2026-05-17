@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classic Slim Fit Blazer - Product Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-main">
+            <div class="container-xl">
+                <div class="header-main__inner">
+                    <a class="brand-logo" href="index.html" aria-label="Multivendor E-Commerce home">
+                        <img src="assets/images/logo.png" alt="Multivendor E-Commerce with AI Automation">
+                    </a>
+
+                    <form class="search-bar" role="search">
+                        <button class="search-bar__icon" type="submit" aria-label="Search">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="m21 21-4.35-4.35m2.35-5.15a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/>
+                            </svg>
+                        </button>
+                        <input type="search" placeholder="Search a Product" aria-label="Search a product">
+                        <div class="search-category dropdown">
+                            <button class="search-bar__category dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="category-dot">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M12 5v14m7-7H5"/>
+                                    </svg>
+                                </span>
+                                <span class="search-category__label">All Category</span>
+                            </button>
+                            <ul class="dropdown-menu search-category__menu">
+                                <li><a class="dropdown-item" href="#">All Category</a></li>
+                                <li><a class="dropdown-item" href="#">Fashion</a></li>
+                                <li><a class="dropdown-item" href="#">Shirts</a></li>
+                                <li><a class="dropdown-item" href="#">Blazers</a></li>
+                                <li><a class="dropdown-item" href="#">Pants</a></li>
+                            </ul>
+                        </div>
+                    </form>
+
+                    <a class="cart-link" href="#" aria-label="Shopping cart">
+                        <span class="cart-link__icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M4 5h2l2.2 10.8a2 2 0 0 0 2 1.6h6.9a2 2 0 0 0 1.9-1.4L21 8H7"/>
+                                <path d="M10 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm8 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/>
+                            </svg>
+                            <span class="cart-link__badge">0</span>
+                        </span>
+                        <span>Shopping<br>Cart</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <nav class="navbar navbar-expand-lg header-nav" aria-label="Primary navigation">
+            <div class="container-xl header-nav__inner">
+                <div class="shop-category-wrap dropdown">
+                    <button class="shop-category dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="shop-category__icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 5v14m0 0 5-5m-5 5-5-5"/>
+                            </svg>
+                        </span>
+                        Shop By Category
+                    </button>
+                    <ul class="dropdown-menu shop-category__menu">
+                        <li><a class="dropdown-item" href="#">Blazers</a></li>
+                        <li><a class="dropdown-item" href="#">Shirts</a></li>
+                        <li><a class="dropdown-item" href="#">T-Shirts</a></li>
+                        <li><a class="dropdown-item" href="#">Pants</a></li>
+                        <li><a class="dropdown-item" href="#">Accessories</a></li>
+                    </ul>
+                </div>
+
+                <button class="navbar-toggler header-nav__toggle" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation" aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse header-nav__collapse" id="mainNavigation">
+                    <ul class="navbar-nav header-menu">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html#shopSectionTitle">Shop</a></li>
+                        <li class="nav-item"><a class="nav-link" href="product-details.html">Product</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#vendorTitle">Vendors</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#vendorContact">Contact</a></li>
+                    </ul>
+
+                    <div class="header-actions">
+                        <a class="header-action" href="#" aria-label="Account">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M20 21a8 8 0 0 0-16 0"/>
+                                <path d="M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/>
+                            </svg>
+                        </a>
+                        <a class="wishlist-link" href="#">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/>
+                            </svg>
+                            <span><strong>0 Item</strong><br>Wishlist</span>
+                        </a>
+                    </div>
+                </div>
+
+                <a class="gift-link" href="#" aria-label="Gift offers">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M20 12v9H4v-9m18-5H2v5h20V7ZM12 21V7"/>
+                        <path d="M12 7H8.5A2.5 2.5 0 1 1 12 4.5V7Zm0 0h3.5A2.5 2.5 0 1 0 12 4.5V7Z"/>
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container-xl">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb product-breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="index.html#shopSectionTitle">Shop</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Classic Slim Fit Blazer</li>
+                    </ol>
+                </nav>
+            </div>
+        </section>
+
+        <section class="product-details-section">
+            <div class="container-xl">
+                <div class="product-details-layout">
+                    <div class="product-gallery">
+                        <div class="product-gallery__main">
+                            <span class="product-gallery__badge">In Stock</span>
+                            <img class="product-gallery__image" src="assets/images/product-image/blazer1.jpg" alt="Classic slim fit blazer front view">
+                        </div>
+                        <div class="product-gallery__thumbs" aria-label="Product image thumbnails">
+                            <button class="product-gallery__thumb is-active" type="button" data-image="assets/images/product-image/blazer1.jpg" aria-label="View blazer image">
+                                <img src="assets/images/product-image/blazer1.jpg" alt="">
+                            </button>
+                            <button class="product-gallery__thumb" type="button" data-image="assets/images/product-image/shirt1.jpg" aria-label="View shirt styling image">
+                                <img src="assets/images/product-image/shirt1.jpg" alt="">
+                            </button>
+                            <button class="product-gallery__thumb" type="button" data-image="assets/images/product-image/pent1.jpg" aria-label="View pant styling image">
+                                <img src="assets/images/product-image/pent1.jpg" alt="">
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="product-summary">
+                        <span class="product-summary__category">Men's Fashion / Blazer</span>
+                        <h1>Classic Slim Fit Blazer</h1>
+                        <div class="product-summary__meta">
+                            <span>5.0 Rating</span>
+                            <span>128 Reviews</span>
+                            <span>SKU: MVE-BLZ-1001</span>
+                        </div>
+                        <div class="product-summary__price">&#2547;89.00</div>
+                        <p class="product-summary__description">
+                            A clean slim-fit blazer designed for office wear, vendor meetings, and smart casual outfits. The fabric is lightweight, structured, and easy to pair with shirts, t-shirts, or formal pants.
+                        </p>
+
+                        <div class="product-options">
+                            <div class="product-option">
+                                <span class="product-option__label">Size</span>
+                                <div class="option-list" aria-label="Select size">
+                                    <button type="button">S</button>
+                                    <button type="button" class="is-selected">M</button>
+                                    <button type="button">L</button>
+                                    <button type="button">XL</button>
+                                </div>
+                            </div>
+                            <div class="product-option">
+                                <span class="product-option__label">Color</span>
+                                <div class="color-list" aria-label="Select color">
+                                    <button class="color-dot color-dot--navy is-selected" type="button" aria-label="Navy"></button>
+                                    <button class="color-dot color-dot--black" type="button" aria-label="Black"></button>
+                                    <button class="color-dot color-dot--gray" type="button" aria-label="Gray"></button>
+                                </div>
+                            </div>
+                            <div class="product-option">
+                                <span class="product-option__label">Quantity</span>
+                                <div class="quantity-control">
+                                    <button type="button" aria-label="Decrease quantity">-</button>
+                                    <input type="number" min="1" value="1" aria-label="Quantity">
+                                    <button type="button" aria-label="Increase quantity">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-summary__actions">
+                            <button class="product-action product-action--primary" type="button">Add To Cart</button>
+                            <button class="product-action product-action--secondary" type="button">Buy Now</button>
+                            <button class="product-action product-action--icon" type="button" aria-label="Add to wishlist">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <ul class="product-service-list">
+                            <li>Cash on delivery available inside Bangladesh</li>
+                            <li>Estimated delivery: 2-5 business days</li>
+                            <li>7-day return support for eligible items</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="product-info-grid">
+                    <section class="product-info-panel">
+                        <h2>Product Information</h2>
+                        <p>
+                            This blazer uses a modern slim pattern with structured shoulders, a two-button front, and practical inner pockets. It is suitable for daily business use, seller presentations, events, and semi-formal styling.
+                        </p>
+                        <div class="spec-grid">
+                            <div><span>Material</span><strong>Poly-viscose blend</strong></div>
+                            <div><span>Fit</span><strong>Slim fit</strong></div>
+                            <div><span>Closure</span><strong>Two-button front</strong></div>
+                            <div><span>Pockets</span><strong>2 outer, 2 inner</strong></div>
+                            <div><span>Care</span><strong>Dry clean recommended</strong></div>
+                            <div><span>Origin</span><strong>Bangladesh</strong></div>
+                        </div>
+                    </section>
+
+                    <aside class="vendor-panel" aria-labelledby="vendorTitle">
+                        <div class="vendor-panel__header">
+                            <div class="vendor-avatar" aria-hidden="true">U</div>
+                            <div>
+                                <span class="vendor-panel__eyebrow">Sold By</span>
+                                <h2 id="vendorTitle">Urban Style BD</h2>
+                                <p>Verified Vendor</p>
+                            </div>
+                        </div>
+
+                        <dl class="vendor-stats">
+                            <div>
+                                <dt>Rating</dt>
+                                <dd>4.8 / 5</dd>
+                            </div>
+                            <div>
+                                <dt>Products</dt>
+                                <dd>236</dd>
+                            </div>
+                            <div>
+                                <dt>Response</dt>
+                                <dd>Within 2 hours</dd>
+                            </div>
+                        </dl>
+
+                        <div class="vendor-contact" id="vendorContact">
+                            <h3>Vendor Contact Info</h3>
+                            <ul>
+                                <li><strong>Phone:</strong> +880 1712-345678</li>
+                                <li><strong>Email:</strong> support@urbanstylebd.com</li>
+                                <li><strong>Address:</strong> House 24, Road 8, Dhanmondi, Dhaka 1209</li>
+                                <li><strong>Store Hours:</strong> Sat-Thu, 10:00 AM - 8:00 PM</li>
+                            </ul>
+                        </div>
+
+                        <div class="vendor-actions">
+                            <a href="tel:+8801712345678">Call Vendor</a>
+                            <a href="mailto:support@urbanstylebd.com">Email Vendor</a>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelectorAll(".search-category__menu .dropdown-item").forEach((item) => {
+            item.addEventListener("click", (event) => {
+                event.preventDefault();
+
+                const categoryLabel = document.querySelector(".search-category__label");
+                document.querySelectorAll(".search-category__menu .dropdown-item").forEach((link) => {
+                    link.classList.remove("active");
+                });
+
+                item.classList.add("active");
+                categoryLabel.textContent = item.textContent.trim();
+            });
+        });
+
+        document.querySelectorAll(".shop-category__menu .dropdown-item").forEach((item) => {
+            item.addEventListener("click", (event) => {
+                event.preventDefault();
+
+                document.querySelectorAll(".shop-category__menu .dropdown-item").forEach((link) => {
+                    link.classList.remove("active");
+                });
+
+                item.classList.add("active");
+            });
+        });
+
+        const galleryImage = document.querySelector(".product-gallery__image");
+        document.querySelectorAll(".product-gallery__thumb").forEach((thumb) => {
+            thumb.addEventListener("click", () => {
+                document.querySelectorAll(".product-gallery__thumb").forEach((button) => {
+                    button.classList.remove("is-active");
+                });
+
+                thumb.classList.add("is-active");
+                galleryImage.src = thumb.dataset.image;
+            });
+        });
+
+        document.querySelectorAll(".quantity-control").forEach((control) => {
+            const input = control.querySelector("input");
+            const buttons = control.querySelectorAll("button");
+
+            buttons[0].addEventListener("click", () => {
+                input.value = Math.max(1, Number(input.value) - 1);
+            });
+
+            buttons[1].addEventListener("click", () => {
+                input.value = Number(input.value) + 1;
+            });
+        });
+    </script>
+</body>
+</html>
