@@ -4,8 +4,136 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>multivendor-ecommerce-with-ai-automation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    
+    <header class="site-header">
+        <div class="header-main">
+            <div class="container-xl">
+                <div class="header-main__inner">
+                    <a class="brand-logo" href="#" aria-label="Multivendor E-Commerce home">
+                        <img src="assets/images/logo.png" alt="Multivendor E-Commerce with AI Automation">
+                    </a>
+
+                    <form class="search-bar" role="search">
+                        <button class="search-bar__icon" type="submit" aria-label="Search">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="m21 21-4.35-4.35m2.35-5.15a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/>
+                            </svg>
+                        </button>
+                        <input type="search" placeholder="Search a Product" aria-label="Search a product">
+                        <button class="search-bar__category" type="button">
+                            <span class="category-dot">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12 5v14m7-7H5"/>
+                                </svg>
+                            </span>
+                            All Category
+                        </button>
+                    </form>
+
+                    <a class="cart-link" href="#" aria-label="Shopping cart">
+                        <span class="cart-link__icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M4 5h2l2.2 10.8a2 2 0 0 0 2 1.6h6.9a2 2 0 0 0 1.9-1.4L21 8H7"/>
+                                <path d="M10 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm8 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/>
+                            </svg>
+                            <span class="cart-link__badge">0</span>
+                        </span>
+                        <span>Shopping<br>Cart</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <nav class="navbar navbar-expand-lg header-nav" aria-label="Primary navigation">
+            <div class="container-xl header-nav__inner">
+                <a class="shop-category" href="#">
+                    <span class="shop-category__icon">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 5v14m0 0 5-5m-5 5-5-5"/>
+                        </svg>
+                    </span>
+                    Shop By Category
+                </a>
+
+                <button class="navbar-toggler header-nav__toggle" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation" aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse header-nav__collapse" id="mainNavigation">
+                    <ul class="navbar-nav header-menu">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Home</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Home page</a></li>
+                                <li><a class="dropdown-item" href="#">Featured vendors</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All products</a></li>
+                                <li><a class="dropdown-item" href="#">Collections</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Product</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Product details</a></li>
+                                <li><a class="dropdown-item" href="#">Compare products</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Features</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Vendor dashboard</a></li>
+                                <li><a class="dropdown-item" href="#">AI automation</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">About</a></li>
+                                <li><a class="dropdown-item" href="#">Contact</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Blog</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Latest posts</a></li>
+                                <li><a class="dropdown-item" href="#">Guides</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="header-actions">
+                        <a class="header-action" href="#" aria-label="Account">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M20 21a8 8 0 0 0-16 0"/>
+                                <path d="M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/>
+                            </svg>
+                        </a>
+                        <a class="wishlist-link" href="#">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/>
+                            </svg>
+                            <span><strong>0 Item</strong><br>Wishlist</span>
+                        </a>
+                    </div>
+                </div>
+
+                <a class="gift-link" href="#" aria-label="Gift offers">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M20 12v9H4v-9m18-5H2v5h20V7ZM12 21V7"/>
+                        <path d="M12 7H8.5A2.5 2.5 0 1 1 12 4.5V7Zm0 0h3.5A2.5 2.5 0 1 0 12 4.5V7Z"/>
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
