@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Multivendor E-Commerce</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-main">
+            <div class="container-xl">
+                <div class="header-main__inner">
+                    <a class="brand-logo" href="index.html" aria-label="Multivendor E-Commerce home">
+                        <img src="assets/images/logo.png" alt="Multivendor E-Commerce with AI Automation">
+                    </a>
+
+                    <form class="search-bar" role="search">
+                        <button class="search-bar__icon" type="submit" aria-label="Search">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="m21 21-4.35-4.35m2.35-5.15a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/>
+                            </svg>
+                        </button>
+                        <input type="search" placeholder="Search a Product" aria-label="Search a product">
+                        <div class="search-category dropdown">
+                            <button class="search-bar__category dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="category-dot">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M12 5v14m7-7H5"/>
+                                    </svg>
+                                </span>
+                                <span class="search-category__label">All Category</span>
+                            </button>
+                            <ul class="dropdown-menu search-category__menu">
+                                <li><a class="dropdown-item" href="#">All Category</a></li>
+                                <li><a class="dropdown-item" href="#">Electronics</a></li>
+                                <li><a class="dropdown-item" href="#">Fashion</a></li>
+                                <li><a class="dropdown-item" href="#">Home & Living</a></li>
+                                <li><a class="dropdown-item" href="#">Beauty & Health</a></li>
+                                <li><a class="dropdown-item" href="#">Sports & Outdoor</a></li>
+                            </ul>
+                        </div>
+                    </form>
+
+                    <a class="cart-link" href="cart.html" aria-label="Shopping cart">
+                        <span class="cart-link__icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M4 5h2l2.2 10.8a2 2 0 0 0 2 1.6h6.9a2 2 0 0 0 1.9-1.4L21 8H7"/>
+                                <path d="M10 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm8 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/>
+                            </svg>
+                            <span class="cart-link__badge">0</span>
+                        </span>
+                        <span>Shopping<br>Cart</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <nav class="navbar navbar-expand-lg header-nav" aria-label="Primary navigation">
+            <div class="container-xl header-nav__inner">
+                <div class="shop-category-wrap dropdown">
+                    <button class="shop-category dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="shop-category__icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 5v14m0 0 5-5m-5 5-5-5"/>
+                            </svg>
+                        </span>
+                        Shop By Category
+                    </button>
+                    <ul class="dropdown-menu shop-category__menu">
+                        <li><a class="dropdown-item" href="#">Electronics</a></li>
+                        <li><a class="dropdown-item" href="#">Mobile Phones</a></li>
+                        <li><a class="dropdown-item" href="#">Computer & Laptop</a></li>
+                        <li><a class="dropdown-item" href="#">Men's Fashion</a></li>
+                        <li><a class="dropdown-item" href="#">Women's Fashion</a></li>
+                        <li><a class="dropdown-item" href="#">Home & Kitchen</a></li>
+                        <li><a class="dropdown-item" href="#">Beauty & Personal Care</a></li>
+                        <li><a class="dropdown-item" href="#">Groceries</a></li>
+                    </ul>
+                </div>
+
+                <button class="navbar-toggler header-nav__toggle" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation" aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse header-nav__collapse" id="mainNavigation">
+                    <ul class="navbar-nav header-menu">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html#shopSectionTitle">Shop</a></li>
+                        <li class="nav-item"><a class="nav-link" href="product-details.html">Product</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html#vendorsSectionTitle">Vendors</a></li>
+                        <li class="nav-item"><a class="nav-link" href="order-tracking.html">Track Order</a></li>
+                        <li class="nav-item"><a class="nav-link" href="live-chat.html">Live Chat</a></li>
+                    </ul>
+
+                    <div class="header-actions">
+                        <a class="header-action" href="login.html" aria-label="Account">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M20 21a8 8 0 0 0-16 0"/>
+                                <path d="M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/>
+                            </svg>
+                        </a>
+                        <a class="wishlist-link" href="#">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/>
+                            </svg>
+                            <span><strong>0 Item</strong><br>Wishlist</span>
+                        </a>
+                    </div>
+                </div>
+
+                <a class="gift-link" href="#" aria-label="Gift offers">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M20 12v9H4v-9m18-5H2v5h20V7ZM12 21V7"/>
+                        <path d="M12 7H8.5A2.5 2.5 0 1 1 12 4.5V7Zm0 0h3.5A2.5 2.5 0 1 0 12 4.5V7Z"/>
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="utility-page">
+        <section class="auth-section">
+            <div class="container-xl">
+                <div class="auth-layout">
+                    <div class="auth-copy">
+                        <span>Create Account</span>
+                        <h1>Join the marketplace as a customer</h1>
+                        <p>Register to save addresses, follow vendors, receive flash sale alerts, and complete checkout faster.</p>
+                    </div>
+                    <form class="auth-card">
+                        <h2>Register</h2>
+                        <div class="form-grid">
+                            <label>First Name
+                                <input type="text" placeholder="First name">
+                            </label>
+                            <label>Last Name
+                                <input type="text" placeholder="Last name">
+                            </label>
+                        </div>
+                        <label>Email Address
+                            <input type="email" placeholder="you@example.com">
+                        </label>
+                        <label>Phone Number
+                            <input type="tel" placeholder="+880 1XXX-XXXXXX">
+                        </label>
+                        <label>Password
+                            <input type="password" placeholder="Create password">
+                        </label>
+                        <label class="check-label"><input type="checkbox"> I agree to the terms and privacy policy</label>
+                        <button type="submit">Create Account</button>
+                        <p>Already registered? <a href="login.html">Login here</a></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container-xl">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <a class="footer-logo" href="index.html" aria-label="Multivendor E-Commerce home">
+                        <img src="assets/images/logo.png" alt="Multivendor E-Commerce with AI Automation">
+                    </a>
+                    <p>AI-powered multivendor ecommerce marketplace for fashion, lifestyle, and everyday products from verified sellers.</p>
+                    <div class="footer-social" aria-label="Social links">
+                        <a href="#" aria-label="Facebook">f</a>
+                        <a href="#" aria-label="LinkedIn">in</a>
+                        <a href="#" aria-label="YouTube">yt</a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h2>Marketplace</h2>
+                    <ul>
+                        <li><a href="index.html#shopSectionTitle">Shop Products</a></li>
+                        <li><a href="index.html#vendorsSectionTitle">Our Vendors</a></li>
+                        <li><a href="index.html#flashDeals">Flash Deals</a></li>
+                        <li><a href="product-details.html">Product Details</a></li>
+                        <li><a href="cart.html">Shopping Cart</a></li>
+                        <li><a href="checkout.html">Checkout</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h2>Support</h2>
+                    <ul>
+                        <li><a href="order-tracking.html">Order Tracking</a></li>
+                        <li><a href="login.html">Customer Login</a></li>
+                        <li><a href="register.html">Create Account</a></li>
+                        <li><a href="live-chat.html">Help Center</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h2>Contact Info</h2>
+                    <ul>
+                        <li><strong>Phone:</strong> +880 1712-345678</li>
+                        <li><strong>Email:</strong> support@mvecommerce.ai</li>
+                        <li><strong>Address:</strong> Dhanmondi, Dhaka 1209, Bangladesh</li>
+                    </ul>
+                    <form class="footer-newsletter">
+                        <label for="newsletterEmail">Get vendor deals and product updates</label>
+                        <div>
+                            <input id="newsletterEmail" type="email" placeholder="Email address">
+                            <button type="submit">Join</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>Copyright 2026 Multivendor E-Commerce With AI Automation. All rights reserved.</p>
+                <div>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <a class="floating-chat" href="live-chat.html" aria-label="Open live chat">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 17 0Z"/>
+            <path d="M8 10h8M8 14h5"/>
+        </svg>
+    </a>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

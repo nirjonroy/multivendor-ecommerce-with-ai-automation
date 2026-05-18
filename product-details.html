@@ -34,15 +34,16 @@
                             </button>
                             <ul class="dropdown-menu search-category__menu">
                                 <li><a class="dropdown-item" href="#">All Category</a></li>
+                                <li><a class="dropdown-item" href="#">Electronics</a></li>
                                 <li><a class="dropdown-item" href="#">Fashion</a></li>
-                                <li><a class="dropdown-item" href="#">Shirts</a></li>
-                                <li><a class="dropdown-item" href="#">Blazers</a></li>
-                                <li><a class="dropdown-item" href="#">Pants</a></li>
+                                <li><a class="dropdown-item" href="#">Home & Living</a></li>
+                                <li><a class="dropdown-item" href="#">Beauty & Health</a></li>
+                                <li><a class="dropdown-item" href="#">Sports & Outdoor</a></li>
                             </ul>
                         </div>
                     </form>
 
-                    <a class="cart-link" href="#" aria-label="Shopping cart">
+                    <a class="cart-link" href="cart.html" aria-label="Shopping cart">
                         <span class="cart-link__icon">
                             <svg viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M4 5h2l2.2 10.8a2 2 0 0 0 2 1.6h6.9a2 2 0 0 0 1.9-1.4L21 8H7"/>
@@ -68,11 +69,14 @@
                         Shop By Category
                     </button>
                     <ul class="dropdown-menu shop-category__menu">
-                        <li><a class="dropdown-item" href="#">Blazers</a></li>
-                        <li><a class="dropdown-item" href="#">Shirts</a></li>
-                        <li><a class="dropdown-item" href="#">T-Shirts</a></li>
-                        <li><a class="dropdown-item" href="#">Pants</a></li>
-                        <li><a class="dropdown-item" href="#">Accessories</a></li>
+                        <li><a class="dropdown-item" href="#">Electronics</a></li>
+                        <li><a class="dropdown-item" href="#">Mobile Phones</a></li>
+                        <li><a class="dropdown-item" href="#">Computer & Laptop</a></li>
+                        <li><a class="dropdown-item" href="#">Men's Fashion</a></li>
+                        <li><a class="dropdown-item" href="#">Women's Fashion</a></li>
+                        <li><a class="dropdown-item" href="#">Home & Kitchen</a></li>
+                        <li><a class="dropdown-item" href="#">Beauty & Personal Care</a></li>
+                        <li><a class="dropdown-item" href="#">Groceries</a></li>
                     </ul>
                 </div>
 
@@ -85,12 +89,13 @@
                         <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html#shopSectionTitle">Shop</a></li>
                         <li class="nav-item"><a class="nav-link" href="product-details.html">Product</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#vendorTitle">Vendors</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#vendorContact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html#vendorsSectionTitle">Vendors</a></li>
+                        <li class="nav-item"><a class="nav-link" href="order-tracking.html">Track Order</a></li>
+                        <li class="nav-item"><a class="nav-link" href="live-chat.html">Live Chat</a></li>
                     </ul>
 
                     <div class="header-actions">
-                        <a class="header-action" href="#" aria-label="Account">
+                        <a class="header-action" href="login.html" aria-label="Account">
                             <svg viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M20 21a8 8 0 0 0-16 0"/>
                                 <path d="M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/>
@@ -267,8 +272,197 @@
                 </div>
             </div>
         </section>
+
+        <section class="related-products-section" aria-labelledby="relatedProductsTitle">
+            <div class="container-xl">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-heading__eyebrow">More From Fashion</span>
+                        <h2 id="relatedProductsTitle">Related Products</h2>
+                    </div>
+                    <a class="section-heading__link" href="index.html#shopSectionTitle">View All Products</a>
+                </div>
+
+                <div class="product-grid">
+                    <article class="product-card">
+                        <div class="product-card__media">
+                            <span class="product-card__badge product-card__badge--sale">Sale</span>
+                            <img src="assets/images/product-image/shirt1.jpg" alt="Blue casual cotton shirt">
+                            <button class="product-card__wishlist" type="button" aria-label="Add blue casual cotton shirt to wishlist">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="product-card__body">
+                            <span class="product-card__category">Shirt</span>
+                            <h3><a href="product-details.html">Blue Casual Cotton Shirt</a></h3>
+                            <div class="product-card__rating" aria-label="Rated 4 out of 5">4.0 Rating</div>
+                            <div class="product-card__footer">
+                                <span class="product-card__price">&#2547;42.00</span>
+                                <button class="product-card__cart" type="button">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M5 6h2l1.6 8.4a2 2 0 0 0 2 1.6h5.9a2 2 0 0 0 1.9-1.4L20 8H8"/>
+                                        <path d="M10 20h.01M17 20h.01"/>
+                                    </svg>
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="product-card">
+                        <div class="product-card__media">
+                            <img src="assets/images/product-image/pent1.jpg" alt="Modern stretch formal pant">
+                            <button class="product-card__wishlist" type="button" aria-label="Add modern stretch formal pant to wishlist">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="product-card__body">
+                            <span class="product-card__category">Pant</span>
+                            <h3><a href="product-details.html">Modern Stretch Formal Pant</a></h3>
+                            <div class="product-card__rating" aria-label="Rated 4 out of 5">4.0 Rating</div>
+                            <div class="product-card__footer">
+                                <span class="product-card__price">&#2547;51.00</span>
+                                <button class="product-card__cart" type="button">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M5 6h2l1.6 8.4a2 2 0 0 0 2 1.6h5.9a2 2 0 0 0 1.9-1.4L20 8H8"/>
+                                        <path d="M10 20h.01M17 20h.01"/>
+                                    </svg>
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="product-card">
+                        <div class="product-card__media">
+                            <span class="product-card__badge">New</span>
+                            <img src="assets/images/product-image/shirt2.jpg" alt="Premium long sleeve shirt">
+                            <button class="product-card__wishlist" type="button" aria-label="Add premium long sleeve shirt to wishlist">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="product-card__body">
+                            <span class="product-card__category">Shirt</span>
+                            <h3><a href="product-details.html">Premium Long Sleeve Shirt</a></h3>
+                            <div class="product-card__rating" aria-label="Rated 4 out of 5">4.0 Rating</div>
+                            <div class="product-card__footer">
+                                <span class="product-card__price">&#2547;46.00</span>
+                                <button class="product-card__cart" type="button">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M5 6h2l1.6 8.4a2 2 0 0 0 2 1.6h5.9a2 2 0 0 0 1.9-1.4L20 8H8"/>
+                                        <path d="M10 20h.01M17 20h.01"/>
+                                    </svg>
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="product-card">
+                        <div class="product-card__media">
+                            <img src="assets/images/product-image/tshirt-1.jpg" alt="Everyday graphic t-shirt">
+                            <button class="product-card__wishlist" type="button" aria-label="Add everyday graphic t-shirt to wishlist">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="product-card__body">
+                            <span class="product-card__category">T-Shirt</span>
+                            <h3><a href="product-details.html">Everyday Graphic T-Shirt</a></h3>
+                            <div class="product-card__rating" aria-label="Rated 5 out of 5">5.0 Rating</div>
+                            <div class="product-card__footer">
+                                <span class="product-card__price">&#2547;24.00</span>
+                                <button class="product-card__cart" type="button">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M5 6h2l1.6 8.4a2 2 0 0 0 2 1.6h5.9a2 2 0 0 0 1.9-1.4L20 8H8"/>
+                                        <path d="M10 20h.01M17 20h.01"/>
+                                    </svg>
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
     </main>
 
+    <footer class="site-footer">
+        <div class="container-xl">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <a class="footer-logo" href="index.html" aria-label="Multivendor E-Commerce home">
+                        <img src="assets/images/logo.png" alt="Multivendor E-Commerce with AI Automation">
+                    </a>
+                    <p>AI-powered multivendor ecommerce marketplace for fashion, lifestyle, and everyday products from verified sellers.</p>
+                    <div class="footer-social" aria-label="Social links">
+                        <a href="#" aria-label="Facebook">f</a>
+                        <a href="#" aria-label="LinkedIn">in</a>
+                        <a href="#" aria-label="YouTube">yt</a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h2>Marketplace</h2>
+                    <ul>
+                        <li><a href="index.html#shopSectionTitle">Shop Products</a></li>
+                        <li><a href="index.html#vendorsSectionTitle">Our Vendors</a></li>
+                        <li><a href="index.html#flashDeals">Flash Deals</a></li>
+                        <li><a href="product-details.html">Product Details</a></li>
+                        <li><a href="cart.html">Shopping Cart</a></li>
+                        <li><a href="checkout.html">Checkout</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h2>Support</h2>
+                    <ul>
+                        <li><a href="order-tracking.html">Order Tracking</a></li>
+                        <li><a href="login.html">Customer Login</a></li>
+                        <li><a href="register.html">Create Account</a></li>
+                        <li><a href="live-chat.html">Help Center</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h2>Contact Info</h2>
+                    <ul>
+                        <li><strong>Phone:</strong> +880 1712-345678</li>
+                        <li><strong>Email:</strong> support@mvecommerce.ai</li>
+                        <li><strong>Address:</strong> Dhanmondi, Dhaka 1209, Bangladesh</li>
+                    </ul>
+                    <form class="footer-newsletter">
+                        <label for="newsletterEmail">Get vendor deals and product updates</label>
+                        <div>
+                            <input id="newsletterEmail" type="email" placeholder="Email address">
+                            <button type="submit">Join</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>Copyright 2026 Multivendor E-Commerce With AI Automation. All rights reserved.</p>
+                <div>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <a class="floating-chat" href="live-chat.html" aria-label="Open live chat">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 17 0Z"/>
+            <path d="M8 10h8M8 14h5"/>
+        </svg>
+    </a>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.querySelectorAll(".search-category__menu .dropdown-item").forEach((item) => {
