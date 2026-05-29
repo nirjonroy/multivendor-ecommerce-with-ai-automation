@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\Auth\AuthenticatedSessionController as AdminAuthenticatedSessionController;
 use App\Http\Controllers\Backend\Auth\RegisteredAdminController;
+use App\Http\Controllers\Backend\HomeSectionController;
 use App\Http\Controllers\Backend\SiteInfoController;
 use App\Http\Controllers\Frontend\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\Auth\RegisteredUserController;
@@ -60,6 +61,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('site-info', [SiteInfoController::class, 'edit'])->name('site-info.edit');
         Route::put('site-info', [SiteInfoController::class, 'update'])->name('site-info.update');
+        Route::get('home-section', [HomeSectionController::class, 'edit'])->name('home-section.edit');
+        Route::put('home-section', [HomeSectionController::class, 'update'])->name('home-section.update');
 
         Route::post('logout', [AdminAuthenticatedSessionController::class, 'destroy'])->name('logout');
     });

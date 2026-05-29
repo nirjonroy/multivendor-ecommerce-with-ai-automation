@@ -80,6 +80,7 @@
                         <a class="sidebar-header active" href="#"><i data-feather="settings"></i><span>Settings</span><i class="fa fa-angle-right pull-right"></i></a>
                         <ul class="sidebar-submenu menu-open" style="display:block;">
                             <li><a class="active" href="{{ route('admin.site-info.edit') }}"><i class="fa fa-circle"></i>Site Info</a></li>
+                            <li><a href="{{ route('admin.home-section.edit') }}"><i class="fa fa-circle"></i>Home Section</a></li>
                         </ul>
                     </li>
                 </ul>

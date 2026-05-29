@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\SiteInfo;
+use App\Models\HomeSection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -33,7 +34,14 @@ class AppServiceProvider extends ServiceProvider
                 $siteInfo = SiteInfo::query()->first();
             }
 
+            $homeSection = null;
+
+            if (Schema::hasTable('home_sections')) {
+                $homeSection = HomeSection::query()->first();
+            }
+
             $view->with('globalSiteInfo', $siteInfo);
+            $view->with('globalHomeSection', $homeSection);
         });
     }
 }

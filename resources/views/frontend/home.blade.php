@@ -640,27 +640,20 @@
 </header>
 <!--header end-->
 
-<!--top brand panel start-->
-<section class="brand-panel">
-  <div class="brand-panel-box">
-    <div class="brand-panel-contain ">
-      <ul>
-        <li><a href="#">top brand</a></li>
-        <li><a>:</a></li>
-        <li><a href="category-page(left-sidebar).html">aerie</a></li>
-        <li><a href="category-page(left-sidebar).html">baci lingrie</a></li>
-        <li><a href="category-page(left-sidebar).html">gerbe</a></li>
-        <li><a href="category-page(left-sidebar).html">jolidon</a></li>
-        <li><a href="category-page(left-sidebar).html">Wonderbra</a></li>
-        <li><a href="category-page(left-sidebar).html">Ultimo</a></li>
-        <li><a href="category-page(left-sidebar).html">Vassarette </a></li>
-        <li><a href="category-page(left-sidebar).html">Oysho</a></li>
-      </ul>
-    </div>
-  </div>
-
-</section>
-<!--top brand panel end-->
+@php
+  $defaultHeroSlides = [
+    ['title' => 'mi', 'title_highlight' => 'Mobile', 'subtitle' => 'fast and light', 'heading' => 'Pixel Perfect Deal Camera', 'button_text' => 'Shop Now', 'button_url' => '#', 'image_one_asset' => 'assets/images/layout-2/slider/1.1.png', 'image_two_asset' => 'assets/images/layout-2/slider/1.2.png'],
+    ['title' => 'big', 'title_highlight' => 'Sale', 'subtitle' => 'now start at $99', 'heading' => '50% off', 'button_text' => 'Shop Now', 'button_url' => '#', 'image_one_asset' => 'assets/images/layout-2/slider/2.1.png', 'image_two_asset' => 'assets/images/layout-2/slider/2.2.png'],
+    ['title' => 'camera', 'title_highlight' => 'Sale', 'subtitle' => 'now start at $79', 'heading' => '70% off today', 'button_text' => 'Shop Now', 'button_url' => '#', 'image_one_asset' => 'assets/images/layout-2/slider/3.2.png', 'image_two_asset' => 'assets/images/layout-2/slider/3.1.png'],
+  ];
+  $defaultCollectionBanners = [
+    ['title' => 'women', 'subtitle' => 'fashion', 'button_text' => 'shop now', 'button_url' => '#', 'image_asset' => 'assets/images/layout-2/collection-banner/1.jpg'],
+    ['title' => 'camera', 'subtitle' => 'lenses', 'button_text' => 'shop now', 'button_url' => '#', 'image_asset' => 'assets/images/layout-2/collection-banner/2.jpg'],
+    ['title' => 'refrigerator', 'subtitle' => 'lG mini', 'button_text' => 'shop now', 'button_url' => '#', 'image_asset' => 'assets/images/layout-2/collection-banner/3.jpg'],
+  ];
+  $heroSlides = $globalHomeSection?->hero_slides ?: $defaultHeroSlides;
+  $collectionBanners = $globalHomeSection?->collection_banners ?: $defaultCollectionBanners;
+@endphp
 
 <!--slider start-->
 <section class="theme-slider b-g-white " id="theme-slider">
@@ -668,66 +661,33 @@
     <div class="row">
       <div class="col">
         <div class="slide-1 no-arrow">
-          <div>
-            <div class="slider-banner p-center slide-banner-1">
-              <div class="slider-img">
-                <ul class="layout1-slide-1">
-                  <li id="img-1"><img src="/assets/images/layout-2/slider/1.1.png" class="img-fluid" alt="slider"></li>
-                  <li id="img-2" class="slide-center"><img src="/assets/images/layout-2/slider/1.2.png" class="img-fluid" alt="slider"></li>
-                </ul>
-              </div>
-              <div class="slider-banner-contain">
-                <div>
-                  <h1>mi<span>Mobile</span></h1>
-                  <h4>fast and light</h4>
-                  <h2>Pixel Perfect Deal Camera</h2>
-                  <a class="btn btn-normal">
-                    Shop Now
-                  </a>
+          @foreach ($heroSlides as $slideIndex => $slide)
+            @php
+              $fallbackSlide = $defaultHeroSlides[$slideIndex] ?? $defaultHeroSlides[0];
+              $imageOne = ! empty($slide['image_one_path']) ? asset('storage/' . $slide['image_one_path']) : asset($fallbackSlide['image_one_asset']);
+              $imageTwo = ! empty($slide['image_two_path']) ? asset('storage/' . $slide['image_two_path']) : asset($fallbackSlide['image_two_asset']);
+            @endphp
+            <div>
+              <div class="slider-banner p-center slide-banner-1">
+                <div class="slider-img">
+                  <ul class="layout1-slide-{{ $slideIndex + 1 }}">
+                    <li id="img-{{ ($slideIndex * 2) + 1 }}" class="{{ $slideIndex === 0 ? '' : 'slide-center' }}"><img src="{{ $imageOne }}" class="img-fluid" alt="slider"></li>
+                    <li id="img-{{ ($slideIndex * 2) + 2 }}" class="slide-center"><img src="{{ $imageTwo }}" class="img-fluid" alt="slider"></li>
+                  </ul>
+                </div>
+                <div class="slider-banner-contain">
+                  <div>
+                    <h1>{{ $slide['title'] ?? $fallbackSlide['title'] }}<span>{{ $slide['title_highlight'] ?? $fallbackSlide['title_highlight'] }}</span></h1>
+                    <h4>{{ $slide['subtitle'] ?? $fallbackSlide['subtitle'] }}</h4>
+                    <h2>{{ $slide['heading'] ?? $fallbackSlide['heading'] }}</h2>
+                    <a class="btn btn-normal" href="{{ $slide['button_url'] ?? $fallbackSlide['button_url'] }}">
+                      {{ $slide['button_text'] ?? $fallbackSlide['button_text'] }}
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div>
-            <div class="slider-banner p-center slide-banner-1">
-              <div class="slider-img">
-                <ul class="layout1-slide-2">
-                  <li id="img-3" class="slide-center"><img src="/assets/images/layout-2/slider/2.1.png" class="img-fluid" alt="slider"></li>
-                  <li id="img-4" class="slide-center"><img src="/assets/images/layout-2/slider/2.2.png" class="img-fluid" alt="slider"></li>
-                </ul>
-              </div>
-              <div class="slider-banner-contain">
-                <div>
-                  <h1>big<span>Sale</span></h1>
-                  <h4>now start at $99</h4>
-                  <h2>50% off</h2>
-                  <a class="btn btn-normal">
-                    Shop Now
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="slider-banner p-center slide-banner-1">
-              <div class="slider-img">
-                <ul class="layout1-slide-3">
-                  <li id="img-5"><img src="/assets/images/layout-2/slider/3.2.png" class="img-fluid" alt="slider"></li>
-                  <li id="img-6" class="slide-center"><img src="/assets/images/layout-2/slider/3.1.png" class="img-fluid" alt="slider"></li>
-                </ul>
-              </div>
-              <div class="slider-banner-contain">
-                <div>
-                  <h1>camera<span>Sale</span></h1>
-                  <h4>now start at $79</h4>
-                  <h2>70% off today</h2>
-                  <a class="btn btn-normal">
-                    Shop Now
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+          @endforeach
         </div>
       </div>
     </div>
@@ -739,60 +699,30 @@
 <section class="collection-banner section-pt-space b-g-white ">
   <div class="custom-container">
     <div class="row collection2">
-      <div class="col-md-4">
-        <div class="collection-banner-main banner-1  p-right">
-          <div class="collection-img">
-            <img src="/assets/images/layout-2/collection-banner/1.jpg" class="img-fluid bg-img  " alt="banner">
-          </div>
-          <div class="collection-banner-contain">
-            <div>
-              <h3>women</h3>
-              <h4>fashion</h4>
-              <div class="shop">
-                <a>
-                  shop now
-                </a>
+      @foreach ($collectionBanners as $bannerIndex => $banner)
+        @php
+          $fallbackBanner = $defaultCollectionBanners[$bannerIndex] ?? $defaultCollectionBanners[0];
+          $bannerImage = ! empty($banner['image_path']) ? asset('storage/' . $banner['image_path']) : asset($fallbackBanner['image_asset']);
+        @endphp
+        <div class="col-md-4">
+          <div class="collection-banner-main banner-1 {{ $bannerIndex === 0 ? ' p-right' : 'p-right' }}">
+            <div class="collection-img">
+              <img src="{{ $bannerImage }}" class="img-fluid bg-img  " alt="banner">
+            </div>
+            <div class="collection-banner-contain {{ $bannerIndex === 0 ? '' : ' ' }}">
+              <div>
+                <h3>{{ $banner['title'] ?? $fallbackBanner['title'] }}</h3>
+                <h4>{{ $banner['subtitle'] ?? $fallbackBanner['subtitle'] }}</h4>
+                <div class="shop">
+                  <a href="{{ $banner['button_url'] ?? $fallbackBanner['button_url'] }}">
+                    {{ $banner['button_text'] ?? $fallbackBanner['button_text'] }}
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="collection-banner-main banner-1 p-right">
-          <div class="collection-img">
-            <img src="/assets/images/layout-2/collection-banner/2.jpg" class="img-fluid bg-img  " alt="banner">
-          </div>
-          <div class="collection-banner-contain ">
-            <div>
-              <h3>camera</h3>
-              <h4>lenses</h4>
-              <div class="shop">
-                <a>
-                  shop now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="collection-banner-main banner-1 p-right">
-          <div class="collection-img">
-            <img src="/assets/images/layout-2/collection-banner/3.jpg" class="img-fluid bg-img  " alt="banner">
-          </div>
-          <div class="collection-banner-contain ">
-            <div>
-              <h3>refrigerator</h3>
-              <h4>lG mini</h4>
-              <div class="shop">
-                <a>
-                  shop now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      @endforeach
     </div>
   </div>
 </section>

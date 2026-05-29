@@ -226,6 +226,7 @@
                         <ul class="sidebar-submenu">
                             <li><a href="profile.html"><i class="fa fa-circle"></i>Profile</a></li>
                             <li><a href="{{ route('admin.site-info.edit') }}"><i class="fa fa-circle"></i>Site Info</a></li>
+                            <li><a href="{{ route('admin.home-section.edit') }}"><i class="fa fa-circle"></i>Home Section</a></li>
                         </ul>
                     </li>
 <li><a class="sidebar-header" href="invoice.html"><i data-feather="archive"></i><span>Invoice</span></a>
