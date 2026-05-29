@@ -17,6 +17,7 @@ class SiteInfo extends Model
         'address',
         'short_description',
         'logo_path',
+        'favicon_path',
         'facebook_url',
         'instagram_url',
         'youtube_url',

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->text('short_description')->nullable();
             $table->string('logo_path')->nullable();
+            $table->string('favicon_path')->nullable();
             $table->string('facebook_url')->nullable();
             $table->string('instagram_url')->nullable();
             $table->string('youtube_url')->nullable();

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\SiteInfo;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +26,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        View::composer('*', function ($view) {
+            $siteInfo = null;
+
+            if (Schema::hasTable('site_infos')) {
+                $siteInfo = SiteInfo::query()->first();
+            }
+
+            $view->with('globalSiteInfo', $siteInfo);
+        });
     }
 }

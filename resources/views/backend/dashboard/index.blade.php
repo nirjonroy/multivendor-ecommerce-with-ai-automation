@@ -8,8 +8,8 @@
     <meta name="description" content="Bigdeal admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
     <meta name="keywords" content="admin template, Bigdeal admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="pixelstrap">
-    <link rel="icon" href="/assets/images/favicon/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="/assets/images/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="{{ $globalSiteInfo?->favicon_path ? asset('storage/' . $globalSiteInfo->favicon_path) : asset('assets/images/favicon/favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ $globalSiteInfo?->favicon_path ? asset('storage/' . $globalSiteInfo->favicon_path) : asset('assets/images/favicon/favicon.ico') }}" type="image/x-icon">
     <title>Bigdeal - Premium Admin Template</title>
 
     <!-- Google font-->
@@ -39,6 +39,13 @@
 
     <!-- App css-->
     <link rel="stylesheet" type="text/css" href="/assets/css/admin.css">
+    <style>
+        .main-header-left .logo-wrapper img {
+            max-width: 155px;
+            max-height: 58px;
+            object-fit: contain;
+        }
+    </style>
 </head>
 
 <body>
@@ -49,7 +56,7 @@
     <!-- Page Header Start-->
     <div class="page-main-header">
         <div class="main-header-left">
-            <div class="logo-wrapper"><a href="{{ route('admin.dashboard') }}"><img class="blur-up lazyloaded" src="/assets/images/layout-2/logo/logo.png" alt=""></a></div>
+            <div class="logo-wrapper"><a href="{{ route('admin.dashboard') }}"><img class="blur-up lazyloaded" src="{{ $globalSiteInfo?->logo_path ? asset('storage/' . $globalSiteInfo->logo_path) : asset('assets/images/layout-2/logo/logo.png') }}" alt="{{ $globalSiteInfo?->site_name ?? 'Bigdeal' }}"></a></div>
         </div>
         <div class="main-header-right row">
             <div class="mobile-sidebar">

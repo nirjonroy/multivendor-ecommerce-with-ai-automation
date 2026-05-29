@@ -5,20 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Site Info - Bigdeal Admin</title>
-    <link rel="icon" href="/assets/images/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="{{ $globalSiteInfo?->favicon_path ? asset('storage/' . $globalSiteInfo->favicon_path) : asset('assets/images/favicon/favicon.ico') }}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/flag-icon.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/admin.css">
+    <style>
+        .main-header-left .logo-wrapper img {
+            max-width: 155px;
+            max-height: 58px;
+            object-fit: contain;
+        }
+    </style>
 </head>
 <body>
 <div class="page-wrapper">
     <div class="page-main-header">
         <div class="main-header-left">
             <div class="logo-wrapper">
-                <a href="{{ route('admin.dashboard') }}"><img class="blur-up lazyloaded" src="/assets/images/layout-2/logo/logo.png" alt=""></a>
+                <a href="{{ route('admin.dashboard') }}"><img class="blur-up lazyloaded" src="{{ $globalSiteInfo?->logo_path ? asset('storage/' . $globalSiteInfo->logo_path) : asset('assets/images/layout-2/logo/logo.png') }}" alt="{{ $globalSiteInfo?->site_name ?? 'Bigdeal' }}"></a>
             </div>
         </div>
         <div class="main-header-right row">
@@ -160,6 +167,15 @@
                                                     <input class="form-control" id="logo" name="logo" type="file" accept="image/*">
                                                     @if ($siteInfo->logo_path)
                                                         <img src="{{ asset('storage/' . $siteInfo->logo_path) }}" class="mt-3" style="max-height:70px;" alt="Current logo">
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="favicon" class="col-xl-3 col-md-4">Favicon</label>
+                                                <div class="col-xl-8 col-md-7 p-0">
+                                                    <input class="form-control" id="favicon" name="favicon" type="file" accept=".ico,image/*">
+                                                    @if ($siteInfo->favicon_path)
+                                                        <img src="{{ asset('storage/' . $siteInfo->favicon_path) }}" class="mt-3" style="max-height:40px;" alt="Current favicon">
                                                     @endif
                                                 </div>
                                             </div>

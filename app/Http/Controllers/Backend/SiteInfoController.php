@@ -30,6 +30,7 @@ class SiteInfoController extends Controller
             'address' => ['nullable', 'string'],
             'short_description' => ['nullable', 'string'],
             'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif,svg', 'max:2048'],
+            'favicon' => ['nullable', 'image', 'mimes:ico,jpg,jpeg,png,webp,gif,svg', 'max:1024'],
             'facebook_url' => ['nullable', 'url', 'max:255'],
             'instagram_url' => ['nullable', 'url', 'max:255'],
             'youtube_url' => ['nullable', 'url', 'max:255'],
@@ -45,7 +46,16 @@ class SiteInfoController extends Controller
             $data['logo_path'] = $request->file('logo')->store('site-info', 'public');
         }
 
+        if ($request->hasFile('favicon')) {
+            if ($siteInfo->favicon_path) {
+                Storage::disk('public')->delete($siteInfo->favicon_path);
+            }
+
+            $data['favicon_path'] = $request->file('favicon')->store('site-info', 'public');
+        }
+
         unset($data['logo']);
+        unset($data['favicon']);
 
         $siteInfo->fill($data);
         $siteInfo->save();
