@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\Auth\AuthenticatedSessionController as AdminAuthenticatedSessionController;
 use App\Http\Controllers\Backend\Auth\RegisteredAdminController;
+use App\Http\Controllers\Backend\CatalogTaxonomyController;
 use App\Http\Controllers\Backend\HomeSectionController;
 use App\Http\Controllers\Backend\SiteInfoController;
 use App\Http\Controllers\Frontend\Auth\AuthenticatedSessionController;
@@ -63,6 +64,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('site-info', [SiteInfoController::class, 'update'])->name('site-info.update');
         Route::get('home-section', [HomeSectionController::class, 'edit'])->name('home-section.edit');
         Route::put('home-section', [HomeSectionController::class, 'update'])->name('home-section.update');
+        Route::get('catalog/{resource}', [CatalogTaxonomyController::class, 'index'])->name('catalog.index');
+        Route::get('catalog/{resource}/create', [CatalogTaxonomyController::class, 'create'])->name('catalog.create');
+        Route::post('catalog/{resource}', [CatalogTaxonomyController::class, 'store'])->name('catalog.store');
+        Route::get('catalog/{resource}/{id}/edit', [CatalogTaxonomyController::class, 'edit'])->name('catalog.edit');
+        Route::put('catalog/{resource}/{id}', [CatalogTaxonomyController::class, 'update'])->name('catalog.update');
+        Route::delete('catalog/{resource}/{id}', [CatalogTaxonomyController::class, 'destroy'])->name('catalog.destroy');
 
         Route::post('logout', [AdminAuthenticatedSessionController::class, 'destroy'])->name('logout');
     });

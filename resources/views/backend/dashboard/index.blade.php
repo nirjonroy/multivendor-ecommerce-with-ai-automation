@@ -175,6 +175,7 @@
                                     <li><a href="add-digital-product.html"><i class="fa fa-circle"></i>Add Product</a></li>
                                 </ul>
                             </li>
+                            <li><a href="{{ route('admin.catalog.index', 'brands') }}"><i class="fa fa-circle"></i>Brands</a></li>
                         </ul>
                     </li>
                     <li><a class="sidebar-header" href=""><i data-feather="dollar-sign"></i><span>Sales</span><i class="fa fa-angle-right pull-right"></i></a>

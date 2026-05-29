@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\SiteInfo;
 use App\Models\HomeSection;
+use App\Models\Brand;
+use App\Models\Category;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -40,8 +42,29 @@ class AppServiceProvider extends ServiceProvider
                 $homeSection = HomeSection::query()->first();
             }
 
+            $frontendCategories = collect();
+            $frontendBrands = collect();
+
+            if (Schema::hasTable('categories')) {
+                $frontendCategories = Category::query()
+                    ->where('is_active', true)
+                    ->orderBy('sort_order')
+                    ->orderBy('name')
+                    ->get();
+            }
+
+            if (Schema::hasTable('brands')) {
+                $frontendBrands = Brand::query()
+                    ->where('is_active', true)
+                    ->orderBy('sort_order')
+                    ->orderBy('name')
+                    ->get();
+            }
+
             $view->with('globalSiteInfo', $siteInfo);
             $view->with('globalHomeSection', $homeSection);
+            $view->with('globalFrontendCategories', $frontendCategories);
+            $view->with('globalFrontendBrands', $frontendBrands);
         });
     }
 }

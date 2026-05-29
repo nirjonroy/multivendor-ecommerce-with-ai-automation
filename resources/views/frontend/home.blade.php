@@ -210,25 +210,24 @@
                   </nav>
                   <div class="collapse  nav-desk" id="navbarToggleExternalContent">
                     <ul class="nav-cat title-font">
-                      <li> <img src="/assets/images/layout-1/nav-img/01.png" alt="category-product"> <a href="#">western ware</a></li>
-                      <li> <img src="/assets/images/layout-1/nav-img/02.png" alt="category-product"> <a href="#">TV, Appliances</a></li>
-                      <li> <img src="/assets/images/layout-1/nav-img/03.png" alt="category-product"> <a href="#">Pets Products</a></li>
-                      <li> <img src="/assets/images/layout-1/nav-img/04.png" alt="category-product"> <a href="#">Car, Motorbike</a></li>
-                      <li> <img src="/assets/images/layout-1/nav-img/05.png" alt="category-product"> <a href="#">Industrial Products</a></li>
-                      <li> <img src="/assets/images/layout-1/nav-img/06.png" alt="category-product"> <a href="#">Beauty, Health Products</a></li>
-                      <li> <img src="/assets/images/layout-1/nav-img/07.png" alt="category-product"> <a href="#">Grocery Products </a></li>
-                      <li> <img src="/assets/images/layout-1/nav-img/08.png" alt="category-product"> <a href="#">Sports</a></li>
-                      <li> <img src="/assets/images/layout-1/nav-img/09.png" alt="category-product"> <a href="#">Bags, Luggage</a></li>
-                      <li> <img src="/assets/images/layout-1/nav-img/10.png" alt="category-product"> <a href="#">Movies, Music </a></li>
-                      <li> <img src="/assets/images/layout-1/nav-img/11.png" alt="category-product"> <a href="#">Video Games</a></li>
-                      <li> <img src="/assets/images/layout-1/nav-img/12.png" alt="category-product"> <a href="#">Toys, Baby Products</a></li>
+                      @foreach ($globalFrontendCategories->take(12) as $categoryIndex => $category)
+                        @php
+                          $navImage = $category->image_path
+                            ? asset('storage/' . $category->image_path)
+                            : asset('assets/images/layout-1/nav-img/' . str_pad(($categoryIndex % 12) + 1, 2, '0', STR_PAD_LEFT) . '.png');
+                        @endphp
+                        <li> <img src="{{ $navImage }}" alt="category-product"> <a href="#">{{ $category->name }}</a></li>
+                      @endforeach
                       <li>
                         <ul class="mor-slide-open">
-                          <li> <img src="/assets/images/layout-1/nav-img/08.png" alt="category-product"> <a>Sports</a></li>
-                          <li> <img src="/assets/images/layout-1/nav-img/09.png" alt="category-product"> <a>Bags, Luggage</a></li>
-                          <li> <img src="/assets/images/layout-1/nav-img/10.png" alt="category-product"> <a>Movies, Music </a></li>
-                          <li> <img src="/assets/images/layout-1/nav-img/11.png" alt="category-product"> <a>Video Games</a></li>
-                          <li> <img src="/assets/images/layout-1/nav-img/12.png" alt="category-product"> <a>Toys, Baby Products</a></li>
+                          @foreach ($globalFrontendCategories->slice(12) as $categoryIndex => $category)
+                            @php
+                              $moreImage = $category->image_path
+                                ? asset('storage/' . $category->image_path)
+                                : asset('assets/images/layout-1/nav-img/' . str_pad((($categoryIndex + 8) % 12) + 1, 2, '0', STR_PAD_LEFT) . '.png');
+                            @endphp
+                            <li> <img src="{{ $moreImage }}" alt="category-product"> <a>{{ $category->name }}</a></li>
+                          @endforeach
                         </ul>
                       </li>
                       <li>
@@ -654,6 +653,22 @@
   $heroSlides = $globalHomeSection?->hero_slides ?: $defaultHeroSlides;
   $collectionBanners = $globalHomeSection?->collection_banners ?: $defaultCollectionBanners;
 @endphp
+
+@if ($globalFrontendBrands->isNotEmpty())
+<section class="brand-panel">
+  <div class="brand-panel-box">
+    <div class="brand-panel-contain ">
+      <ul>
+        <li><a href="#">top brand</a></li>
+        <li><a>:</a></li>
+        @foreach ($globalFrontendBrands as $brand)
+          <li><a href="#">{{ $brand->name }}</a></li>
+        @endforeach
+      </ul>
+    </div>
+  </div>
+</section>
+@endif
 
 <!--slider start-->
 <section class="theme-slider b-g-white " id="theme-slider">
@@ -3235,104 +3250,27 @@
     <div class="row">
       <div class="col">
         <div class="slide-6 no-arrow">
-          <div>
-            <div class="category-contain">
-              <a href="#">
-                <div class="img-wrapper">
-                  <img src="/assets/images/layout-1/rounded-cat/1.png" alt="category  " class="img-fluid">
-                </div>
-                <div>
-                  <div  class="btn-rounded">
-                    flower
+          @foreach ($globalFrontendCategories->take(10) as $categoryIndex => $category)
+            @php
+              $roundedImage = $category->image_path
+                ? asset('storage/' . $category->image_path)
+                : asset('assets/images/layout-1/rounded-cat/' . (($categoryIndex % 7) + 1) . '.png');
+            @endphp
+            <div>
+              <div class="category-contain">
+                <a href="#">
+                  <div class="img-wrapper">
+                    <img src="{{ $roundedImage }}" alt="{{ $category->name }}" class="img-fluid">
                   </div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div>
-            <div class="category-contain">
-              <a href="#">
-                <div class="img-wrapper">
-                  <img src="/assets/images/layout-1/rounded-cat/2.png" alt="category " class="img-fluid">
-                </div>
-                <div>
-                  <div class="btn-rounded">
-                    Furniture
+                  <div>
+                    <div class="btn-rounded">
+                      {{ $category->name }}
+                    </div>
                   </div>
-                </div>
-              </a>
+                </a>
+              </div>
             </div>
-          </div>
-          <div>
-            <div class="category-contain">
-              <a href="#">
-                <div class="img-wrapper">
-                  <img src="/assets/images/layout-1/rounded-cat/3.png" alt="category " class="img-fluid">
-                </div>
-                <div>
-                  <div class="btn-rounded">
-                    Bag
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div>
-            <div class="category-contain">
-              <a href="#">
-                <div class="img-wrapper">
-                  <img src="/assets/images/layout-1/rounded-cat/4.png" alt="category" class="img-fluid ">
-                </div>
-                <div>
-                  <div class="btn-rounded">
-                    Tools
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div>
-            <div class="category-contain">
-              <a href="#">
-                <div class="img-wrapper">
-                  <img src="/assets/images/layout-1/rounded-cat/5.png" alt="category" class="img-fluid ">
-                </div>
-                <div>
-                  <div class="btn-rounded">
-                    Grocery
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div>
-            <div class="category-contain">
-              <a href="#">
-                <div class="img-wrapper">
-                  <img src="/assets/images/layout-1/rounded-cat/6.png" alt="category" class="img-fluid ">
-                </div>
-                <div>
-                  <div class="btn-rounded">
-                    camera
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div>
-            <div class="category-contain">
-              <a href="#">
-                <div class="img-wrapper">
-                  <img src="/assets/images/layout-1/rounded-cat/7.png" alt="category" class="img-fluid ">
-                </div>
-                <div>
-                  <div class="btn-rounded">
-                    cardigans
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
+          @endforeach
         </div>
       </div>
     </div>
@@ -3356,7 +3294,7 @@
           <div>
             <a href="#">
               <div class="box-category-contain">
-                <h4>under @99</h4>
+                <h4>under @@99</h4>
               </div>
             </a>
           </div>
@@ -3405,7 +3343,7 @@
           <div>
             <a href="#">
               <div class="box-category-contain">
-                <h4>under @150</h4>
+                <h4>under @@150</h4>
               </div>
             </a>
           </div>
