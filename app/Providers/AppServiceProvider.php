@@ -36,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
             if (Schema::hasTable('site_infos')) {
                 $siteInfo = SiteInfo::query()->first();
             }
+            app()->instance('globalSiteInfo', $siteInfo);
 
             $homeSection = null;
 

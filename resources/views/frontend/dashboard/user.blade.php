@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Customer Dashboard</title>
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/color2.css') }}">
+    @include('frontend.partials.head', ['title' => 'Customer Dashboard'])
 </head>
 <body>
+@include('frontend.partials.header')
 <section class="section-big-py-space bg-light">
     <div class="custom-container">
         <h2>Customer Dashboard</h2>
@@ -18,5 +15,6 @@
         </form>
     </div>
 </section>
+@include('frontend.partials.footer')
 </body>
 </html>

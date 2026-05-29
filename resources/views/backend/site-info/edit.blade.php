@@ -171,6 +171,26 @@
                                                 <label for="short_description" class="col-xl-3 col-md-4">Short Description</label>
                                                 <textarea class="form-control col-xl-8 col-md-7" id="short_description" name="short_description" rows="4">{{ old('short_description', $siteInfo->short_description) }}</textarea>
                                             </div>
+                                            <h5 class="f-w-600 mt-4">Currency Settings</h5>
+                                            <div class="form-group row">
+                                                <label for="currency_code" class="col-xl-3 col-md-4"><span>*</span> Currency Code</label>
+                                                <input class="form-control col-xl-8 col-md-7" id="currency_code" name="currency_code" type="text" value="{{ old('currency_code', $siteInfo->currency_code ?? 'USD') }}" placeholder="USD" required>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="currency_symbol" class="col-xl-3 col-md-4"><span>*</span> Currency Symbol</label>
+                                                <input class="form-control col-xl-8 col-md-7" id="currency_symbol" name="currency_symbol" type="text" value="{{ old('currency_symbol', $siteInfo->currency_symbol ?? '$') }}" placeholder="$" required>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="currency_position" class="col-xl-3 col-md-4"><span>*</span> Symbol Position</label>
+                                                <select class="form-control col-xl-8 col-md-7" id="currency_position" name="currency_position" required>
+                                                    <option value="left" @selected(old('currency_position', $siteInfo->currency_position ?? 'left') === 'left')>Left ($99.00)</option>
+                                                    <option value="right" @selected(old('currency_position', $siteInfo->currency_position ?? 'left') === 'right')>Right (99.00 $)</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="currency_rate" class="col-xl-3 col-md-4"><span>*</span> Currency Rate</label>
+                                                <input class="form-control col-xl-8 col-md-7" id="currency_rate" name="currency_rate" type="number" step="0.0001" min="0.0001" value="{{ old('currency_rate', $siteInfo->currency_rate ?? 1) }}" required>
+                                            </div>
                                             <div class="form-group row">
                                                 <label for="logo" class="col-xl-3 col-md-4">Logo</label>
                                                 <div class="col-xl-8 col-md-7 p-0">

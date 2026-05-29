@@ -1,17 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Login - Bigdeal</title>
-    <link rel="icon" href="{{ asset('assets/images/favicon/favicon.ico') }}" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/themify.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/color2.css') }}" id="color">
+    @include('frontend.partials.head', ['title' => 'Login - Bigdeal'])
 </head>
 <body>
+@include('frontend.partials.header')
 <section class="breadcrumb-main bg-light">
     <div class="custom-container">
         <div class="breadcrumb-contain">
@@ -71,7 +64,7 @@
         </div>
     </div>
 </section>
-
+@include('frontend.partials.footer')
 <script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>

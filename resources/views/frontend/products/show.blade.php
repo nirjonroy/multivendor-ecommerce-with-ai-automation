@@ -1,18 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{{ $product->name }}</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="icon" href="{{ $globalSiteInfo?->favicon_path ? asset('storage/'.$globalSiteInfo->favicon_path) : asset('assets/images/favicon/favicon.ico') }}">
-    <link rel="stylesheet" href="/assets/css/font-awesome.css">
-    <link rel="stylesheet" href="/assets/css/themify.css">
-    <link rel="stylesheet" href="/assets/css/slick.css">
-    <link rel="stylesheet" href="/assets/css/slick-theme.css">
-    <link rel="stylesheet" href="/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="/assets/css/color2.css">
+    @include('frontend.partials.head', ['title' => $product->name])
 </head>
 <body>
+@include('frontend.partials.header')
 <section class="breadcrumb-main bg-light">
     <div class="custom-container">
         <div class="breadcrumb-contain">
@@ -43,8 +35,8 @@
                     <div class="product-right">
                         <h2>{{ $product->name }}</h2>
                         <h4>
-                            @if($product->offer_price)<del>${{ number_format($product->price, 2) }}</del>@endif
-                            <span>${{ number_format($product->offer_price ?: $product->price, 2) }}</span>
+                            @if($product->offer_price)<del>{{ \App\Support\Currency::format($product->price, $globalSiteInfo) }}</del>@endif
+                            <span>{{ \App\Support\Currency::format($product->offer_price ?: $product->price, $globalSiteInfo) }}</span>
                         </h4>
                         <div class="border-product">
                             <h6 class="product-title">Product Details</h6>
@@ -58,8 +50,37 @@
                         </div>
                         <div class="product-buttons">
                             @if($product->stock_quantity > 0)
-                                <a href="#" class="btn btn-normal">add to cart</a>
-                                <a href="#" class="btn btn-normal">buy now</a>
+                                <div class="cart-option-grid">
+                                    @if(!empty($product->sizes))
+                                        <select class="form-control product-size-selector">
+                                            @foreach($product->sizes as $size)
+                                                <option value="{{ $size }}">{{ $size }}</option>
+                                            @endforeach
+                                        </select>
+                                    @endif
+                                    @if(!empty($product->colors))
+                                        <select class="form-control product-color-selector">
+                                            @foreach($product->colors as $color)
+                                                <option value="{{ $color }}">{{ $color }}</option>
+                                            @endforeach
+                                        </select>
+                                    @endif
+                                    <input class="form-control product-quantity-selector" type="number" min="1" max="{{ $product->stock_quantity }}" value="1">
+                                </div>
+                                <form method="POST" action="{{ route('cart.store', $product) }}">
+                                    @csrf
+                                    <input type="hidden" name="quantity" value="1">
+                                    <input type="hidden" name="size" value="{{ $product->sizes[0] ?? '' }}">
+                                    <input type="hidden" name="color" value="{{ $product->colors[0] ?? '' }}">
+                                    <button type="submit" class="btn btn-normal">add to cart</button>
+                                </form>
+                                <form method="POST" action="{{ route('cart.buy-now', $product) }}">
+                                    @csrf
+                                    <input type="hidden" name="quantity" value="1">
+                                    <input type="hidden" name="size" value="{{ $product->sizes[0] ?? '' }}">
+                                    <input type="hidden" name="color" value="{{ $product->colors[0] ?? '' }}">
+                                    <button type="submit" class="btn btn-normal">buy now</button>
+                                </form>
                             @else
                                 <span class="btn btn-normal disabled">Stock Out Product</span>
                             @endif
@@ -70,9 +91,29 @@
         </div>
     </div>
 </section>
+@include('frontend.partials.footer')
 <script src="/assets/js/jquery-3.3.1.min.js"></script>
 <script src="/assets/js/slick.js"></script>
 <script src="/assets/js/bootstrap.js"></script>
 <script src="/assets/js/script.js"></script>
+<script>
+    function syncProductForms() {
+        const quantity = document.querySelector('.product-quantity-selector')?.value || 1;
+        const size = document.querySelector('.product-size-selector')?.value || '';
+        const color = document.querySelector('.product-color-selector')?.value || '';
+        document.querySelectorAll('.product-buttons form').forEach(function (form) {
+            const quantityInput = form.querySelector('[name="quantity"]');
+            const sizeInput = form.querySelector('[name="size"]');
+            const colorInput = form.querySelector('[name="color"]');
+            if (quantityInput) quantityInput.value = quantity;
+            if (sizeInput) sizeInput.value = size;
+            if (colorInput) colorInput.value = color;
+        });
+    }
+    document.querySelectorAll('.product-size-selector,.product-color-selector,.product-quantity-selector').forEach(function (input) {
+        input.addEventListener('change', syncProductForms);
+        input.addEventListener('input', syncProductForms);
+    });
+</script>
 </body>
 </html>

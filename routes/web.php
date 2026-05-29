@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\ProductOptionController;
 use App\Http\Controllers\Backend\SiteInfoController;
 use App\Http\Controllers\Frontend\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\Auth\RegisteredUserController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\ProductController as FrontendProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,12 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('products/{product:slug}', [FrontendProductController::class, 'show'])->name('products.show');
+Route::get('cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('cart/{product}', [CartController::class, 'store'])->name('cart.store');
+Route::patch('cart/{product}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::post('buy-now/{product}', [CartController::class, 'buyNow'])->name('cart.buy-now');
+Route::get('checkout', [CartController::class, 'checkout'])->name('checkout.index');
 
 Route::middleware('guest:web,vendor')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
