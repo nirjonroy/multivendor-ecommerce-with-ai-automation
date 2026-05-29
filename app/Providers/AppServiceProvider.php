@@ -6,6 +6,7 @@ use App\Models\SiteInfo;
 use App\Models\HomeSection;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -61,10 +62,23 @@ class AppServiceProvider extends ServiceProvider
                     ->get();
             }
 
+            $frontendProducts = collect();
+
+            if (Schema::hasTable('products')) {
+                $frontendProducts = Product::query()
+                    ->with(['category', 'brand'])
+                    ->where('status', 'published')
+                    ->orderBy('sort_order')
+                    ->latest()
+                    ->take(18)
+                    ->get();
+            }
+
             $view->with('globalSiteInfo', $siteInfo);
             $view->with('globalHomeSection', $homeSection);
             $view->with('globalFrontendCategories', $frontendCategories);
             $view->with('globalFrontendBrands', $frontendBrands);
+            $view->with('globalFrontendProducts', $frontendProducts);
         });
     }
 }

@@ -4,9 +4,12 @@ use App\Http\Controllers\Backend\Auth\AuthenticatedSessionController as AdminAut
 use App\Http\Controllers\Backend\Auth\RegisteredAdminController;
 use App\Http\Controllers\Backend\CatalogTaxonomyController;
 use App\Http\Controllers\Backend\HomeSectionController;
+use App\Http\Controllers\Backend\ProductController as AdminProductController;
+use App\Http\Controllers\Backend\ProductOptionController;
 use App\Http\Controllers\Backend\SiteInfoController;
 use App\Http\Controllers\Frontend\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\Auth\RegisteredUserController;
+use App\Http\Controllers\Frontend\ProductController as FrontendProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +26,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('frontend.home');
 })->name('home');
+
+Route::get('products/{product:slug}', [FrontendProductController::class, 'show'])->name('products.show');
 
 Route::middleware('guest:web,vendor')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
@@ -70,6 +75,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('catalog/{resource}/{id}/edit', [CatalogTaxonomyController::class, 'edit'])->name('catalog.edit');
         Route::put('catalog/{resource}/{id}', [CatalogTaxonomyController::class, 'update'])->name('catalog.update');
         Route::delete('catalog/{resource}/{id}', [CatalogTaxonomyController::class, 'destroy'])->name('catalog.destroy');
+        Route::resource('products', AdminProductController::class)->except(['show']);
+        Route::get('product-options/{resource}', [ProductOptionController::class, 'index'])->name('product-options.index');
+        Route::get('product-options/{resource}/create', [ProductOptionController::class, 'create'])->name('product-options.create');
+        Route::post('product-options/{resource}', [ProductOptionController::class, 'store'])->name('product-options.store');
+        Route::get('product-options/{resource}/{id}/edit', [ProductOptionController::class, 'edit'])->name('product-options.edit');
+        Route::put('product-options/{resource}/{id}', [ProductOptionController::class, 'update'])->name('product-options.update');
+        Route::delete('product-options/{resource}/{id}', [ProductOptionController::class, 'destroy'])->name('product-options.destroy');
 
         Route::post('logout', [AdminAuthenticatedSessionController::class, 'destroy'])->name('logout');
     });
