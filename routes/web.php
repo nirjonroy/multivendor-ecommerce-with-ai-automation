@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\Auth\AuthenticatedSessionController as AdminAuthenticatedSessionController;
 use App\Http\Controllers\Backend\Auth\RegisteredAdminController;
+use App\Http\Controllers\Backend\SiteInfoController;
 use App\Http\Controllers\Frontend\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +57,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard', function () {
             return view('backend.dashboard.index');
         })->name('dashboard');
+
+        Route::get('site-info', [SiteInfoController::class, 'edit'])->name('site-info.edit');
+        Route::put('site-info', [SiteInfoController::class, 'update'])->name('site-info.update');
 
         Route::post('logout', [AdminAuthenticatedSessionController::class, 'destroy'])->name('logout');
     });
