@@ -11,6 +11,7 @@ use App\Http\Controllers\Frontend\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\Auth\RegisteredUserController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\ProductController as FrontendProductController;
+use App\Http\Controllers\Vendor\DashboardController as VendorDashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,9 +51,7 @@ Route::middleware('auth:web')->group(function () {
 });
 
 Route::middleware('auth:vendor')->prefix('vendor')->name('vendor.')->group(function () {
-    Route::get('dashboard', function () {
-        return view('frontend.dashboard.vendor');
-    })->name('dashboard');
+    Route::get('dashboard', VendorDashboardController::class)->name('dashboard');
 });
 
 Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
