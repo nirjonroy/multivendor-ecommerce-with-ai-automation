@@ -1,4 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Products</title><link rel="stylesheet" href="/assets/css/bootstrap.css"><link rel="stylesheet" href="/assets/css/font-awesome.css"><link rel="stylesheet" href="/assets/css/admin.css"><style>.main-header-left .logo-wrapper img{max-width:155px;max-height:58px;object-fit:contain}.table-img{width:52px;height:52px;object-fit:contain;border:1px solid #eee}</style></head>
-<body><div class="page-wrapper"><div class="page-main-header"><div class="main-header-left"><div class="logo-wrapper"><a href="{{ route('admin.dashboard') }}"><img src="{{ $globalSiteInfo?->logo_path ? asset('storage/'.$globalSiteInfo->logo_path) : asset('assets/images/layout-2/logo/logo.png') }}" alt=""></a></div></div></div><div class="page-body-wrapper"><div class="page-sidebar"><div class="sidebar custom-scrollbar"><div class="sidebar-user text-center"><img class="img-60 rounded-circle" src="/assets/images/dashboard/man.png" alt=""><h6 class="mt-3 f-14">{{ auth('admin')->user()->name }}</h6><p>Admin</p></div><ul class="sidebar-menu"><li><a class="sidebar-header" href="{{ route('admin.dashboard') }}"><i class="fa fa-home"></i><span>Dashboard</span></a></li><li><a class="sidebar-header" href="{{ route('admin.products.index') }}"><i class="fa fa-cube"></i><span>Products</span></a></li><li><a class="sidebar-header" href="{{ route('admin.catalog.index','categories') }}"><i class="fa fa-list"></i><span>Categories</span></a></li><li><a class="sidebar-header" href="{{ route('admin.catalog.index','brands') }}"><i class="fa fa-tags"></i><span>Brands</span></a></li></ul></div></div><div class="page-body"><div class="container-fluid"><div class="page-header"><div class="row"><div class="col-lg-6"><div class="page-header-left"><h3>Products<small>Bigdeal Admin Panel</small></h3></div></div><div class="col-lg-6 text-right"><a class="btn btn-primary" href="{{ route('admin.products.create') }}">Create Product</a></div></div></div>@if(session('status'))<div class="alert alert-success">{{ session('status') }}</div>@endif<div class="card"><div class="card-body table-responsive"><table class="table table-bordernone"><thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Owner</th><th>Price</th><th>Stock</th><th>Status</th><th class="text-right">Actions</th></tr></thead><tbody>@forelse($products as $product)<tr><td>@if($product->thumbnail_path)<img class="table-img" src="{{ asset('storage/'.$product->thumbnail_path) }}" alt="">@endif</td><td>{{ $product->name }}<br><small>{{ $product->sku }}</small></td><td>{{ $product->category?->name }}<br><small>{{ $product->brand?->name }}</small></td><td>{{ ucfirst($product->owner_type) }} @if($product->vendor) / {{ $product->vendor->name }} @endif</td><td>{{ number_format($product->offer_price ?: $product->price, 2) }}</td><td>{{ $product->stock_quantity }}</td><td>{{ ucfirst($product->status) }}</td><td class="text-right"><a class="btn btn-sm btn-primary" href="{{ route('admin.products.edit',$product) }}">Edit</a><form class="d-inline" method="POST" action="{{ route('admin.products.destroy',$product) }}" onsubmit="return confirm('Delete this product?')">@csrf @method('DELETE')<button class="btn btn-sm btn-danger">Delete</button></form></td></tr>@empty<tr><td colspan="8" class="text-center">No products found.</td></tr>@endforelse</tbody></table>{{ $products->links() }}</div></div></div></div></div></div><script src="/assets/js/jquery-3.3.1.min.js"></script><script src="/assets/js/bootstrap.js"></script></body></html>
+@extends('backend.layouts.app')
+
+@section('title', 'Products')
+@section('page_title', 'Products')
+
+@section('page_actions')
+    <a class="btn btn-primary" href="{{ route('admin.products.create') }}">Create Product</a>
+@endsection
+
+@section('content')
+    <div class="card">
+        <div class="card-body table-responsive">
+            <table class="table table-bordernone">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Owner</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($products as $product)
+                        <tr>
+                            <td>
+                                @if($product->thumbnail_path)
+                                    <img class="table-img" src="{{ asset('storage/' . $product->thumbnail_path) }}" alt="{{ $product->name }}">
+                                @endif
+                            </td>
+                            <td>{{ $product->name }}<br><small>{{ $product->sku }}</small></td>
+                            <td>{{ $product->category?->name }}<br><small>{{ $product->brand?->name }}</small></td>
+                            <td>{{ ucfirst($product->owner_type) }} @if($product->vendor) / {{ $product->vendor->name }} @endif</td>
+                            <td>{{ number_format($product->offer_price ?: $product->price, 2) }}</td>
+                            <td>{{ $product->stock_quantity > 0 ? $product->stock_quantity : 'Stock Out' }}</td>
+                            <td>{{ ucfirst($product->status) }}</td>
+                            <td class="text-right">
+                                <a class="btn btn-sm btn-primary" href="{{ route('admin.products.edit', $product) }}">Edit</a>
+                                <form class="d-inline" method="POST" action="{{ route('admin.products.destroy', $product) }}" onsubmit="return confirm('Delete this product?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="8" class="text-center">No products found.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+            {{ $products->links() }}
+        </div>
+    </div>
+@endsection

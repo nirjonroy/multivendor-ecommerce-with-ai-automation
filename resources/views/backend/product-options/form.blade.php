@@ -1,1 +1,64 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{{ $item ? 'Edit' : 'Create' }} {{ $config['singular'] }}</title><link rel="stylesheet" href="/assets/css/bootstrap.css"><link rel="stylesheet" href="/assets/css/font-awesome.css"><link rel="stylesheet" href="/assets/css/admin.css"><style>.main-header-left .logo-wrapper img{max-width:155px;max-height:58px;object-fit:contain}</style></head><body><div class="page-wrapper"><div class="page-main-header"><div class="main-header-left"><div class="logo-wrapper"><a href="{{ route('admin.dashboard') }}"><img src="{{ $globalSiteInfo?->logo_path ? asset('storage/'.$globalSiteInfo->logo_path) : asset('assets/images/layout-2/logo/logo.png') }}"></a></div></div></div><div class="page-body-wrapper"><div class="page-sidebar"><div class="sidebar custom-scrollbar"><ul class="sidebar-menu"><li><a class="sidebar-header" href="{{ route('admin.products.index') }}"><i class="fa fa-cube"></i><span>Products</span></a></li><li><a class="sidebar-header" href="{{ route('admin.product-options.index','sizes') }}"><i class="fa fa-arrows-h"></i><span>Size</span></a></li><li><a class="sidebar-header" href="{{ route('admin.product-options.index','colors') }}"><i class="fa fa-tint"></i><span>Color</span></a></li></ul></div></div><div class="page-body"><div class="container-fluid"><div class="page-header"><h3>{{ $item ? 'Edit' : 'Create' }} {{ $config['singular'] }}</h3></div>@if($errors->any())<div class="alert alert-danger">{{ $errors->first() }}</div>@endif<div class="card"><div class="card-body"><form method="POST" action="{{ $item ? route('admin.product-options.update',[$resource,$item->id]) : route('admin.product-options.store',$resource) }}">@csrf @if($item) @method('PUT') @endif<div class="form-group row"><label class="col-md-3">Name</label><input class="form-control col-md-8" name="name" value="{{ old('name',$item?->name) }}" required></div><div class="form-group row"><label class="col-md-3">Slug</label><input class="form-control col-md-8" name="slug" value="{{ old('slug',$item?->slug) }}"></div>@if($resource==='colors')<div class="form-group row"><label class="col-md-3">Hex Code</label><input class="form-control col-md-8" name="hex_code" value="{{ old('hex_code',$item?->hex_code) }}" placeholder="#000000"></div>@endif<div class="form-group row"><label class="col-md-3">Owner Type</label><select class="form-control col-md-8" name="owner_type"><option value="admin" @selected(old('owner_type',$item?->owner_type ?? 'admin')==='admin')>Admin</option><option value="vendor" @selected(old('owner_type',$item?->owner_type)==='vendor')>Vendor</option></select></div><div class="form-group row"><label class="col-md-3">Vendor</label><select class="form-control col-md-8" name="vendor_id"><option value="">No Vendor</option>@foreach($vendors as $vendor)<option value="{{ $vendor->id }}" @selected(old('vendor_id',$item?->vendor_id)==$vendor->id)>{{ $vendor->name }}</option>@endforeach</select></div><div class="form-group row"><label class="col-md-3">Sort Order</label><input class="form-control col-md-8" type="number" name="sort_order" value="{{ old('sort_order',$item?->sort_order ?? 0) }}"></div><div class="form-group row"><label class="col-md-3">Status</label><label class="col-md-8"><input type="checkbox" name="is_active" value="1" @checked(old('is_active',$item?->is_active ?? true))> Active</label></div><button class="btn btn-primary">Save</button></form></div></div></div></div></div></div></body></html>
+@extends('backend.layouts.app')
+
+@section('title', ($item ? 'Edit ' : 'Create ') . $config['singular'])
+@section('page_title', ($item ? 'Edit ' : 'Create ') . $config['singular'])
+
+@section('page_actions')
+    <a class="btn btn-outline-primary" href="{{ route('admin.product-options.index', $resource) }}">Back</a>
+@endsection
+
+@section('content')
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" action="{{ $item ? route('admin.product-options.update', [$resource, $item->id]) : route('admin.product-options.store', $resource) }}">
+                @csrf
+                @if($item)
+                    @method('PUT')
+                @endif
+                <div class="form-group row">
+                    <label class="col-md-3">Name</label>
+                    <div class="col-md-8"><input class="form-control" name="name" value="{{ old('name', $item?->name) }}" required></div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3">Slug</label>
+                    <div class="col-md-8"><input class="form-control" name="slug" value="{{ old('slug', $item?->slug) }}" placeholder="Auto generated if empty"></div>
+                </div>
+                @if($resource === 'colors')
+                    <div class="form-group row">
+                        <label class="col-md-3">Hex Code</label>
+                        <div class="col-md-8"><input class="form-control" name="hex_code" value="{{ old('hex_code', $item?->hex_code) }}" placeholder="#000000"></div>
+                    </div>
+                @endif
+                <div class="form-group row">
+                    <label class="col-md-3">Owner Type</label>
+                    <div class="col-md-8">
+                        <select class="form-control" name="owner_type">
+                            <option value="admin" @selected(old('owner_type', $item?->owner_type ?? 'admin') === 'admin')>Admin</option>
+                            <option value="vendor" @selected(old('owner_type', $item?->owner_type) === 'vendor')>Vendor</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3">Vendor</label>
+                    <div class="col-md-8">
+                        <select class="form-control" name="vendor_id">
+                            <option value="">No Vendor</option>
+                            @foreach($vendors as $vendor)
+                                <option value="{{ $vendor->id }}" @selected(old('vendor_id', $item?->vendor_id) == $vendor->id)>{{ $vendor->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3">Sort Order</label>
+                    <div class="col-md-8"><input class="form-control" type="number" name="sort_order" value="{{ old('sort_order', $item?->sort_order ?? 0) }}"></div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3">Status</label>
+                    <label class="col-md-8"><input type="checkbox" name="is_active" value="1" @checked(old('is_active', $item?->is_active ?? true))> Active</label>
+                </div>
+                <button class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+@endsection
