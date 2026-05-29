@@ -64,8 +64,12 @@
                 <div class="card-body">
                     <p class="mb-1"><strong>Vendor:</strong> {{ $vendor->name }}</p>
                     <p class="mb-1"><strong>Shop:</strong> {{ $vendor->shop_name ?: 'Not set' }}</p>
-                    <p class="mb-1"><strong>Email:</strong> {{ $vendor->email }}</p>
+                    <p class="mb-1"><strong>Email:</strong> {{ $vendor->shop_email ?: $vendor->email }}</p>
+                    <p class="mb-1"><strong>Phone:</strong> {{ $vendor->shop_phone ?: $vendor->phone ?: 'Not set' }}</p>
+                    <p class="mb-1"><strong>Address:</strong> {{ $vendor->shop_address ?: 'Not set' }}</p>
                     <p class="mb-1"><strong>Status:</strong> {{ ucfirst($vendor->status) }}</p>
+                    <p class="mb-1"><strong>KYC:</strong> {{ str_replace('_', ' ', ucfirst($vendor->kyc_status ?? 'not_submitted')) }}</p>
+                    <a class="btn btn-primary btn-sm mt-3" href="{{ route('vendor.shop-settings.edit') }}">Edit Shop Settings</a>
                 </div>
             </div>
         </div>

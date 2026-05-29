@@ -6,10 +6,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous">
-<link rel="stylesheet" href="/vendor/css/adminlte.css">
+<link rel="stylesheet" href="/vendor-panel/css/adminlte.css">
 <style>
-    .vendor-brand-logo{width:34px;height:34px;object-fit:contain;background:#fff}
     .vendor-logo-full{max-width:150px;max-height:44px;object-fit:contain}
     .app-sidebar .brand-link{text-decoration:none}
+    .app-sidebar .sidebar-brand{height:auto;min-height:57px;overflow:hidden}
+    .app-sidebar .brand-text{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
 </style>
 @stack('styles')

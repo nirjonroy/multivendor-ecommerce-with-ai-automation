@@ -1,8 +1,7 @@
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
     <div class="sidebar-brand">
         <a href="{{ route('vendor.dashboard') }}" class="brand-link">
-            <img src="{{ $globalSiteInfo?->logo_path ? asset('storage/' . $globalSiteInfo->logo_path) : asset('vendor/assets/img/AdminLTELogo.png') }}" alt="{{ $globalSiteInfo?->site_name ?? 'Vendor' }}" class="brand-image vendor-brand-logo opacity-75 shadow">
-            <span class="brand-text fw-light">{{ auth('vendor')->user()?->shop_name ?: 'Vendor Panel' }}</span>
+            <span class="brand-text">{{ auth('vendor')->user()?->shop_name ?: 'Vendor Shop' }}</span>
         </a>
     </div>
     <div class="sidebar-wrapper">
@@ -31,7 +30,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('vendor.shop-settings.edit') }}" class="nav-link {{ request()->routeIs('vendor.shop-settings.*') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-shop"></i>
                         <p>Shop Settings</p>
                     </a>

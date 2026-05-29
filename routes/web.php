@@ -7,11 +7,13 @@ use App\Http\Controllers\Backend\HomeSectionController;
 use App\Http\Controllers\Backend\ProductController as AdminProductController;
 use App\Http\Controllers\Backend\ProductOptionController;
 use App\Http\Controllers\Backend\SiteInfoController;
+use App\Http\Controllers\Backend\VendorController as AdminVendorController;
 use App\Http\Controllers\Frontend\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\Auth\RegisteredUserController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\ProductController as FrontendProductController;
 use App\Http\Controllers\Vendor\DashboardController as VendorDashboardController;
+use App\Http\Controllers\Vendor\ShopSettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +54,8 @@ Route::middleware('auth:web')->group(function () {
 
 Route::middleware('auth:vendor')->prefix('vendor')->name('vendor.')->group(function () {
     Route::get('dashboard', VendorDashboardController::class)->name('dashboard');
+    Route::get('shop-settings', [ShopSettingsController::class, 'edit'])->name('shop-settings.edit');
+    Route::put('shop-settings', [ShopSettingsController::class, 'update'])->name('shop-settings.update');
 });
 
 Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
@@ -82,6 +86,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('catalog/{resource}/{id}', [CatalogTaxonomyController::class, 'update'])->name('catalog.update');
         Route::delete('catalog/{resource}/{id}', [CatalogTaxonomyController::class, 'destroy'])->name('catalog.destroy');
         Route::resource('products', AdminProductController::class)->except(['show']);
+        Route::get('vendors', [AdminVendorController::class, 'index'])->name('vendors.index');
+        Route::get('vendors/{vendor}', [AdminVendorController::class, 'show'])->name('vendors.show');
+        Route::patch('vendors/{vendor}/approve', [AdminVendorController::class, 'approve'])->name('vendors.approve');
+        Route::patch('vendors/{vendor}/reject', [AdminVendorController::class, 'reject'])->name('vendors.reject');
         Route::get('product-options/{resource}', [ProductOptionController::class, 'index'])->name('product-options.index');
         Route::get('product-options/{resource}/create', [ProductOptionController::class, 'create'])->name('product-options.create');
         Route::post('product-options/{resource}', [ProductOptionController::class, 'store'])->name('product-options.store');

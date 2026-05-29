@@ -5,6 +5,7 @@
     $productOpen = request()->routeIs('admin.products.*')
         || request()->routeIs('admin.product-options.*')
         || (request()->routeIs('admin.catalog.*') && in_array($catalogResource, ['categories', 'sub-categories', 'child-categories', 'brands'], true));
+    $vendorsOpen = request()->routeIs('admin.vendors.*');
     $settingsOpen = request()->routeIs('admin.site-info.*') || request()->routeIs('admin.home-section.*');
 @endphp
 <div class="page-sidebar">
@@ -29,6 +30,7 @@
                     <li><a class="{{ request()->is('admin/product-options/colors*') ? 'active' : '' }}" href="{{ route('admin.product-options.index', 'colors') }}"><i class="fa fa-circle"></i>Color</a></li>
                 </ul>
             </li>
+            <li><a class="sidebar-header {{ $vendorsOpen ? 'active' : '' }}" href="{{ route('admin.vendors.index') }}"><i data-feather="users"></i><span>Vendors</span></a></li>
             <li>
                 <a class="sidebar-header {{ $settingsOpen ? 'active' : '' }}" href="#"><i data-feather="settings"></i><span>Settings</span><i class="fa fa-angle-right pull-right"></i></a>
                 <ul class="sidebar-submenu" style="{{ $settingsOpen ? 'display:block;' : '' }}">
