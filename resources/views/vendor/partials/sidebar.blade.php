@@ -30,6 +30,18 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('vendor.messages.index') }}" class="nav-link {{ request()->routeIs('vendor.messages.*') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-chat-dots"></i>
+                        <p>Messages @if(($globalVendorUnreadMessages ?? collect())->where('sender_type', 'user')->count() > 0)<span class="badge text-bg-primary ms-2">{{ ($globalVendorUnreadMessages ?? collect())->where('sender_type', 'user')->count() }}</span>@endif</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('vendor.support.index') }}" class="nav-link {{ request()->routeIs('vendor.support.*') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-headset"></i>
+                        <p>Support @if(($globalVendorUnreadMessages ?? collect())->where('sender_type', 'admin')->count() > 0)<span class="badge text-bg-primary ms-2">{{ ($globalVendorUnreadMessages ?? collect())->where('sender_type', 'admin')->count() }}</span>@endif</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('vendor.shop-settings.edit') }}" class="nav-link {{ request()->routeIs('vendor.shop-settings.*') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-shop"></i>
                         <p>Shop Settings</p>

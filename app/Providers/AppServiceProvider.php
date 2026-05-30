@@ -68,6 +68,7 @@ class AppServiceProvider extends ServiceProvider
             $pendingVendorProductRequests = collect();
             $adminUnreadMessages = collect();
             $vendorUnreadMessages = collect();
+            $userUnreadMessages = collect();
 
             if (Schema::hasTable('products')) {
                 if (Schema::hasColumn('products', 'approval_status')) {
@@ -119,6 +120,17 @@ class AppServiceProvider extends ServiceProvider
                         ->take(10)
                         ->get();
                 }
+
+                if (auth()->check()) {
+                    $userUnreadMessages = MarketplaceMessage::query()
+                        ->with(['vendor', 'product'])
+                        ->where('recipient_type', 'user')
+                        ->where('user_id', auth()->id())
+                        ->whereNull('read_at')
+                        ->latest()
+                        ->take(10)
+                        ->get();
+                }
             }
 
             $view->with('globalSiteInfo', $siteInfo);
@@ -129,6 +141,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('globalPendingVendorProductRequests', $pendingVendorProductRequests);
             $view->with('globalAdminUnreadMessages', $adminUnreadMessages);
             $view->with('globalVendorUnreadMessages', $vendorUnreadMessages);
+            $view->with('globalUserUnreadMessages', $userUnreadMessages);
         });
     }
 }

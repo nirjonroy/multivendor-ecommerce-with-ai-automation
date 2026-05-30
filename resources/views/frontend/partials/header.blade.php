@@ -29,7 +29,11 @@
               <ul>
                 <li><a href="{{ route('cart.index') }}">cart</a></li>
                 <li><a href="{{ route('checkout.index') }}">checkout</a></li>
-                <li><a href="#">help & contact</a></li>
+                @auth
+                  <li><a href="{{ route('messages.index') }}">messages @if(($globalUserUnreadMessages ?? collect())->count() > 0)({{ ($globalUserUnreadMessages ?? collect())->count() }})@endif</a></li>
+                @else
+                  <li><a href="{{ route('login') }}">help & contact</a></li>
+                @endauth
                 <li><a href="#">todays deal</a></li>
                 <li><a href="#">track order</a></li>
               </ul>

@@ -9,6 +9,10 @@
         .product-main-image{width:100%;transition:transform .25s ease;cursor:zoom-in}
         .product-main-image-wrap:hover .product-main-image{transform:scale(1.6)}
         .vendor-contact-card{border:1px solid #e5e5e5;padding:18px;background:#fff;margin-top:18px}
+        .product-long-description{max-height:210px;overflow:hidden;position:relative}
+        .product-long-description.collapsed:after{content:"";position:absolute;left:0;right:0;bottom:0;height:52px;background:linear-gradient(to bottom, rgba(248,248,248,0), #f8f8f8)}
+        .description-toggle{border:0;background:transparent;color:#00baf2;font-weight:700;padding:8px 0;text-transform:capitalize;cursor:pointer}
+        .related-product-img{width:100%;aspect-ratio:1/1;object-fit:cover;background:#f1f1f1}
     </style>
 </head>
 <body>
@@ -47,6 +51,26 @@
                     <div class="product-main-image-wrap">
                         <img id="product-main-image" src="{{ $product->thumbnail_path ? asset('storage/'.$product->thumbnail_path) : asset('assets/images/layout-2/product/1.jpg') }}" class="img-fluid product-main-image" alt="{{ $product->name }}">
                     </div>
+                    @if($product->owner_type === 'vendor' && $product->vendor)
+                        <div class="vendor-contact-card">
+                            <h6 class="product-title">Vendor Details</h6>
+                            <p class="mb-1"><strong>Shop:</strong> {{ $product->vendor->shop_name ?: $product->vendor->name }}</p>
+                            <p class="mb-1"><strong>Email:</strong> {{ $product->vendor->shop_email ?: $product->vendor->email }}</p>
+                            <p class="mb-1"><strong>Phone:</strong> {{ $product->vendor->shop_phone ?: $product->vendor->phone ?: 'Not set' }}</p>
+                            <p class="mb-2"><strong>Address:</strong> {{ $product->vendor->shop_address ?: 'Not set' }}</p>
+
+                            @auth
+                                <form method="POST" action="{{ route('products.contact-vendor', $product) }}">
+                                    @csrf
+                                    <input class="form-control mb-2" name="subject" value="{{ old('subject') }}" placeholder="Subject">
+                                    <textarea class="form-control mb-2" name="message" rows="3" required placeholder="Write your message to vendor">{{ old('message') }}</textarea>
+                                    <button class="btn btn-normal" type="submit">contact vendor</button>
+                                </form>
+                            @else
+                                <a class="btn btn-normal" href="{{ route('login') }}">login to contact vendor</a>
+                            @endauth
+                        </div>
+                    @endif
                 </div>
                 <div class="col-lg-6 rtl-text">
                     <div class="product-right">
@@ -55,37 +79,7 @@
                             @if($product->offer_price)<del>{{ \App\Support\Currency::format($product->price, $globalSiteInfo) }}</del>@endif
                             <span>{{ \App\Support\Currency::format($product->offer_price ?: $product->price, $globalSiteInfo) }}</span>
                         </h4>
-                        <div class="border-product">
-                            <h6 class="product-title">Product Details</h6>
-                            <div>{!! $product->long_description ?: nl2br(e($product->short_description)) !!}</div>
-                        </div>
-                        <div class="product-description border-product">
-                            <h6 class="product-title">SKU: {{ $product->sku ?: 'N/A' }}</h6>
-                            <h6 class="product-title">Category: {{ $product->category?->name }}</h6>
-                            <h6 class="product-title">Brand: {{ $product->brand?->name ?: 'N/A' }}</h6>
-                            <h6 class="product-title">Stock: {{ $product->stock_quantity > 0 ? $product->stock_quantity : 'Stock Out Product' }}</h6>
-                        </div>
-                        @if($product->owner_type === 'vendor' && $product->vendor)
-                            <div class="vendor-contact-card">
-                                <h6 class="product-title">Vendor Details</h6>
-                                <p class="mb-1"><strong>Shop:</strong> {{ $product->vendor->shop_name ?: $product->vendor->name }}</p>
-                                <p class="mb-1"><strong>Email:</strong> {{ $product->vendor->shop_email ?: $product->vendor->email }}</p>
-                                <p class="mb-1"><strong>Phone:</strong> {{ $product->vendor->shop_phone ?: $product->vendor->phone ?: 'Not set' }}</p>
-                                <p class="mb-2"><strong>Address:</strong> {{ $product->vendor->shop_address ?: 'Not set' }}</p>
-
-                                @auth
-                                    <form method="POST" action="{{ route('products.contact-vendor', $product) }}">
-                                        @csrf
-                                        <input class="form-control mb-2" name="subject" value="{{ old('subject') }}" placeholder="Subject">
-                                        <textarea class="form-control mb-2" name="message" rows="3" required placeholder="Write your message to vendor">{{ old('message') }}</textarea>
-                                        <button class="btn btn-normal" type="submit">contact vendor</button>
-                                    </form>
-                                @else
-                                    <a class="btn btn-normal" href="{{ route('login') }}">login to contact vendor</a>
-                                @endauth
-                            </div>
-                        @endif
-                        <div class="product-buttons">
+                        <div class="product-buttons border-product">
                             @if($product->stock_quantity > 0)
                                 <div class="cart-option-grid">
                                     @if(!empty($product->sizes))
@@ -122,12 +116,53 @@
                                 <span class="btn btn-normal disabled">Stock Out Product</span>
                             @endif
                         </div>
+                        <div class="border-product">
+                            <h6 class="product-title">Product Details</h6>
+                            <div id="product-long-description" class="product-long-description collapsed">{!! $product->long_description ?: nl2br(e($product->short_description)) !!}</div>
+                            <button id="description-toggle" class="description-toggle" type="button">see more</button>
+                        </div>
+                        <div class="product-description border-product">
+                            <h6 class="product-title">SKU: {{ $product->sku ?: 'N/A' }}</h6>
+                            <h6 class="product-title">Category: {{ $product->category?->name }}</h6>
+                            <h6 class="product-title">Brand: {{ $product->brand?->name ?: 'N/A' }}</h6>
+                            <h6 class="product-title">Stock: {{ $product->stock_quantity > 0 ? $product->stock_quantity : 'Stock Out Product' }}</h6>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+@if($relatedProducts->isNotEmpty())
+<section class="section-py-space bg-light ratio_square product">
+    <div class="custom-container">
+        <div class="title1">
+            <h4>Latest Products</h4>
+            <h2 class="title-inner1">Related Products</h2>
+        </div>
+        <div class="row">
+            @foreach($relatedProducts as $relatedProduct)
+                @php($relatedImage = $relatedProduct->thumbnail_path ? asset('storage/' . $relatedProduct->thumbnail_path) : asset('assets/images/layout-2/product/1.jpg'))
+                <div class="col-xl-3 col-lg-3 col-md-4 col-6 mb-4">
+                    <div class="product-box">
+                        <div class="product-imgbox">
+                            <a href="{{ route('products.show', $relatedProduct) }}">
+                                <img src="{{ $relatedImage }}" class="img-fluid related-product-img" alt="{{ $relatedProduct->name }}">
+                            </a>
+                            @if($relatedProduct->stock_quantity <= 0)<div class="on-sale1">stock out</div>@endif
+                            @if($relatedProduct->is_new)<div class="new-label1"><div>new</div></div>@endif
+                        </div>
+                        <div class="product-detail detail-inline">
+                            <a href="{{ route('products.show', $relatedProduct) }}"><h6 class="price-title">{{ $relatedProduct->name }}</h6></a>
+                            <div class="price">{{ \App\Support\Currency::format($relatedProduct->offer_price ?: $relatedProduct->price, $globalSiteInfo) }}</div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
 @include('frontend.partials.footer')
 <script src="/assets/js/jquery-3.3.1.min.js"></script>
 <script src="/assets/js/slick.js"></script>
@@ -161,6 +196,19 @@
             this.classList.add('active');
         });
     });
+    const description = document.getElementById('product-long-description');
+    const descriptionToggle = document.getElementById('description-toggle');
+    if (description && descriptionToggle) {
+        if (description.scrollHeight <= 215) {
+            description.classList.remove('collapsed');
+            descriptionToggle.style.display = 'none';
+        }
+        descriptionToggle.addEventListener('click', function () {
+            const isCollapsed = description.classList.toggle('collapsed');
+            description.style.maxHeight = isCollapsed ? '210px' : 'none';
+            descriptionToggle.textContent = isCollapsed ? 'see more' : 'see less';
+        });
+    }
 </script>
 </body>
 </html>

@@ -9,6 +9,7 @@
     <div class="custom-container">
         <h2>Customer Dashboard</h2>
         <p>Welcome, {{ auth()->user()->name }}.</p>
+        <a href="{{ route('messages.index') }}" class="btn btn-normal mb-3">Messages @if(($globalUserUnreadMessages ?? collect())->count() > 0)({{ ($globalUserUnreadMessages ?? collect())->count() }})@endif</a>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button class="btn btn-normal" type="submit">Logout</button>

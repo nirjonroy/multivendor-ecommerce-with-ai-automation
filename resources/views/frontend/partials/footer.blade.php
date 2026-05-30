@@ -88,6 +88,7 @@
     </div>
   </div>
 </footer>
+@include('frontend.partials.message-notification-modal')
 <script>
   (function () {
     function hideFrontendLoader() {
@@ -103,5 +104,24 @@
     document.addEventListener('DOMContentLoaded', hideFrontendLoader);
     window.addEventListener('load', hideFrontendLoader);
     window.setTimeout(hideFrontendLoader, 800);
+  })();
+  (function () {
+    function showUserMessageModal() {
+      if (!document.getElementById('userMessageNotificationModal')) return true;
+      if (window.jQuery && window.jQuery.fn && window.jQuery.fn.modal) {
+        window.jQuery('#userMessageNotificationModal').modal('show');
+        return true;
+      }
+      return false;
+    }
+    if (!showUserMessageModal()) {
+      var attempts = 0;
+      var timer = window.setInterval(function () {
+        attempts++;
+        if (showUserMessageModal() || attempts > 20) {
+          window.clearInterval(timer);
+        }
+      }, 150);
+    }
   })();
 </script>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\Auth\AuthenticatedSessionController as AdminAut
 use App\Http\Controllers\Backend\Auth\RegisteredAdminController;
 use App\Http\Controllers\Backend\CatalogTaxonomyController;
 use App\Http\Controllers\Backend\HomeSectionController;
+use App\Http\Controllers\Backend\MessageController as AdminMessageController;
 use App\Http\Controllers\Backend\ProductController as AdminProductController;
 use App\Http\Controllers\Backend\ProductOptionController;
 use App\Http\Controllers\Backend\SiteInfoController;
@@ -13,7 +14,9 @@ use App\Http\Controllers\Frontend\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\Auth\RegisteredUserController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\ProductController as FrontendProductController;
+use App\Http\Controllers\Frontend\UserMessageController;
 use App\Http\Controllers\Frontend\VendorContactController;
+use App\Http\Controllers\Vendor\CustomerMessageController;
 use App\Http\Controllers\Vendor\DashboardController as VendorDashboardController;
 use App\Http\Controllers\Vendor\ProductController as VendorProductController;
 use App\Http\Controllers\Vendor\ShopSettingsController;
@@ -55,12 +58,19 @@ Route::middleware('auth:web')->group(function () {
     Route::get('dashboard', function () {
         return view('frontend.dashboard.user');
     })->name('dashboard');
+    Route::get('messages', [UserMessageController::class, 'index'])->name('messages.index');
+    Route::post('messages/{message}/reply', [UserMessageController::class, 'reply'])->name('messages.reply');
+    Route::patch('messages/{message}/read', [MessageReadController::class, 'user'])->name('messages.read');
 });
 
 Route::middleware('auth:vendor')->prefix('vendor')->name('vendor.')->group(function () {
     Route::get('dashboard', VendorDashboardController::class)->name('dashboard');
     Route::resource('products', VendorProductController::class)->except(['show']);
+    Route::get('messages', [CustomerMessageController::class, 'index'])->name('messages.index');
+    Route::post('messages/{message}/reply', [CustomerMessageController::class, 'reply'])->name('messages.reply');
+    Route::get('support', [SupportMessageController::class, 'index'])->name('support.index');
     Route::post('support-message', [SupportMessageController::class, 'store'])->name('support-message.store');
+    Route::post('support/{message}/reply', [SupportMessageController::class, 'reply'])->name('support.reply');
     Route::patch('messages/{message}/read', [MessageReadController::class, 'vendor'])->name('messages.read');
     Route::get('shop-settings', [ShopSettingsController::class, 'edit'])->name('shop-settings.edit');
     Route::put('shop-settings', [ShopSettingsController::class, 'update'])->name('shop-settings.update');
@@ -107,6 +117,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('vendors/{vendor}', [AdminVendorController::class, 'show'])->name('vendors.show');
         Route::patch('vendors/{vendor}/approve', [AdminVendorController::class, 'approve'])->name('vendors.approve');
         Route::patch('vendors/{vendor}/reject', [AdminVendorController::class, 'reject'])->name('vendors.reject');
+        Route::get('messages', [AdminMessageController::class, 'index'])->name('messages.index');
+        Route::post('messages/{message}/reply', [AdminMessageController::class, 'reply'])->name('messages.reply');
         Route::patch('messages/{message}/read', [MessageReadController::class, 'admin'])->name('messages.read');
         Route::get('product-options/{resource}', [ProductOptionController::class, 'index'])->name('product-options.index');
         Route::get('product-options/{resource}/create', [ProductOptionController::class, 'create'])->name('product-options.create');

@@ -6,7 +6,9 @@
         || request()->routeIs('admin.product-options.*')
         || (request()->routeIs('admin.catalog.*') && in_array($catalogResource, ['categories', 'sub-categories', 'child-categories', 'brands'], true));
     $vendorsOpen = request()->routeIs('admin.vendors.*');
+    $messagesOpen = request()->routeIs('admin.messages.*');
     $settingsOpen = request()->routeIs('admin.site-info.*') || request()->routeIs('admin.home-section.*');
+    $adminUnreadMessageCount = ($globalAdminUnreadMessages ?? collect())->count();
 @endphp
 <div class="page-sidebar">
     <div class="sidebar custom-scrollbar">
@@ -31,6 +33,14 @@
                 </ul>
             </li>
             <li><a class="sidebar-header {{ $vendorsOpen ? 'active' : '' }}" href="{{ route('admin.vendors.index') }}"><i data-feather="users"></i><span>Vendors</span></a></li>
+            <li>
+                <a class="sidebar-header {{ $messagesOpen ? 'active' : '' }}" href="{{ route('admin.messages.index') }}">
+                    <i data-feather="message-square"></i><span>Messages</span>
+                    @if($adminUnreadMessageCount > 0)
+                        <span class="badge badge-primary pull-right">{{ $adminUnreadMessageCount }}</span>
+                    @endif
+                </a>
+            </li>
             <li>
                 <a class="sidebar-header {{ $settingsOpen ? 'active' : '' }}" href="#"><i data-feather="settings"></i><span>Settings</span><i class="fa fa-angle-right pull-right"></i></a>
                 <ul class="sidebar-submenu" style="{{ $settingsOpen ? 'display:block;' : '' }}">

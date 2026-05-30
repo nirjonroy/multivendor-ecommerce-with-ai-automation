@@ -11,6 +11,14 @@ class ProductController extends Controller
     {
         abort_unless($product->status === 'published' && $product->approval_status === 'approved', 404);
 
-        return view('frontend.products.show', compact('product'));
+        $relatedProducts = Product::query()
+            ->whereKeyNot($product->id)
+            ->where('status', 'published')
+            ->where('approval_status', 'approved')
+            ->latest()
+            ->take(8)
+            ->get();
+
+        return view('frontend.products.show', compact('product', 'relatedProducts'));
     }
 }

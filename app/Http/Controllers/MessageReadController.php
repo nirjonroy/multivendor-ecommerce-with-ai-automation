@@ -6,6 +6,14 @@ use App\Models\MarketplaceMessage;
 
 class MessageReadController extends Controller
 {
+    public function user(MarketplaceMessage $message)
+    {
+        abort_unless($message->recipient_type === 'user' && $message->user_id === auth()->id(), 404);
+        $message->forceFill(['read_at' => now()])->save();
+
+        return redirect()->back()->with('status', 'Message marked as read.');
+    }
+
     public function vendor(MarketplaceMessage $message)
     {
         abort_unless($message->recipient_type === 'vendor' && $message->vendor_id === auth('vendor')->id(), 404);
