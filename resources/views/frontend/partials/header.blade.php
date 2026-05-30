@@ -139,15 +139,23 @@
                   </ul>
                 </nav>
               </div>
+              <div class="icon-block">
+                <ul>
+                  <li class="mobile-user">
+                    <a href="{{ auth()->check() ? route('dashboard') : route('login') }}" title="{{ auth()->check() ? 'My Account' : 'Login' }}">
+                      <i class="icon-user"></i>
+                    </a>
+                  </li>
+                  <li class="mobile-wishlist">
+                    <a href="#">
+                      <i class="icon-heart"></i>
+                      <div class="cart-item"><div>0 item<span>wishlist</span></div></div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
             <div class="category-right">
-              <div class="contact-block">
-                <div><i class="icon-user"></i></div>
-              </div>
-              <div class="contact-block">
-                <div><i class="icon-heart"></i></div>
-                <div><span>0 item</span><h5>wishlist</h5></div>
-              </div>
               <div class="gift-block"><div class="grif-icon"><i class="icon-gift"></i></div></div>
             </div>
           </div>
