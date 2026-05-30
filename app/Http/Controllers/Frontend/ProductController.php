@@ -9,7 +9,7 @@ class ProductController extends Controller
 {
     public function show(Product $product)
     {
-        abort_unless($product->status === 'published', 404);
+        abort_unless($product->status === 'published' && $product->approval_status === 'approved', 404);
 
         return view('frontend.products.show', compact('product'));
     }

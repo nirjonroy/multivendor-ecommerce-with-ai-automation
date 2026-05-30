@@ -40,18 +40,19 @@
                 <div class="card-header"><h3 class="card-title">Latest Products</h3></div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-striped align-middle">
-                        <thead><tr><th>Product</th><th>SKU</th><th>Status</th><th>Stock</th><th>Price</th></tr></thead>
+                        <thead><tr><th>Product</th><th>SKU</th><th>Status</th><th>Approval</th><th>Stock</th><th>Price</th></tr></thead>
                         <tbody>
                             @forelse($latestProducts as $product)
                                 <tr>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->sku ?: 'N/A' }}</td>
                                     <td><span class="badge text-bg-{{ $product->status === 'published' ? 'success' : 'secondary' }}">{{ ucfirst($product->status) }}</span></td>
+                                    <td><span class="badge text-bg-{{ $product->approval_status === 'approved' ? 'success' : ($product->approval_status === 'rejected' ? 'danger' : 'warning') }}">{{ ucfirst($product->approval_status ?? 'approved') }}</span></td>
                                     <td>{{ $product->stock_quantity }}</td>
                                     <td>{{ \App\Support\Currency::format($product->offer_price ?: $product->price, $globalSiteInfo) }}</td>
                                 </tr>
                             @empty
-                                <tr><td colspan="5" class="text-center py-4">No vendor products yet.</td></tr>
+                                <tr><td colspan="6" class="text-center py-4">No vendor products yet.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -71,6 +72,25 @@
                     <p class="mb-1"><strong>KYC:</strong> {{ str_replace('_', ' ', ucfirst($vendor->kyc_status ?? 'not_submitted')) }}</p>
                     <a class="btn btn-primary btn-sm mt-3" href="{{ route('vendor.shop-settings.edit') }}">Edit Shop Settings</a>
                 </div>
+            </div>
+            <div class="card card-info card-outline mb-4">
+                <div class="card-header"><h3 class="card-title">Admin Support</h3></div>
+                <form method="POST" action="{{ route('vendor.support-message.store') }}">
+                    @csrf
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Subject</label>
+                            <input class="form-control" name="subject" value="{{ old('subject') }}" placeholder="Support subject">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-control" name="message" rows="4" required placeholder="Write your message to admin">{{ old('message') }}</textarea>
+                        </div>
+                    </div>
+                    <div class="card-footer text-end">
+                        <button class="btn btn-primary" type="submit">Contact Admin</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

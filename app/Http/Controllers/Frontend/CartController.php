@@ -77,7 +77,7 @@ class CartController extends Controller
 
     private function addProduct(Request $request, Product $product): void
     {
-        abort_if($product->stock_quantity <= 0 || $product->status !== 'published', 404);
+        abort_if($product->stock_quantity <= 0 || $product->status !== 'published' || $product->approval_status !== 'approved', 404);
 
         $data = $request->validate([
             'quantity' => ['required', 'integer', 'min:1', 'max:' . $product->stock_quantity],

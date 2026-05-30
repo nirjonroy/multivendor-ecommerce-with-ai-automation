@@ -13,14 +13,14 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
+                <li class="nav-item {{ request()->routeIs('vendor.products.*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->routeIs('vendor.products.*') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-box-seam-fill"></i>
                         <p>Products <i class="nav-arrow bi bi-chevron-right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon bi bi-circle"></i><p>Product List</p></a></li>
-                        <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon bi bi-circle"></i><p>Add Product</p></a></li>
+                        <li class="nav-item"><a href="{{ route('vendor.products.index') }}" class="nav-link {{ request()->routeIs('vendor.products.index') || request()->routeIs('vendor.products.edit') ? 'active' : '' }}"><i class="nav-icon bi bi-circle"></i><p>Product List</p></a></li>
+                        <li class="nav-item"><a href="{{ route('vendor.products.create') }}" class="nav-link {{ request()->routeIs('vendor.products.create') ? 'active' : '' }}"><i class="nav-icon bi bi-circle"></i><p>Add Product</p></a></li>
                     </ul>
                 </li>
                 <li class="nav-item">

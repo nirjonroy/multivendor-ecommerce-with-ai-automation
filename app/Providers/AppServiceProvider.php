@@ -7,6 +7,7 @@ use App\Models\HomeSection;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\MarketplaceMessage;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -64,15 +65,60 @@ class AppServiceProvider extends ServiceProvider
             }
 
             $frontendProducts = collect();
+            $pendingVendorProductRequests = collect();
+            $adminUnreadMessages = collect();
+            $vendorUnreadMessages = collect();
 
             if (Schema::hasTable('products')) {
-                $frontendProducts = Product::query()
-                    ->with(['category', 'brand'])
-                    ->where('status', 'published')
-                    ->orderBy('sort_order')
-                    ->latest()
-                    ->take(18)
-                    ->get();
+                if (Schema::hasColumn('products', 'approval_status')) {
+                    $frontendProducts = Product::query()
+                        ->with(['category', 'brand'])
+                        ->where('status', 'published')
+                        ->where('approval_status', 'approved')
+                        ->orderBy('sort_order')
+                        ->latest()
+                        ->take(18)
+                        ->get();
+
+                    $pendingVendorProductRequests = Product::query()
+                        ->with(['vendor', 'category', 'brand'])
+                        ->where('owner_type', 'vendor')
+                        ->where('approval_status', 'pending')
+                        ->latest()
+                        ->take(10)
+                        ->get();
+                } else {
+                    $frontendProducts = Product::query()
+                        ->with(['category', 'brand'])
+                        ->where('status', 'published')
+                        ->orderBy('sort_order')
+                        ->latest()
+                        ->take(18)
+                        ->get();
+                }
+            }
+
+            if (Schema::hasTable('marketplace_messages')) {
+                if (auth('admin')->check()) {
+                    $adminUnreadMessages = MarketplaceMessage::query()
+                        ->with(['vendor', 'product'])
+                        ->where('recipient_type', 'admin')
+                        ->whereNull('read_at')
+                        ->latest()
+                        ->take(10)
+                        ->get();
+                }
+
+                if (auth('vendor')->check()) {
+                    $vendorUnreadMessages = MarketplaceMessage::query()
+                        ->with(['user', 'product'])
+                        ->where('recipient_type', 'vendor')
+                        ->where('vendor_id', auth('vendor')->id())
+                        ->whereNull('read_at')
+                        ->latest()
+                        ->take(10)
+                        ->get();
+                }
             }
 
             $view->with('globalSiteInfo', $siteInfo);
@@ -80,6 +126,9 @@ class AppServiceProvider extends ServiceProvider
             $view->with('globalFrontendCategories', $frontendCategories);
             $view->with('globalFrontendBrands', $frontendBrands);
             $view->with('globalFrontendProducts', $frontendProducts);
+            $view->with('globalPendingVendorProductRequests', $pendingVendorProductRequests);
+            $view->with('globalAdminUnreadMessages', $adminUnreadMessages);
+            $view->with('globalVendorUnreadMessages', $vendorUnreadMessages);
         });
     }
 }

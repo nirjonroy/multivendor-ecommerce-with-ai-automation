@@ -14,7 +14,8 @@ class Product extends Model
         'brand_id', 'owner_type', 'vendor_id', 'thumbnail_path', 'gallery_paths',
         'video_url', 'price', 'offer_price', 'stock_quantity', 'short_description',
         'long_description', 'sizes', 'colors', 'size_prices', 'color_images',
-        'variation_stocks', 'has_variation_stock', 'status', 'is_featured',
+        'variation_stocks', 'has_variation_stock', 'status', 'approval_status',
+        'approval_rejection_reason', 'approved_at', 'is_featured',
         'is_new', 'is_on_sale', 'sort_order',
     ];
 
@@ -26,6 +27,7 @@ class Product extends Model
         'color_images' => 'array',
         'variation_stocks' => 'array',
         'has_variation_stock' => 'boolean',
+        'approved_at' => 'datetime',
         'is_featured' => 'boolean',
         'is_new' => 'boolean',
         'is_on_sale' => 'boolean',

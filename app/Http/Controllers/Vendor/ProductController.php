@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
@@ -10,7 +10,6 @@ use App\Models\Product;
 use App\Models\ProductColor;
 use App\Models\ProductSize;
 use App\Models\SubCategory;
-use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -20,40 +19,64 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['category', 'brand', 'vendor'])->latest()->paginate(15);
+        $vendor = auth('vendor')->user();
+        $products = Product::with(['category', 'brand'])
+            ->where('owner_type', 'vendor')
+            ->where('vendor_id', $vendor->id)
+            ->latest()
+            ->paginate(15);
 
-        return view('backend.products.index', compact('products'));
+        return view('vendor.products.index', compact('products', 'vendor'));
     }
 
     public function create()
     {
-        return view('backend.products.form', $this->formData());
+        if (! $this->canManageProducts()) {
+            return redirect()->route('vendor.shop-settings.edit')
+                ->withErrors('Your shop must be approved before adding products.');
+        }
+
+        return view('vendor.products.form', $this->formData());
     }
 
     public function store(Request $request)
     {
-        $data = $this->validated($request);
-        $product = new Product();
-        $this->fillAndSave($request, $product, $data);
+        if (! $this->canManageProducts()) {
+            return redirect()->route('vendor.shop-settings.edit')
+                ->withErrors('Your shop must be approved before adding products.');
+        }
 
-        return redirect()->route('admin.products.index')->with('status', 'Product created successfully.');
+        $product = new Product();
+        $this->fillAndSave($request, $product, $this->validated($request));
+
+        return redirect()->route('vendor.products.index')->with('status', 'Product submitted for admin approval.');
     }
 
     public function edit(Product $product)
     {
-        return view('backend.products.form', $this->formData($product));
+        $this->authorizeVendorProduct($product);
+
+        return view('vendor.products.form', $this->formData($product));
     }
 
     public function update(Request $request, Product $product)
     {
-        $data = $this->validated($request, $product->id);
-        $this->fillAndSave($request, $product, $data);
+        $this->authorizeVendorProduct($product);
 
-        return redirect()->route('admin.products.index')->with('status', 'Product updated successfully.');
+        if (! $this->canManageProducts()) {
+            return redirect()->route('vendor.shop-settings.edit')
+                ->withErrors('Your shop must be approved before updating products.');
+        }
+
+        $this->fillAndSave($request, $product, $this->validated($request, $product->id));
+
+        return redirect()->route('vendor.products.index')->with('status', 'Product updated and submitted for admin approval.');
     }
 
     public function destroy(Product $product)
     {
+        $this->authorizeVendorProduct($product);
+
         if ($product->thumbnail_path) {
             Storage::disk('public')->delete($product->thumbnail_path);
         }
@@ -64,48 +87,19 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return redirect()->route('admin.products.index')->with('status', 'Product deleted successfully.');
-    }
-
-    public function approve(Product $product)
-    {
-        abort_unless($product->owner_type === 'vendor', 404);
-
-        $product->forceFill([
-            'approval_status' => 'approved',
-            'approval_rejection_reason' => null,
-            'approved_at' => now(),
-        ])->save();
-
-        return redirect()->back()->with('status', 'Vendor product approved successfully.');
-    }
-
-    public function reject(Request $request, Product $product)
-    {
-        abort_unless($product->owner_type === 'vendor', 404);
-
-        $data = $request->validate([
-            'approval_rejection_reason' => ['required', 'string', 'max:1000'],
-        ]);
-
-        $product->forceFill([
-            'approval_status' => 'rejected',
-            'approval_rejection_reason' => $data['approval_rejection_reason'],
-            'approved_at' => null,
-        ])->save();
-
-        return redirect()->back()->with('status', 'Vendor product rejected successfully.');
+        return redirect()->route('vendor.products.index')->with('status', 'Product deleted successfully.');
     }
 
     private function fillAndSave(Request $request, Product $product, array $data): void
     {
+        $vendor = auth('vendor')->user();
+
         $data['slug'] = $data['slug'] ?: Str::slug($data['name']);
-        $data['vendor_id'] = $data['owner_type'] === 'vendor' ? ($data['vendor_id'] ?? null) : null;
-        if ($data['owner_type'] === 'admin') {
-            $data['approval_status'] = 'approved';
-            $data['approval_rejection_reason'] = null;
-            $data['approved_at'] = $product->approved_at ?: now();
-        }
+        $data['owner_type'] = 'vendor';
+        $data['vendor_id'] = $vendor->id;
+        $data['approval_status'] = 'pending';
+        $data['approval_rejection_reason'] = null;
+        $data['approved_at'] = null;
         $data['is_featured'] = $request->boolean('is_featured');
         $data['is_new'] = $request->boolean('is_new');
         $data['is_on_sale'] = $request->boolean('is_on_sale');
@@ -159,8 +153,6 @@ class ProductController extends Controller
             'sub_category_id' => ['nullable', 'exists:sub_categories,id'],
             'child_category_id' => ['nullable', 'exists:child_categories,id'],
             'brand_id' => ['nullable', 'exists:brands,id'],
-            'owner_type' => ['required', Rule::in(['admin', 'vendor'])],
-            'vendor_id' => ['nullable', 'required_if:owner_type,vendor', 'exists:vendors,id'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif,svg', 'max:2048'],
             'gallery' => ['nullable', 'array'],
             'gallery.*' => ['image', 'mimes:jpg,jpeg,png,webp,gif,svg', 'max:2048'],
@@ -170,8 +162,6 @@ class ProductController extends Controller
             'stock_quantity' => ['required', 'integer', 'min:0'],
             'short_description' => ['nullable', 'string'],
             'long_description' => ['nullable', 'string'],
-            'sizes' => ['nullable', 'string'],
-            'colors' => ['nullable', 'string'],
             'size_prices' => ['nullable', 'array'],
             'size_prices.*.size' => ['nullable', 'string', 'max:100'],
             'size_prices.*.price' => ['nullable', 'numeric', 'min:0'],
@@ -192,26 +182,31 @@ class ProductController extends Controller
 
     private function formData(?Product $product = null): array
     {
+        $vendorId = auth('vendor')->id();
+        $ownedOrGlobal = fn ($query) => $query
+            ->where('owner_type', 'admin')
+            ->orWhere(fn ($query) => $query->where('owner_type', 'vendor')->where('vendor_id', $vendorId));
+
         return [
             'product' => $product,
-            'categories' => Category::orderBy('name')->get(),
-            'subCategories' => SubCategory::orderBy('name')->get(),
-            'childCategories' => ChildCategory::orderBy('name')->get(),
-            'brands' => Brand::orderBy('name')->get(),
-            'vendors' => Vendor::orderBy('name')->get(),
-            'productSizes' => ProductSize::where('is_active', true)->orderBy('sort_order')->orderBy('name')->get(),
-            'productColors' => ProductColor::where('is_active', true)->orderBy('sort_order')->orderBy('name')->get(),
+            'categories' => Category::query()->where($ownedOrGlobal)->where('is_active', true)->orderBy('name')->get(),
+            'subCategories' => SubCategory::query()->where($ownedOrGlobal)->where('is_active', true)->orderBy('name')->get(),
+            'childCategories' => ChildCategory::query()->where($ownedOrGlobal)->where('is_active', true)->orderBy('name')->get(),
+            'brands' => Brand::query()->where($ownedOrGlobal)->where('is_active', true)->orderBy('name')->get(),
+            'productSizes' => ProductSize::query()->where($ownedOrGlobal)->where('is_active', true)->orderBy('sort_order')->orderBy('name')->get(),
+            'productColors' => ProductColor::query()->where($ownedOrGlobal)->where('is_active', true)->orderBy('sort_order')->orderBy('name')->get(),
         ];
     }
 
-    private function linesToArray(?string $value): ?array
+    private function authorizeVendorProduct(Product $product): void
     {
-        $items = collect(preg_split('/\r\n|\r|\n/', (string) $value))
-            ->map(fn ($item) => trim($item))
-            ->filter()
-            ->values()
-            ->all();
+        abort_unless($product->owner_type === 'vendor' && $product->vendor_id === auth('vendor')->id(), 404);
+    }
 
-        return $items ?: null;
+    private function canManageProducts(): bool
+    {
+        $vendor = auth('vendor')->user();
+
+        return $vendor && $vendor->status === 'approved';
     }
 }

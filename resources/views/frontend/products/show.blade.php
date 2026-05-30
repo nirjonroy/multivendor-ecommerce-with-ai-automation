@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
     @include('frontend.partials.head', ['title' => $product->name])
+    <style>
+        .product-thumb{width:100%;height:88px;object-fit:cover;border:2px solid transparent;cursor:pointer;margin-bottom:8px}
+        .product-thumb.active{border-color:#00baf2}
+        .product-main-image-wrap{overflow:hidden;border:1px solid #eee;background:#fff}
+        .product-main-image{width:100%;transition:transform .25s ease;cursor:zoom-in}
+        .product-main-image-wrap:hover .product-main-image{transform:scale(1.6)}
+        .vendor-contact-card{border:1px solid #e5e5e5;padding:18px;background:#fff;margin-top:18px}
+    </style>
 </head>
 <body>
 @include('frontend.partials.header')
@@ -18,17 +26,26 @@
 <section class="section-big-pt-space bg-light">
     <div class="collection-wrapper">
         <div class="custom-container">
+            @if(session('status'))
+                <div class="alert alert-success">{{ session('status') }}</div>
+            @endif
+            @if($errors->any())
+                <div class="alert alert-danger">{{ $errors->first() }}</div>
+            @endif
             <div class="row">
                 <div class="col-lg-1 col-sm-2 col-xs-12">
                     <div class="row">
-                        @foreach (($product->gallery_paths ?: []) as $path)
-                            <div class="col-12 p-1"><img src="{{ asset('storage/'.$path) }}" class="img-fluid" alt="{{ $product->name }}"></div>
+                        @php($productImages = collect([$product->thumbnail_path])->merge($product->gallery_paths ?: [])->filter()->values())
+                        @foreach ($productImages as $index => $path)
+                            <div class="col-12 p-1">
+                                <img src="{{ asset('storage/'.$path) }}" class="img-fluid product-thumb {{ $index === 0 ? 'active' : '' }}" data-full-image="{{ asset('storage/'.$path) }}" alt="{{ $product->name }}">
+                            </div>
                         @endforeach
                     </div>
                 </div>
                 <div class="col-lg-5 col-sm-10 col-xs-12">
-                    <div class="product-slick">
-                        <div><img src="{{ $product->thumbnail_path ? asset('storage/'.$product->thumbnail_path) : asset('assets/images/layout-2/product/1.jpg') }}" class="img-fluid image_zoom_cls-0" alt="{{ $product->name }}"></div>
+                    <div class="product-main-image-wrap">
+                        <img id="product-main-image" src="{{ $product->thumbnail_path ? asset('storage/'.$product->thumbnail_path) : asset('assets/images/layout-2/product/1.jpg') }}" class="img-fluid product-main-image" alt="{{ $product->name }}">
                     </div>
                 </div>
                 <div class="col-lg-6 rtl-text">
@@ -48,6 +65,26 @@
                             <h6 class="product-title">Brand: {{ $product->brand?->name ?: 'N/A' }}</h6>
                             <h6 class="product-title">Stock: {{ $product->stock_quantity > 0 ? $product->stock_quantity : 'Stock Out Product' }}</h6>
                         </div>
+                        @if($product->owner_type === 'vendor' && $product->vendor)
+                            <div class="vendor-contact-card">
+                                <h6 class="product-title">Vendor Details</h6>
+                                <p class="mb-1"><strong>Shop:</strong> {{ $product->vendor->shop_name ?: $product->vendor->name }}</p>
+                                <p class="mb-1"><strong>Email:</strong> {{ $product->vendor->shop_email ?: $product->vendor->email }}</p>
+                                <p class="mb-1"><strong>Phone:</strong> {{ $product->vendor->shop_phone ?: $product->vendor->phone ?: 'Not set' }}</p>
+                                <p class="mb-2"><strong>Address:</strong> {{ $product->vendor->shop_address ?: 'Not set' }}</p>
+
+                                @auth
+                                    <form method="POST" action="{{ route('products.contact-vendor', $product) }}">
+                                        @csrf
+                                        <input class="form-control mb-2" name="subject" value="{{ old('subject') }}" placeholder="Subject">
+                                        <textarea class="form-control mb-2" name="message" rows="3" required placeholder="Write your message to vendor">{{ old('message') }}</textarea>
+                                        <button class="btn btn-normal" type="submit">contact vendor</button>
+                                    </form>
+                                @else
+                                    <a class="btn btn-normal" href="{{ route('login') }}">login to contact vendor</a>
+                                @endauth
+                            </div>
+                        @endif
                         <div class="product-buttons">
                             @if($product->stock_quantity > 0)
                                 <div class="cart-option-grid">
@@ -113,6 +150,16 @@
     document.querySelectorAll('.product-size-selector,.product-color-selector,.product-quantity-selector').forEach(function (input) {
         input.addEventListener('change', syncProductForms);
         input.addEventListener('input', syncProductForms);
+    });
+    document.querySelectorAll('.product-thumb').forEach(function (thumb) {
+        thumb.addEventListener('click', function () {
+            const mainImage = document.getElementById('product-main-image');
+            if (mainImage) mainImage.src = this.dataset.fullImage;
+            document.querySelectorAll('.product-thumb').forEach(function (item) {
+                item.classList.remove('active');
+            });
+            this.classList.add('active');
+        });
     });
 </script>
 </body>

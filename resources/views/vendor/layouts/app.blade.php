@@ -29,6 +29,17 @@
         </main>
         @include('vendor.partials.footer')
     </div>
+    @include('vendor.partials.message-notification-modal')
     @include('vendor.partials.scripts')
+    @if(($globalVendorUnreadMessages ?? collect())->isNotEmpty())
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const modalElement = document.getElementById('vendorMessageNotificationModal');
+                if (modalElement && window.bootstrap) {
+                    new bootstrap.Modal(modalElement).show();
+                }
+            });
+        </script>
+    @endif
 </body>
 </html>

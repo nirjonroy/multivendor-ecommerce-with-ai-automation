@@ -1,3 +1,4 @@
+<script src="/assets/js/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="/vendor-panel/js/adminlte.js"></script>

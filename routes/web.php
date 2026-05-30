@@ -8,12 +8,16 @@ use App\Http\Controllers\Backend\ProductController as AdminProductController;
 use App\Http\Controllers\Backend\ProductOptionController;
 use App\Http\Controllers\Backend\SiteInfoController;
 use App\Http\Controllers\Backend\VendorController as AdminVendorController;
+use App\Http\Controllers\MessageReadController;
 use App\Http\Controllers\Frontend\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\Auth\RegisteredUserController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\ProductController as FrontendProductController;
+use App\Http\Controllers\Frontend\VendorContactController;
 use App\Http\Controllers\Vendor\DashboardController as VendorDashboardController;
+use App\Http\Controllers\Vendor\ProductController as VendorProductController;
 use App\Http\Controllers\Vendor\ShopSettingsController;
+use App\Http\Controllers\Vendor\SupportMessageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +36,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('products/{product:slug}', [FrontendProductController::class, 'show'])->name('products.show');
+Route::post('products/{product:slug}/contact-vendor', [VendorContactController::class, 'store'])->middleware('auth:web')->name('products.contact-vendor');
 Route::get('cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('cart/{product}', [CartController::class, 'store'])->name('cart.store');
 Route::patch('cart/{product}', [CartController::class, 'update'])->name('cart.update');
@@ -54,6 +59,9 @@ Route::middleware('auth:web')->group(function () {
 
 Route::middleware('auth:vendor')->prefix('vendor')->name('vendor.')->group(function () {
     Route::get('dashboard', VendorDashboardController::class)->name('dashboard');
+    Route::resource('products', VendorProductController::class)->except(['show']);
+    Route::post('support-message', [SupportMessageController::class, 'store'])->name('support-message.store');
+    Route::patch('messages/{message}/read', [MessageReadController::class, 'vendor'])->name('messages.read');
     Route::get('shop-settings', [ShopSettingsController::class, 'edit'])->name('shop-settings.edit');
     Route::put('shop-settings', [ShopSettingsController::class, 'update'])->name('shop-settings.update');
 });
@@ -72,7 +80,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware('auth:admin')->group(function () {
         Route::get('dashboard', function () {
-            return view('backend.dashboard.index');
+            $pendingVendorProducts = \App\Models\Product::with(['vendor', 'category', 'brand'])
+                ->where('owner_type', 'vendor')
+                ->where('approval_status', 'pending')
+                ->latest()
+                ->take(10)
+                ->get();
+
+            return view('backend.dashboard.index', compact('pendingVendorProducts'));
         })->name('dashboard');
 
         Route::get('site-info', [SiteInfoController::class, 'edit'])->name('site-info.edit');
@@ -85,11 +100,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('catalog/{resource}/{id}/edit', [CatalogTaxonomyController::class, 'edit'])->name('catalog.edit');
         Route::put('catalog/{resource}/{id}', [CatalogTaxonomyController::class, 'update'])->name('catalog.update');
         Route::delete('catalog/{resource}/{id}', [CatalogTaxonomyController::class, 'destroy'])->name('catalog.destroy');
+        Route::patch('products/{product}/approve', [AdminProductController::class, 'approve'])->name('products.approve');
+        Route::patch('products/{product}/reject', [AdminProductController::class, 'reject'])->name('products.reject');
         Route::resource('products', AdminProductController::class)->except(['show']);
         Route::get('vendors', [AdminVendorController::class, 'index'])->name('vendors.index');
         Route::get('vendors/{vendor}', [AdminVendorController::class, 'show'])->name('vendors.show');
         Route::patch('vendors/{vendor}/approve', [AdminVendorController::class, 'approve'])->name('vendors.approve');
         Route::patch('vendors/{vendor}/reject', [AdminVendorController::class, 'reject'])->name('vendors.reject');
+        Route::patch('messages/{message}/read', [MessageReadController::class, 'admin'])->name('messages.read');
         Route::get('product-options/{resource}', [ProductOptionController::class, 'index'])->name('product-options.index');
         Route::get('product-options/{resource}/create', [ProductOptionController::class, 'create'])->name('product-options.create');
         Route::post('product-options/{resource}', [ProductOptionController::class, 'store'])->name('product-options.store');

@@ -54,7 +54,23 @@
         </div>
     </div>
 </div>
+@include('backend.partials.vendor-product-request-modal')
+@include('backend.partials.message-notification-modal')
 @include('backend.partials.scripts')
+@if(($globalPendingVendorProductRequests ?? collect())->isNotEmpty())
+    <script>
+        $(function () {
+            $('#vendorProductRequestModal').modal('show');
+        });
+    </script>
+@endif
+@if(($globalAdminUnreadMessages ?? collect())->isNotEmpty())
+    <script>
+        $(function () {
+            $('#adminMessageNotificationModal').modal('show');
+        });
+    </script>
+@endif
 @stack('scripts')
 </body>
 </html>
