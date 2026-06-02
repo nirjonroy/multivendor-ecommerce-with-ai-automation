@@ -22,7 +22,9 @@ use App\Http\Controllers\Vendor\CustomerMessageController;
 use App\Http\Controllers\Vendor\DashboardController as VendorDashboardController;
 use App\Http\Controllers\Vendor\OrderController as VendorOrderController;
 use App\Http\Controllers\Vendor\ProductController as VendorProductController;
+use App\Http\Controllers\Vendor\ReportController as VendorReportController;
 use App\Http\Controllers\Vendor\ShopSettingsController;
+use App\Http\Controllers\Vendor\StockController as VendorStockController;
 use App\Http\Controllers\Vendor\SupportMessageController;
 use Illuminate\Support\Facades\Route;
 
@@ -81,6 +83,9 @@ Route::middleware('auth:vendor')->prefix('vendor')->name('vendor.')->group(funct
     Route::get('orders', [VendorOrderController::class, 'index'])->name('orders.index');
     Route::get('orders/{order}', [VendorOrderController::class, 'show'])->name('orders.show');
     Route::patch('order-items/{item}/status', [VendorOrderController::class, 'updateItemStatus'])->name('order-items.status');
+    Route::get('stock', [VendorStockController::class, 'index'])->name('stock.index');
+    Route::patch('stock/{product}', [VendorStockController::class, 'update'])->name('stock.update');
+    Route::get('reports', [VendorReportController::class, 'index'])->name('reports.index');
     Route::get('messages', [CustomerMessageController::class, 'index'])->name('messages.index');
     Route::post('messages/{message}/reply', [CustomerMessageController::class, 'reply'])->name('messages.reply');
     Route::get('support', [SupportMessageController::class, 'index'])->name('support.index');

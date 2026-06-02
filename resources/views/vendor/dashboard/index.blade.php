@@ -32,6 +32,13 @@
                 <a href="{{ route('vendor.orders.index') }}" class="small-box-footer link-light">More info <i class="bi bi-link-45deg"></i></a>
             </div>
         </div>
+        <div class="col-lg-3 col-6">
+            <div class="small-box text-bg-info">
+                <div class="inner"><h3>{{ $stockQuantity }}</h3><p>Total Stock</p></div>
+                <i class="small-box-icon bi bi-boxes"></i>
+                <a href="{{ route('vendor.stock.index') }}" class="small-box-footer link-light">Manage Stock <i class="bi bi-link-45deg"></i></a>
+            </div>
+        </div>
     </div>
 
     <div class="row">

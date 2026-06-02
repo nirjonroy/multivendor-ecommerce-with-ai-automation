@@ -9,6 +9,7 @@ use App\Support\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class CartController extends Controller
 {
@@ -119,6 +120,8 @@ class CartController extends Controller
             ]);
 
             foreach ($cartItems as $item) {
+                $this->decrementProductStock($item);
+
                 $order->items()->create([
                     'product_id' => $item['product']->id,
                     'vendor_id' => $item['product']->vendor_id,
@@ -170,6 +173,48 @@ class CartController extends Controller
         ];
 
         session(['cart' => $cart]);
+    }
+
+    private function decrementProductStock(array $item): void
+    {
+        $product = Product::query()->lockForUpdate()->find($item['product']->id);
+
+        if (! $product || $product->stock_quantity < $item['quantity']) {
+            throw ValidationException::withMessages([
+                'stock' => ($item['product']->name ?? 'Product') . ' does not have enough stock.',
+            ]);
+        }
+
+        $product->stock_quantity = max(0, $product->stock_quantity - $item['quantity']);
+
+        if ($product->has_variation_stock && $product->variation_stocks) {
+            $variationName = ($item['size'] ?: 'free') . '_' . ($item['color'] ?: 'default');
+            $variationFound = false;
+            $variationStocks = collect($product->variation_stocks)
+                ->map(function ($row) use ($variationName, $item, &$variationFound) {
+                    if (($row['variation'] ?? null) === $variationName) {
+                        $variationFound = true;
+                        if ((int) ($row['quantity'] ?? 0) < $item['quantity']) {
+                            throw ValidationException::withMessages([
+                                'stock' => ($item['product']->name ?? 'Product') . ' does not have enough variation stock.',
+                            ]);
+                        }
+                        $row['quantity'] = max(0, (int) ($row['quantity'] ?? 0) - $item['quantity']);
+                    }
+
+                    return $row;
+                })
+                ->values()
+                ->all();
+
+            if (! $variationFound) {
+                $variationStocks = $product->variation_stocks;
+            }
+
+            $product->variation_stocks = $variationStocks;
+        }
+
+        $product->save();
     }
 
     private function cartItems()

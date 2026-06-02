@@ -24,6 +24,7 @@
                                 <th>Product</th>
                                 <th>Options</th>
                                 <th>Price</th>
+                                <th>Current Stock</th>
                                 <th>Qty</th>
                                 <th>Subtotal</th>
                                 <th>Status</th>
@@ -42,6 +43,7 @@
                                         Color: {{ $item->color ?: 'N/A' }}
                                     </td>
                                     <td>{{ \App\Support\Currency::format($item->price, $globalSiteInfo) }}</td>
+                                    <td>{{ $item->product?->stock_quantity ?? 'N/A' }}</td>
                                     <td>{{ $item->quantity }}</td>
                                     <td>{{ \App\Support\Currency::format($item->subtotal, $globalSiteInfo) }}</td>
                                     <td>

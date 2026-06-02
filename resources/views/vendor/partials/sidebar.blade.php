@@ -30,6 +30,18 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('vendor.stock.index') }}" class="nav-link {{ request()->routeIs('vendor.stock.*') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-boxes"></i>
+                        <p>Stock Management</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('vendor.reports.index') }}" class="nav-link {{ request()->routeIs('vendor.reports.*') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-bar-chart-line"></i>
+                        <p>Reports</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('vendor.messages.index') }}" class="nav-link {{ request()->routeIs('vendor.messages.*') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-chat-dots"></i>
                         <p>Messages @if(($globalVendorUnreadMessages ?? collect())->where('sender_type', 'user')->count() > 0)<span class="badge text-bg-primary ms-2">{{ ($globalVendorUnreadMessages ?? collect())->where('sender_type', 'user')->count() }}</span>@endif</p>
