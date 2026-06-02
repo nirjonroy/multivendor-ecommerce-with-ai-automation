@@ -13,9 +13,11 @@ use App\Http\Controllers\MessageReadController;
 use App\Http\Controllers\Frontend\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\Auth\RegisteredUserController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\ProductController as FrontendProductController;
 use App\Http\Controllers\Frontend\UserMessageController;
 use App\Http\Controllers\Frontend\VendorContactController;
+use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Vendor\CustomerMessageController;
 use App\Http\Controllers\Vendor\DashboardController as VendorDashboardController;
 use App\Http\Controllers\Vendor\ProductController as VendorProductController;
@@ -44,8 +46,12 @@ Route::get('cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('cart/{product}', [CartController::class, 'store'])->name('cart.store');
 Route::patch('cart/{product}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
-Route::post('buy-now/{product}', [CartController::class, 'buyNow'])->name('cart.buy-now');
-Route::get('checkout', [CartController::class, 'checkout'])->name('checkout.index');
+
+Route::middleware('auth:web')->group(function () {
+    Route::post('buy-now/{product}', [CartController::class, 'buyNow'])->name('cart.buy-now');
+    Route::get('checkout', [CartController::class, 'checkout'])->name('checkout.index');
+    Route::post('checkout', [CartController::class, 'placeOrder'])->name('checkout.place-order');
+});
 
 Route::middleware('guest:web,vendor')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
@@ -55,9 +61,14 @@ Route::middleware('guest:web,vendor')->group(function () {
 });
 
 Route::middleware('auth:web')->group(function () {
-    Route::get('dashboard', function () {
-        return view('frontend.dashboard.user');
-    })->name('dashboard');
+    Route::get('dashboard/{section?}', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('account/{section?}', [DashboardController::class, 'index'])->name('dashboard.section');
+    Route::post('account/profile', [DashboardController::class, 'updateProfile'])->name('dashboard.profile.update');
+    Route::post('account/addresses', [DashboardController::class, 'updateAddresses'])->name('dashboard.addresses.update');
+    Route::post('account/newsletter', [DashboardController::class, 'updateNewsletter'])->name('dashboard.newsletter.update');
+    Route::post('account/password', [DashboardController::class, 'updatePassword'])->name('dashboard.password.update');
+    Route::post('wishlist/{product}', [WishlistController::class, 'store'])->name('wishlist.store');
+    Route::delete('wishlist/{product}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
     Route::get('messages', [UserMessageController::class, 'index'])->name('messages.index');
     Route::post('messages/{message}/reply', [UserMessageController::class, 'reply'])->name('messages.reply');
     Route::patch('messages/{message}/read', [MessageReadController::class, 'user'])->name('messages.read');

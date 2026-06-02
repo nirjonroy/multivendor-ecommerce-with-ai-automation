@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Product;
 use App\Support\Currency;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
@@ -73,6 +76,76 @@ class CartController extends Controller
         return view('frontend.checkout.index', [
             'cartItems' => $this->cartItems(),
         ]);
+    }
+
+    public function placeOrder(Request $request)
+    {
+        $cartItems = $this->cartItems();
+
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('cart.index')->with('status', 'Your cart is empty.');
+        }
+
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone' => ['required', 'string', 'max:50'],
+            'address' => ['required', 'string', 'max:1000'],
+            'payment_method' => ['required', 'in:sslcommerz_demo,cash_on_delivery'],
+        ]);
+
+        $subtotal = $cartItems->sum('subtotal');
+        $shippingAmount = 0;
+        $total = $subtotal + $shippingAmount;
+        $transactionId = $data['payment_method'] === 'sslcommerz_demo'
+            ? 'SSLCZ-DEMO-' . now()->format('YmdHis') . '-' . Str::upper(Str::random(6))
+            : 'COD-DEMO-' . now()->format('YmdHis') . '-' . Str::upper(Str::random(6));
+
+        $order = DB::transaction(function () use ($request, $cartItems, $data, $transactionId, $subtotal, $shippingAmount, $total) {
+            $order = Order::create([
+                'user_id' => $request->user()->id,
+                'order_number' => 'ORD-' . now()->format('YmdHis') . '-' . Str::upper(Str::random(5)),
+                'transaction_id' => $transactionId,
+                'payment_method' => $data['payment_method'],
+                'payment_status' => $data['payment_method'] === 'sslcommerz_demo' ? 'demo_paid' : 'pending',
+                'status' => 'pending',
+                'subtotal' => $subtotal,
+                'shipping_amount' => $shippingAmount,
+                'total' => $total,
+                'billing_name' => $data['name'],
+                'billing_email' => $data['email'],
+                'billing_phone' => $data['phone'],
+                'billing_address' => $data['address'],
+            ]);
+
+            foreach ($cartItems as $item) {
+                $order->items()->create([
+                    'product_id' => $item['product']->id,
+                    'vendor_id' => $item['product']->vendor_id,
+                    'product_name' => $item['product']->name,
+                    'sku' => $item['product']->sku,
+                    'size' => $item['size'],
+                    'color' => $item['color'],
+                    'price' => $item['price'],
+                    'quantity' => $item['quantity'],
+                    'subtotal' => $item['subtotal'],
+                ]);
+            }
+
+            $request->user()->update([
+                'phone' => $data['phone'],
+                'billing_address' => $data['address'],
+                'shipping_address' => $request->user()->shipping_address ?: $data['address'],
+            ]);
+
+            return $order;
+        });
+
+        session()->forget('cart');
+
+        return redirect()
+            ->route('dashboard.section', 'orders')
+            ->with('status', 'Demo order placed successfully. Order: ' . $order->order_number . '. Transaction ID: ' . $transactionId);
     }
 
     private function addProduct(Request $request, Product $product): void

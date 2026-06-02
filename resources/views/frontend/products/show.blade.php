@@ -105,13 +105,25 @@
                                     <input type="hidden" name="color" value="{{ $product->colors[0] ?? '' }}">
                                     <button type="submit" class="btn btn-normal">add to cart</button>
                                 </form>
-                                <form method="POST" action="{{ route('cart.buy-now', $product) }}">
-                                    @csrf
-                                    <input type="hidden" name="quantity" value="1">
-                                    <input type="hidden" name="size" value="{{ $product->sizes[0] ?? '' }}">
-                                    <input type="hidden" name="color" value="{{ $product->colors[0] ?? '' }}">
-                                    <button type="submit" class="btn btn-normal">buy now</button>
-                                </form>
+                                @auth
+                                    <form method="POST" action="{{ route('cart.buy-now', $product) }}">
+                                        @csrf
+                                        <input type="hidden" name="quantity" value="1">
+                                        <input type="hidden" name="size" value="{{ $product->sizes[0] ?? '' }}">
+                                        <input type="hidden" name="color" value="{{ $product->colors[0] ?? '' }}">
+                                        <button type="submit" class="btn btn-normal">buy now</button>
+                                    </form>
+                                @else
+                                    <a href="{{ route('login') }}" class="btn btn-normal">login to buy now</a>
+                                @endauth
+                                @auth
+                                    <form method="POST" action="{{ route('wishlist.store', $product) }}">
+                                        @csrf
+                                        <button type="submit" class="btn btn-normal">add to wishlist</button>
+                                    </form>
+                                @else
+                                    <a href="{{ route('login') }}" class="btn btn-normal">login to wishlist</a>
+                                @endauth
                             @else
                                 <span class="btn btn-normal disabled">Stock Out Product</span>
                             @endif

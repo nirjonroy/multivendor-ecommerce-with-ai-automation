@@ -1,6 +1,7 @@
 @php
   $cartQuantity = collect(session('cart', []))->sum('quantity');
   $currencyCode = strtoupper($globalSiteInfo?->currency_code ?? 'USD');
+  $wishlistQuantity = auth()->check() ? auth()->user()->wishlistProducts()->count() : 0;
 @endphp
 <div class="loader-wrapper">
   <div><img src="/assets/images/loader.gif" alt="loader"></div>
@@ -147,9 +148,9 @@
                     </a>
                   </li>
                   <li class="mobile-wishlist">
-                    <a href="#">
+                    <a href="{{ auth()->check() ? route('dashboard.section', 'wishlist') : route('login') }}">
                       <i class="icon-heart"></i>
-                      <div class="cart-item"><div>0 item<span>wishlist</span></div></div>
+                      <div class="cart-item"><div>{{ $wishlistQuantity }} item<span>wishlist</span></div></div>
                     </a>
                   </li>
                 </ul>

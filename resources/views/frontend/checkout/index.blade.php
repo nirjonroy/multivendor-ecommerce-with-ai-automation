@@ -10,18 +10,58 @@
 </section>
 <section class="checkout-wrap bg-light">
     <div class="custom-container">
+        @if(session('status'))
+            <div class="alert alert-success">{{ session('status') }}</div>
+        @endif
+        @if($errors->any())
+            <div class="alert alert-danger">{{ $errors->first() }}</div>
+        @endif
+        @if(session('last_demo_order'))
+            <div class="alert alert-info">
+                Last demo payment: {{ session('last_demo_order.transaction_id') }}
+            </div>
+        @endif
         @if($cartItems->isEmpty())
             <div class="card"><div class="card-body text-center"><h4>Your cart is empty.</h4><a href="{{ route('home') }}" class="btn btn-normal mt-3">Continue Shopping</a></div></div>
         @else
             <div class="row">
                 <div class="col-lg-7">
                     <div class="card"><div class="card-body">
-                        <h4>Billing Details</h4>
-                        <div class="form-group"><label>Name</label><input class="form-control" placeholder="Full name"></div>
-                        <div class="form-group"><label>Email</label><input class="form-control" type="email" placeholder="Email address"></div>
-                        <div class="form-group"><label>Phone</label><input class="form-control" placeholder="Phone number"></div>
-                        <div class="form-group"><label>Address</label><textarea class="form-control" rows="4" placeholder="Delivery address"></textarea></div>
-                        <button class="btn btn-normal" type="button">Place Order</button>
+                        <form method="POST" action="{{ route('checkout.place-order') }}">
+                            @csrf
+                            <h4>Billing Details</h4>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input class="form-control" name="name" value="{{ old('name', auth()->user()->name) }}" placeholder="Full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input class="form-control" type="email" name="email" value="{{ old('email', auth()->user()->email) }}" placeholder="Email address" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input class="form-control" name="phone" value="{{ old('phone', auth()->user()->phone) }}" placeholder="Phone number" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea class="form-control" name="address" rows="4" placeholder="Delivery address" required>{{ old('address') }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Payment Method</label>
+                                <div class="checkout-payment-option">
+                                    <label class="d-block">
+                                        <input type="radio" name="payment_method" value="sslcommerz_demo" @checked(old('payment_method', 'sslcommerz_demo') === 'sslcommerz_demo')>
+                                        SSLCommerz Demo Payment
+                                    </label>
+                                    <small class="text-muted d-block mb-2">Demo gateway only. No real money will be charged.</small>
+                                    <label class="d-block">
+                                        <input type="radio" name="payment_method" value="cash_on_delivery" @checked(old('payment_method') === 'cash_on_delivery')>
+                                        Cash on Delivery
+                                    </label>
+                                </div>
+                            </div>
+                            <button class="btn btn-normal" type="submit">Place Order</button>
+                        </form>
                     </div></div>
                 </div>
                 <div class="col-lg-5">

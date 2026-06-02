@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'phone',
+        'billing_address',
+        'shipping_address',
+        'newsletter_subscribed',
         'password',
         'is_active',
     ];
@@ -42,5 +45,16 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'newsletter_subscribed' => 'boolean',
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function wishlistProducts()
+    {
+        return $this->belongsToMany(Product::class, 'wishlists')->withTimestamps();
+    }
 }
