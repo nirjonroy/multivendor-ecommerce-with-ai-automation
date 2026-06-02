@@ -20,6 +20,7 @@ use App\Http\Controllers\Frontend\VendorContactController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Vendor\CustomerMessageController;
 use App\Http\Controllers\Vendor\DashboardController as VendorDashboardController;
+use App\Http\Controllers\Vendor\OrderController as VendorOrderController;
 use App\Http\Controllers\Vendor\ProductController as VendorProductController;
 use App\Http\Controllers\Vendor\ShopSettingsController;
 use App\Http\Controllers\Vendor\SupportMessageController;
@@ -77,6 +78,9 @@ Route::middleware('auth:web')->group(function () {
 Route::middleware('auth:vendor')->prefix('vendor')->name('vendor.')->group(function () {
     Route::get('dashboard', VendorDashboardController::class)->name('dashboard');
     Route::resource('products', VendorProductController::class)->except(['show']);
+    Route::get('orders', [VendorOrderController::class, 'index'])->name('orders.index');
+    Route::get('orders/{order}', [VendorOrderController::class, 'show'])->name('orders.show');
+    Route::patch('order-items/{item}/status', [VendorOrderController::class, 'updateItemStatus'])->name('order-items.status');
     Route::get('messages', [CustomerMessageController::class, 'index'])->name('messages.index');
     Route::post('messages/{message}/reply', [CustomerMessageController::class, 'reply'])->name('messages.reply');
     Route::get('support', [SupportMessageController::class, 'index'])->name('support.index');

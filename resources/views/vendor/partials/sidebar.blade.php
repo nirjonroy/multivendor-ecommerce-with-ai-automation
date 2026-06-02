@@ -24,7 +24,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('vendor.orders.index') }}" class="nav-link {{ request()->routeIs('vendor.orders.*') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-receipt"></i>
                         <p>Orders</p>
                     </a>

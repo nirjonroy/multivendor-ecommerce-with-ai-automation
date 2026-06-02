@@ -8,28 +8,28 @@
             <div class="small-box text-bg-primary">
                 <div class="inner"><h3>{{ $totalProducts }}</h3><p>Total Products</p></div>
                 <i class="small-box-icon bi bi-box-seam-fill"></i>
-                <a href="#" class="small-box-footer link-light">More info <i class="bi bi-link-45deg"></i></a>
+                <a href="{{ route('vendor.products.index') }}" class="small-box-footer link-light">More info <i class="bi bi-link-45deg"></i></a>
             </div>
         </div>
         <div class="col-lg-3 col-6">
             <div class="small-box text-bg-success">
                 <div class="inner"><h3>{{ $publishedProducts }}</h3><p>Published Products</p></div>
                 <i class="small-box-icon bi bi-check-circle-fill"></i>
-                <a href="#" class="small-box-footer link-light">More info <i class="bi bi-link-45deg"></i></a>
+                <a href="{{ route('vendor.products.index') }}" class="small-box-footer link-light">More info <i class="bi bi-link-45deg"></i></a>
             </div>
         </div>
         <div class="col-lg-3 col-6">
             <div class="small-box text-bg-warning">
                 <div class="inner"><h3>{{ $draftProducts }}</h3><p>Draft Products</p></div>
                 <i class="small-box-icon bi bi-pencil-square"></i>
-                <a href="#" class="small-box-footer link-dark">More info <i class="bi bi-link-45deg"></i></a>
+                <a href="{{ route('vendor.products.index') }}" class="small-box-footer link-dark">More info <i class="bi bi-link-45deg"></i></a>
             </div>
         </div>
         <div class="col-lg-3 col-6">
             <div class="small-box text-bg-danger">
-                <div class="inner"><h3>{{ $stockQuantity }}</h3><p>Total Stock</p></div>
-                <i class="small-box-icon bi bi-layers-fill"></i>
-                <a href="#" class="small-box-footer link-light">More info <i class="bi bi-link-45deg"></i></a>
+                <div class="inner"><h3>{{ $totalOrders }}</h3><p>Total Orders</p></div>
+                <i class="small-box-icon bi bi-receipt"></i>
+                <a href="{{ route('vendor.orders.index') }}" class="small-box-footer link-light">More info <i class="bi bi-link-45deg"></i></a>
             </div>
         </div>
     </div>
@@ -60,6 +60,29 @@
             </div>
         </div>
         <div class="col-lg-4">
+            <div class="card card-success card-outline mb-4">
+                <div class="card-header d-flex align-items-center">
+                    <h3 class="card-title mb-0">Latest Orders</h3>
+                    <a class="btn btn-sm btn-primary ms-auto" href="{{ route('vendor.orders.index') }}">View All</a>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-sm align-middle mb-0">
+                        <tbody>
+                            @forelse($latestOrders as $order)
+                                <tr>
+                                    <td>
+                                        <a href="{{ route('vendor.orders.show', $order) }}">{{ $order->order_number }}</a><br>
+                                        <small class="text-secondary">{{ $order->billing_name }}</small>
+                                    </td>
+                                    <td class="text-end">{{ \App\Support\Currency::format($order->items->sum('subtotal'), $globalSiteInfo) }}</td>
+                                </tr>
+                            @empty
+                                <tr><td class="text-center py-3">No orders yet.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <div class="card card-primary card-outline mb-4">
                 <div class="card-header"><h3 class="card-title">Shop Profile</h3></div>
                 <div class="card-body">
