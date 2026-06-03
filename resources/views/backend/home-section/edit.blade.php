@@ -48,7 +48,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Section - Bigdeal Admin</title>
+    <title>Home Section - {{ $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce' }} Admin</title>
     <link rel="icon" href="{{ $globalSiteInfo?->favicon_path ? asset('storage/' . $globalSiteInfo->favicon_path) : asset('assets/images/favicon/favicon.ico') }}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
@@ -66,7 +66,7 @@
     <div class="page-main-header">
         <div class="main-header-left">
             <div class="logo-wrapper">
-                <a href="{{ route('admin.dashboard') }}"><img class="blur-up lazyloaded" src="{{ $globalSiteInfo?->logo_path ? asset('storage/' . $globalSiteInfo->logo_path) : asset('assets/images/layout-2/logo/logo.png') }}" alt="{{ $globalSiteInfo?->site_name ?? 'Bigdeal' }}"></a>
+                <a href="{{ route('admin.dashboard') }}"><img class="blur-up lazyloaded" src="{{ $globalSiteInfo?->logo_path ? asset('storage/' . $globalSiteInfo->logo_path) : asset('assets/images/layout-2/logo/logo.png') }}" alt="{{ $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce' }}"></a>
             </div>
         </div>
         <div class="main-header-right row">
@@ -109,7 +109,16 @@
                 <ul class="sidebar-menu">
                     <li><a class="sidebar-header" href="{{ route('admin.dashboard') }}"><i data-feather="home"></i><span>Dashboard</span></a></li>
                     <li>
-                        <a class="sidebar-header" href="#"><i data-feather="box"></i><span>Catalog</span><i class="fa fa-angle-right pull-right"></i></a>
+                        <a class="sidebar-header" href="#"><i data-feather="box"></i><span>Products</span><i class="fa fa-angle-right pull-right"></i></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('admin.products.index') }}"><i class="fa fa-circle"></i>Product List</a></li>
+                            <li><a href="{{ route('admin.products.create') }}"><i class="fa fa-circle"></i>Add Product</a></li>
+                            <li><a href="{{ route('admin.product-options.index', 'sizes') }}"><i class="fa fa-circle"></i>Size</a></li>
+                            <li><a href="{{ route('admin.product-options.index', 'colors') }}"><i class="fa fa-circle"></i>Color</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="sidebar-header" href="#"><i data-feather="grid"></i><span>Catalog</span><i class="fa fa-angle-right pull-right"></i></a>
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('admin.catalog.index', 'categories') }}"><i class="fa fa-circle"></i>Categories</a></li>
                             <li><a href="{{ route('admin.catalog.index', 'sub-categories') }}"><i class="fa fa-circle"></i>Sub Categories</a></li>
@@ -117,6 +126,9 @@
                             <li><a href="{{ route('admin.catalog.index', 'brands') }}"><i class="fa fa-circle"></i>Brands</a></li>
                         </ul>
                     </li>
+                    <li><a class="sidebar-header" href="{{ route('admin.vendors.index') }}"><i data-feather="users"></i><span>Vendors</span></a></li>
+                    <li><a class="sidebar-header" href="{{ route('admin.blogs.index') }}"><i data-feather="file-text"></i><span>Blogs</span></a></li>
+                    <li><a class="sidebar-header" href="{{ route('admin.messages.index') }}"><i data-feather="message-square"></i><span>Messages</span></a></li>
                     <li>
                         <a class="sidebar-header active" href="#"><i data-feather="settings"></i><span>Settings</span><i class="fa fa-angle-right pull-right"></i></a>
                         <ul class="sidebar-submenu menu-open" style="display:block;">
@@ -134,7 +146,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="page-header-left">
-                                <h3>Home Section<small>Bigdeal Admin Panel</small></h3>
+                                <h3>Home Section<small>{{ $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce' }} Admin Panel</small></h3>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -398,7 +410,7 @@
         <footer class="footer">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-6 footer-copyright"><p class="mb-0">Copyright {{ date('Y') }} © Bigdeal All rights reserved.</p></div>
+                    <div class="col-md-6 footer-copyright"><p class="mb-0">Copyright {{ date('Y') }} © {{ $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce' }} All rights reserved.</p></div>
                     <div class="col-md-6"><p class="pull-right mb-0">Hand crafted & made with<i class="fa fa-heart"></i></p></div>
                 </div>
             </div>

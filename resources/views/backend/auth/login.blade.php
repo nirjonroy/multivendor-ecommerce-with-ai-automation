@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Bigdeal</title>
+    <title>Admin Login - {{ $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce' }}</title>
     <link rel="icon" href="{{ asset('assets/images/favicon/favicon.ico') }}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
@@ -25,7 +25,7 @@
                         <div class="single-item">
                             <div>
                                 <div>
-                                    <h3>Welcome to Bigdeal</h3>
+                                    <h3>Welcome to {{ $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce' }}</h3>
                                     <p>Manage vendors, products, orders, customers, and marketplace operations from one admin workspace.</p>
                                 </div>
                             </div>

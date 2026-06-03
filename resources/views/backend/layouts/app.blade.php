@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{{ $globalSiteInfo?->short_description ?? 'Bigdeal Admin Panel' }}">
+    <meta name="description" content="{{ $globalSiteInfo?->short_description ?? 'Admin Panel' }}">
     <link rel="icon" href="{{ $globalSiteInfo?->favicon_path ? asset('storage/' . $globalSiteInfo->favicon_path) : asset('assets/images/favicon/favicon.ico') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ $globalSiteInfo?->favicon_path ? asset('storage/' . $globalSiteInfo->favicon_path) : asset('assets/images/favicon/favicon.ico') }}" type="image/x-icon">
     <title>@yield('title', 'Admin Panel')</title>
@@ -21,6 +21,12 @@
         .sidebar-user h6{text-transform:uppercase}
         .table-img{width:52px;height:52px;object-fit:contain;border:1px solid #eee;background:#fff}
         .content-card{background:#fff;padding:30px;border-radius:4px}
+        .page-sidebar{box-shadow:8px 0 24px rgba(23,34,51,.08)}
+        .sidebar-menu .sidebar-header{border-radius:6px;margin:4px 10px}
+        .sidebar-menu .sidebar-submenu{padding-left:18px}
+        .sidebar-menu .sidebar-submenu li a{border-radius:4px}
+        .page-body .card{border:0;box-shadow:0 8px 24px rgba(22,34,51,.06);border-radius:8px}
+        .card-header{border-bottom:1px solid #eef1f6;background:#fff}
     </style>
     @stack('styles')
 </head>
@@ -35,7 +41,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="page-header-left">
-                                <h3>@yield('page_title', 'Dashboard')<small>Bigdeal Admin Panel</small></h3>
+                                <h3>@yield('page_title', 'Dashboard')<small>{{ $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce' }} Admin Panel</small></h3>
                             </div>
                         </div>
                         <div class="col-lg-6 text-right">

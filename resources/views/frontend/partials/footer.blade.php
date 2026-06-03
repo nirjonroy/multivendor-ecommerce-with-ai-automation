@@ -72,7 +72,7 @@
     <div class="container">
       <div class="row">
         <div class="col-xl-6 col-md-6 col-sm-12">
-          <div class="footer-end"><p><i class="fa fa-copyright" aria-hidden="true"></i> {{ date('Y') }} {{ $globalSiteInfo?->site_name ?? 'Bigdeal' }}</p></div>
+          <div class="footer-end"><p><i class="fa fa-copyright" aria-hidden="true"></i> {{ date('Y') }} {{ $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce' }}</p></div>
         </div>
         <div class="col-xl-6 col-md-6 col-sm-12">
           <div class="payment-card-bottom">

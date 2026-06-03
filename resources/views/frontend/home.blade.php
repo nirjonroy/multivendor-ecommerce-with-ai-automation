@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('frontend.partials.head', ['title' => $globalSiteInfo?->site_name ?? 'Bigdeal Marketplace'])
+    @include('frontend.partials.head', ['title' => $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce'])
 </head>
 <body class="bg-light ">
 

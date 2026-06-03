@@ -76,7 +76,7 @@
           </div>
           <div class="input-block">
             <div class="input-box">
-              <form class="big-deal-form" method="GET" action="{{ route('shop.index') }}">
+              <form class="marketplace-search-form" method="GET" action="{{ route('shop.index') }}">
                 <div class="input-group">
                   <div class="input-group-prepend"><button class="search" type="submit" style="border:0"><i class="fa fa-search"></i></button></div>
                   <input type="text" class="form-control" name="q" value="{{ request('q') }}" placeholder="Search a Product">

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('frontend.partials.head', ['title' => 'Login - Bigdeal'])
+    @include('frontend.partials.head', ['title' => 'Login - ' . ($globalSiteInfo?->site_name ?? 'Multivendor Ecommerce')])
 </head>
 <body>
 @include('frontend.partials.header')

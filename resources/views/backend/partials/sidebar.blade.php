@@ -2,9 +2,8 @@
     $admin = auth('admin')->user();
     $routeName = request()->route()?->getName();
     $catalogResource = request()->route('resource');
-    $productOpen = request()->routeIs('admin.products.*')
-        || request()->routeIs('admin.product-options.*')
-        || (request()->routeIs('admin.catalog.*') && in_array($catalogResource, ['categories', 'sub-categories', 'child-categories', 'brands'], true));
+    $catalogOpen = request()->routeIs('admin.catalog.*');
+    $productOpen = request()->routeIs('admin.products.*') || request()->routeIs('admin.product-options.*');
     $vendorsOpen = request()->routeIs('admin.vendors.*');
     $messagesOpen = request()->routeIs('admin.messages.*');
     $blogsOpen = request()->routeIs('admin.blogs.*');
@@ -21,14 +20,19 @@
         <ul class="sidebar-menu">
             <li><a class="sidebar-header {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}"><i data-feather="home"></i><span>Dashboard</span></a></li>
             <li>
-                <a class="sidebar-header {{ $productOpen ? 'active' : '' }}" href="#"><i data-feather="box"></i><span>Products</span><i class="fa fa-angle-right pull-right"></i></a>
-                <ul class="sidebar-submenu" style="{{ $productOpen ? 'display:block;' : '' }}">
-                    <li><a class="{{ $routeName === 'admin.products.index' ? 'active' : '' }}" href="{{ route('admin.products.index') }}"><i class="fa fa-circle"></i>Product List</a></li>
-                    <li><a class="{{ $routeName === 'admin.products.create' ? 'active' : '' }}" href="{{ route('admin.products.create') }}"><i class="fa fa-circle"></i>Add Product</a></li>
+                <a class="sidebar-header {{ $catalogOpen ? 'active' : '' }}" href="#"><i data-feather="grid"></i><span>Catalog</span><i class="fa fa-angle-right pull-right"></i></a>
+                <ul class="sidebar-submenu" style="{{ $catalogOpen ? 'display:block;' : '' }}">
                     <li><a class="{{ $catalogResource === 'categories' ? 'active' : '' }}" href="{{ route('admin.catalog.index', 'categories') }}"><i class="fa fa-circle"></i>Categories</a></li>
                     <li><a class="{{ $catalogResource === 'sub-categories' ? 'active' : '' }}" href="{{ route('admin.catalog.index', 'sub-categories') }}"><i class="fa fa-circle"></i>Sub Categories</a></li>
                     <li><a class="{{ $catalogResource === 'child-categories' ? 'active' : '' }}" href="{{ route('admin.catalog.index', 'child-categories') }}"><i class="fa fa-circle"></i>Child Categories</a></li>
                     <li><a class="{{ $catalogResource === 'brands' ? 'active' : '' }}" href="{{ route('admin.catalog.index', 'brands') }}"><i class="fa fa-circle"></i>Brands</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="sidebar-header {{ $productOpen ? 'active' : '' }}" href="#"><i data-feather="box"></i><span>Products</span><i class="fa fa-angle-right pull-right"></i></a>
+                <ul class="sidebar-submenu" style="{{ $productOpen ? 'display:block;' : '' }}">
+                    <li><a class="{{ $routeName === 'admin.products.index' ? 'active' : '' }}" href="{{ route('admin.products.index') }}"><i class="fa fa-circle"></i>Product List</a></li>
+                    <li><a class="{{ $routeName === 'admin.products.create' ? 'active' : '' }}" href="{{ route('admin.products.create') }}"><i class="fa fa-circle"></i>Add Product</a></li>
                     <li><a class="{{ request()->is('admin/product-options/sizes*') ? 'active' : '' }}" href="{{ route('admin.product-options.index', 'sizes') }}"><i class="fa fa-circle"></i>Size</a></li>
                     <li><a class="{{ request()->is('admin/product-options/colors*') ? 'active' : '' }}" href="{{ route('admin.product-options.index', 'colors') }}"><i class="fa fa-circle"></i>Color</a></li>
                 </ul>

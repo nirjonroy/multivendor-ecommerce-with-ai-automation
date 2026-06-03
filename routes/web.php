@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\Auth\AuthenticatedSessionController as AdminAuthenticatedSessionController;
 use App\Http\Controllers\Backend\BlogController as AdminBlogController;
+use App\Http\Controllers\Backend\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Backend\Auth\RegisteredAdminController;
 use App\Http\Controllers\Backend\CatalogTaxonomyController;
 use App\Http\Controllers\Backend\HomeSectionController;
@@ -114,16 +115,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::middleware('auth:admin')->group(function () {
-        Route::get('dashboard', function () {
-            $pendingVendorProducts = \App\Models\Product::with(['vendor', 'category', 'brand'])
-                ->where('owner_type', 'vendor')
-                ->where('approval_status', 'pending')
-                ->latest()
-                ->take(10)
-                ->get();
-
-            return view('backend.dashboard.index', compact('pendingVendorProducts'));
-        })->name('dashboard');
+        Route::get('dashboard', AdminDashboardController::class)->name('dashboard');
 
         Route::get('site-info', [SiteInfoController::class, 'edit'])->name('site-info.edit');
         Route::put('site-info', [SiteInfoController::class, 'update'])->name('site-info.update');

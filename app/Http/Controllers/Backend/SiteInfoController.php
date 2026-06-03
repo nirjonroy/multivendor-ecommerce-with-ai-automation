@@ -14,7 +14,7 @@ class SiteInfoController extends Controller
         $siteInfo = SiteInfo::query()->firstOrNew([
             'id' => 1,
         ], [
-            'site_name' => config('app.name', 'Bigdeal'),
+            'site_name' => config('app.name', 'Multivendor Ecommerce'),
         ]);
 
         return view('backend.site-info.edit', compact('siteInfo'));

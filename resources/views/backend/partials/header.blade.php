@@ -2,7 +2,7 @@
     <div class="main-header-left">
         <div class="logo-wrapper">
             <a href="{{ route('admin.dashboard') }}">
-                <img class="blur-up lazyloaded" src="{{ $globalSiteInfo?->logo_path ? asset('storage/' . $globalSiteInfo->logo_path) : asset('assets/images/layout-2/logo/logo.png') }}" alt="{{ $globalSiteInfo?->site_name ?? 'Bigdeal' }}">
+                <img class="blur-up lazyloaded" src="{{ $globalSiteInfo?->logo_path ? asset('storage/' . $globalSiteInfo->logo_path) : asset('assets/images/layout-2/logo/logo.png') }}" alt="{{ $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce' }}">
             </a>
         </div>
     </div>
@@ -24,7 +24,15 @@
                     </form>
                 </li>
                 <li><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i data-feather="maximize"></i></a></li>
-                <li class="onhover-dropdown"><i data-feather="bell"></i><span class="badge badge-pill badge-primary pull-right notification-badge">3</span><span class="dot"></span></li>
+                @php
+                    $adminNotificationCount = ($globalAdminUnreadMessages ?? collect())->count() + ($globalPendingVendorProductRequests ?? collect())->count();
+                @endphp
+                <li class="onhover-dropdown">
+                    <i data-feather="bell"></i>
+                    @if($adminNotificationCount > 0)
+                        <span class="badge badge-pill badge-primary pull-right notification-badge">{{ $adminNotificationCount }}</span><span class="dot"></span>
+                    @endif
+                </li>
                 <li class="onhover-dropdown">
                     <div class="media align-items-center"><img class="align-self-center pull-right img-50 rounded-circle blur-up lazyloaded" src="/assets/images/dashboard/man.png" alt="header-user"><div class="dotted-animation"><span class="animate-circle"></span><span class="main-circle"></span></div></div>
                     <ul class="profile-dropdown onhover-show-div p-20 profile-dropdown-hover">
