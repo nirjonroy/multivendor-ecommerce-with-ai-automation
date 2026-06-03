@@ -206,7 +206,7 @@
                             <div class="page-title"><h2>My Orders</h2></div>
                             <div class="table-responsive customer-table-card">
                                 <table class="table">
-                                    <thead><tr><th>Order</th><th>Date</th><th>Payment</th><th>Status</th><th>Total</th><th>Items</th></tr></thead>
+                                    <thead><tr><th>Order</th><th>Date</th><th>Payment</th><th>Status</th><th>Total</th><th>Items</th><th>Track</th></tr></thead>
                                     <tbody>
                                         @forelse($orders as $order)
                                             <tr>
@@ -220,9 +220,13 @@
                                                         <div>{{ $item->product_name }} x {{ $item->quantity }}</div>
                                                     @endforeach
                                                 </td>
+                                                <td>
+                                                    <a class="btn btn-sm btn-primary mb-1" href="{{ route('dashboard.orders.show', $order) }}">Track</a>
+                                                    <a class="btn btn-sm btn-outline-secondary mb-1" href="{{ route('dashboard.orders.invoice', $order) }}" target="_blank">Invoice</a>
+                                                </td>
                                             </tr>
                                         @empty
-                                            <tr><td colspan="6" class="text-center">No orders yet.</td></tr>
+                                            <tr><td colspan="7" class="text-center">No orders yet.</td></tr>
                                         @endforelse
                                     </tbody>
                                 </table>

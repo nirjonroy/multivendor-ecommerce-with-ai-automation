@@ -94,8 +94,10 @@
                             <li><a href="{{ route('admin.catalog.index', 'brands') }}"><i class="fa fa-circle"></i>Brands</a></li>
                         </ul>
                     </li>
+                    <li><a class="sidebar-header" href="{{ route('admin.orders.index') }}"><i data-feather="shopping-cart"></i><span>Orders</span></a></li>
                     <li><a class="sidebar-header" href="{{ route('admin.vendors.index') }}"><i data-feather="users"></i><span>Vendors</span></a></li>
                     <li><a class="sidebar-header" href="{{ route('admin.blogs.index') }}"><i data-feather="file-text"></i><span>Blogs</span></a></li>
+                    <li><a class="sidebar-header" href="{{ route('admin.reports.index') }}"><i data-feather="bar-chart-2"></i><span>Reports</span></a></li>
                     <li><a class="sidebar-header" href="{{ route('admin.messages.index') }}"><i data-feather="message-square"></i><span>Messages</span></a></li>
                     <li>
                         <a class="sidebar-header active" href="#"><i data-feather="settings"></i><span>Settings</span><i class="fa fa-angle-right pull-right"></i></a>

@@ -15,7 +15,10 @@
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center">
                     <h3 class="card-title mb-0">Items For Your Shop</h3>
-                    <a class="btn btn-sm btn-secondary ms-auto" href="{{ route('vendor.orders.index') }}">Back</a>
+                    <div class="ms-auto">
+                        <a class="btn btn-sm btn-outline-secondary" href="{{ route('vendor.orders.invoice', $order) }}" target="_blank">Invoice</a>
+                        <a class="btn btn-sm btn-secondary" href="{{ route('vendor.orders.index') }}">Back</a>
+                    </div>
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-striped align-middle mb-0">

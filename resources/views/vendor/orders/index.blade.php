@@ -54,6 +54,7 @@
                             <td>{{ $order->created_at?->format('d M Y h:i A') }}</td>
                             <td class="text-end">
                                 <a class="btn btn-sm btn-primary" href="{{ route('vendor.orders.show', $order) }}">Manage</a>
+                                <a class="btn btn-sm btn-outline-secondary" href="{{ route('vendor.orders.invoice', $order) }}" target="_blank">Invoice</a>
                             </td>
                         </tr>
                     @empty

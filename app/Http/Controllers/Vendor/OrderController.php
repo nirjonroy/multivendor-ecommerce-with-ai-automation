@@ -36,6 +36,20 @@ class OrderController extends Controller
         return view('vendor.orders.show', compact('order'));
     }
 
+    public function invoice(Order $order)
+    {
+        $vendor = auth('vendor')->user();
+
+        abort_unless($order->items()->where('vendor_id', $vendor->id)->exists(), 404);
+
+        $order->load([
+            'user',
+            'items' => fn ($query) => $query->where('vendor_id', $vendor->id)->with('product'),
+        ]);
+
+        return view('vendor.orders.invoice', compact('order', 'vendor'));
+    }
+
     public function updateItemStatus(Request $request, OrderItem $item)
     {
         $vendor = auth('vendor')->user();

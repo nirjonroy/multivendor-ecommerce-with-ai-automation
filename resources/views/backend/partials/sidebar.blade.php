@@ -5,8 +5,10 @@
     $catalogOpen = request()->routeIs('admin.catalog.*');
     $productOpen = request()->routeIs('admin.products.*') || request()->routeIs('admin.product-options.*');
     $vendorsOpen = request()->routeIs('admin.vendors.*');
+    $ordersOpen = request()->routeIs('admin.orders.*') || request()->routeIs('admin.order-items.*');
     $messagesOpen = request()->routeIs('admin.messages.*');
     $blogsOpen = request()->routeIs('admin.blogs.*');
+    $reportsOpen = request()->routeIs('admin.reports.*');
     $settingsOpen = request()->routeIs('admin.site-info.*') || request()->routeIs('admin.home-section.*');
     $adminUnreadMessageCount = ($globalAdminUnreadMessages ?? collect())->count();
 @endphp
@@ -37,8 +39,10 @@
                     <li><a class="{{ request()->is('admin/product-options/colors*') ? 'active' : '' }}" href="{{ route('admin.product-options.index', 'colors') }}"><i class="fa fa-circle"></i>Color</a></li>
                 </ul>
             </li>
+            <li><a class="sidebar-header {{ $ordersOpen ? 'active' : '' }}" href="{{ route('admin.orders.index') }}"><i data-feather="shopping-cart"></i><span>Orders</span></a></li>
             <li><a class="sidebar-header {{ $vendorsOpen ? 'active' : '' }}" href="{{ route('admin.vendors.index') }}"><i data-feather="users"></i><span>Vendors</span></a></li>
             <li><a class="sidebar-header {{ $blogsOpen ? 'active' : '' }}" href="{{ route('admin.blogs.index') }}"><i data-feather="file-text"></i><span>Blogs</span></a></li>
+            <li><a class="sidebar-header {{ $reportsOpen ? 'active' : '' }}" href="{{ route('admin.reports.index') }}"><i data-feather="bar-chart-2"></i><span>Reports</span></a></li>
             <li>
                 <a class="sidebar-header {{ $messagesOpen ? 'active' : '' }}" href="{{ route('admin.messages.index') }}">
                     <i data-feather="message-square"></i><span>Messages</span>
