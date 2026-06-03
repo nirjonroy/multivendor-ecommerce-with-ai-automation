@@ -13,10 +13,12 @@ class HomeSection extends Model
         'top_brands',
         'hero_slides',
         'collection_banners',
+        'content_blocks',
     ];
 
     protected $casts = [
         'hero_slides' => 'array',
         'collection_banners' => 'array',
+        'content_blocks' => 'array',
     ];
 }

@@ -9,8 +9,38 @@
         ['title' => 'camera', 'subtitle' => 'lenses', 'button_text' => 'shop now', 'button_url' => '#', 'image_path' => null],
         ['title' => 'refrigerator', 'subtitle' => 'lG mini', 'button_text' => 'shop now', 'button_url' => '#', 'image_path' => null],
     ];
+    $defaultContentBlocks = [
+        'discount' => ['subtitle' => 'Discount on every single item on our site.', 'title' => 'OMG! Just Look at the', 'highlight' => 'great Deals!', 'description' => 'How does it feel, when you see great discount deals for each product?'],
+        'wide_banner' => ['subtitle' => 'save up to 30% off', 'title' => 'women', 'highlight' => 'fashion', 'button_text' => 'shop now', 'button_url' => '#', 'image_path' => null],
+        'deal_banner' => ['subtitle' => 'save up to 30% to 40% off', 'title' => 'omg! just look at the great deals!', 'button_text' => 'View more', 'button_url' => '#'],
+        'coupon_tiles' => [
+            ['title' => '10% off', 'url' => '#'], ['title' => 'under @99', 'url' => '#'], ['title' => 'free shipping', 'url' => '#'],
+            ['title' => 'extra 10% off', 'url' => '#'], ['title' => '$79 cashback', 'url' => '#'], ['title' => '80% off', 'url' => '#'],
+        ],
+        'secondary_banners' => [
+            ['title' => 'Leather', 'subtitle' => 'new bag', 'button_text' => 'shop now', 'button_url' => '#', 'image_path' => null],
+            ['title' => 'Nike', 'subtitle' => 'breeze', 'button_text' => 'shop now', 'button_url' => '#', 'image_path' => null],
+            ['title' => 'Printing 3D', 'subtitle' => 'USB moon', 'button_text' => 'shop now', 'button_url' => '#', 'image_path' => null],
+        ],
+        'hot_deal' => [
+            'title' => "today's hot deal", 'product_title' => 'Simply dummy text of the printing.',
+            'description' => 'It is a long established fact that a reader. It is a long established fact that a reader.',
+            'price' => '$45.00', 'old_price' => '$50.30',
+            'images' => [['image_path' => null], ['image_path' => null], ['image_path' => null], ['image_path' => null]],
+        ],
+        'testimonials' => [
+            ['name' => 'mark jecno', 'description' => 'Contrary to popular belief, Lorem Ipsum is not simply random text.', 'image_path' => null],
+            ['name' => 'mark jecno', 'description' => 'Contrary to popular belief, Lorem Ipsum is not simply random text.', 'image_path' => null],
+            ['name' => 'mark jecno', 'description' => 'Contrary to popular belief, Lorem Ipsum is not simply random text.', 'image_path' => null],
+        ],
+        'instagram' => [
+            ['url' => '#', 'image_path' => null], ['url' => '#', 'image_path' => null], ['url' => '#', 'image_path' => null], ['url' => '#', 'image_path' => null],
+            ['url' => '#', 'image_path' => null], ['url' => '#', 'image_path' => null], ['url' => '#', 'image_path' => null], ['url' => '#', 'image_path' => null],
+        ],
+    ];
     $slides = old('hero_slides', $homeSection->hero_slides ?: $defaultSlides);
     $banners = old('collection_banners', $homeSection->collection_banners ?: $defaultBanners);
+    $contentBlocks = array_replace_recursive($defaultContentBlocks, old('content_blocks', $homeSection->content_blocks ?: []));
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -134,6 +164,7 @@
                             <ul class="nav nav-tabs nav-material" role="tablist">
                                 <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#slides" role="tab"><i data-feather="image" class="mr-2"></i>Hero Slides</a></li>
                                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#banners" role="tab"><i data-feather="columns" class="mr-2"></i>Banners</a></li>
+                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#content-blocks" role="tab"><i data-feather="edit-3" class="mr-2"></i>Content Blocks</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="slides" role="tabpanel">
@@ -226,6 +257,133 @@
                                             </div>
                                         </div>
                                     @endforeach
+                                </div>
+
+                                <div class="tab-pane fade" id="content-blocks" role="tabpanel">
+                                    <h5 class="f-w-600">Discount Banner</h5>
+                                    <div class="row">
+                                        @foreach(['subtitle' => 'Subtitle', 'title' => 'Title', 'highlight' => 'Highlight', 'description' => 'Rounded Text'] as $field => $label)
+                                            <div class="col-md-6 form-group">
+                                                <label>{{ $label }}</label>
+                                                <input class="form-control" name="content_blocks[discount][{{ $field }}]" value="{{ $contentBlocks['discount'][$field] ?? '' }}">
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    <h5 class="f-w-600 mt-4">Wide Fashion Banner</h5>
+                                    <div class="row">
+                                        @foreach(['subtitle' => 'Subtitle', 'title' => 'Title', 'highlight' => 'Highlight', 'button_text' => 'Button Text', 'button_url' => 'Button URL'] as $field => $label)
+                                            <div class="col-md-4 form-group">
+                                                <label>{{ $label }}</label>
+                                                <input class="form-control" name="content_blocks[wide_banner][{{ $field }}]" value="{{ $contentBlocks['wide_banner'][$field] ?? '' }}">
+                                            </div>
+                                        @endforeach
+                                        <div class="col-md-4 form-group">
+                                            <label>Image</label>
+                                            <input class="form-control" type="file" name="content_blocks[wide_banner][image]" accept="image/*">
+                                            @if(!empty($contentBlocks['wide_banner']['image_path']))
+                                                <img class="preview-img" src="{{ asset('storage/' . $contentBlocks['wide_banner']['image_path']) }}" alt="">
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <h5 class="f-w-600 mt-4">Deal Banner</h5>
+                                    <div class="row">
+                                        @foreach(['subtitle' => 'Subtitle', 'title' => 'Title', 'button_text' => 'Button Text', 'button_url' => 'Button URL'] as $field => $label)
+                                            <div class="col-md-6 form-group">
+                                                <label>{{ $label }}</label>
+                                                <input class="form-control" name="content_blocks[deal_banner][{{ $field }}]" value="{{ $contentBlocks['deal_banner'][$field] ?? '' }}">
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    <h5 class="f-w-600 mt-4">Coupon Tiles</h5>
+                                    <div class="row">
+                                        @foreach($contentBlocks['coupon_tiles'] as $index => $tile)
+                                            <div class="col-md-4 form-group">
+                                                <label>Tile {{ $index + 1 }}</label>
+                                                <input class="form-control mb-2" name="content_blocks[coupon_tiles][{{ $index }}][title]" value="{{ $tile['title'] ?? '' }}">
+                                                <input class="form-control" name="content_blocks[coupon_tiles][{{ $index }}][url]" value="{{ $tile['url'] ?? '#' }}" placeholder="URL">
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    <h5 class="f-w-600 mt-4">Secondary Banners</h5>
+                                    @foreach($contentBlocks['secondary_banners'] as $index => $banner)
+                                        <div class="border rounded p-3 mb-3">
+                                            <h6>Banner {{ $index + 1 }}</h6>
+                                            <div class="row">
+                                                @foreach(['title' => 'Title', 'subtitle' => 'Subtitle', 'button_text' => 'Button Text', 'button_url' => 'Button URL'] as $field => $label)
+                                                    <div class="col-md-3 form-group">
+                                                        <label>{{ $label }}</label>
+                                                        <input class="form-control" name="content_blocks[secondary_banners][{{ $index }}][{{ $field }}]" value="{{ $banner[$field] ?? '' }}">
+                                                    </div>
+                                                @endforeach
+                                                <div class="col-md-4 form-group">
+                                                    <label>Image</label>
+                                                    <input class="form-control" type="file" name="content_blocks[secondary_banners][{{ $index }}][image]" accept="image/*">
+                                                    @if(!empty($banner['image_path']))
+                                                        <img class="preview-img" src="{{ asset('storage/' . $banner['image_path']) }}" alt="">
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                    <h5 class="f-w-600 mt-4">Hot Deal</h5>
+                                    <div class="row">
+                                        @foreach(['title' => 'Section Title', 'product_title' => 'Product Title', 'price' => 'Price', 'old_price' => 'Old Price'] as $field => $label)
+                                            <div class="col-md-6 form-group">
+                                                <label>{{ $label }}</label>
+                                                <input class="form-control" name="content_blocks[hot_deal][{{ $field }}]" value="{{ $contentBlocks['hot_deal'][$field] ?? '' }}">
+                                            </div>
+                                        @endforeach
+                                        <div class="col-md-12 form-group">
+                                            <label>Description</label>
+                                            <textarea class="form-control" name="content_blocks[hot_deal][description]" rows="3">{{ $contentBlocks['hot_deal']['description'] ?? '' }}</textarea>
+                                        </div>
+                                        @foreach($contentBlocks['hot_deal']['images'] as $index => $image)
+                                            <div class="col-md-3 form-group">
+                                                <label>Hot Deal Image {{ $index + 1 }}</label>
+                                                <input class="form-control" type="file" name="content_blocks[hot_deal][images][{{ $index }}][image]" accept="image/*">
+                                                @if(!empty($image['image_path']))
+                                                    <img class="preview-img" src="{{ asset('storage/' . $image['image_path']) }}" alt="">
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    <h5 class="f-w-600 mt-4">Testimonials</h5>
+                                    @foreach($contentBlocks['testimonials'] as $index => $testimonial)
+                                        <div class="border rounded p-3 mb-3">
+                                            <h6>Testimonial {{ $index + 1 }}</h6>
+                                            <div class="row">
+                                                <div class="col-md-4 form-group"><label>Name</label><input class="form-control" name="content_blocks[testimonials][{{ $index }}][name]" value="{{ $testimonial['name'] ?? '' }}"></div>
+                                                <div class="col-md-8 form-group"><label>Description</label><textarea class="form-control" name="content_blocks[testimonials][{{ $index }}][description]" rows="2">{{ $testimonial['description'] ?? '' }}</textarea></div>
+                                                <div class="col-md-4 form-group">
+                                                    <label>Image</label>
+                                                    <input class="form-control" type="file" name="content_blocks[testimonials][{{ $index }}][image]" accept="image/*">
+                                                    @if(!empty($testimonial['image_path']))
+                                                        <img class="preview-img" src="{{ asset('storage/' . $testimonial['image_path']) }}" alt="">
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                    <h5 class="f-w-600 mt-4">Instagram Images</h5>
+                                    <div class="row">
+                                        @foreach($contentBlocks['instagram'] as $index => $instagram)
+                                            <div class="col-md-3 form-group">
+                                                <label>Instagram {{ $index + 1 }}</label>
+                                                <input class="form-control mb-2" name="content_blocks[instagram][{{ $index }}][url]" value="{{ $instagram['url'] ?? '#' }}" placeholder="URL">
+                                                <input class="form-control" type="file" name="content_blocks[instagram][{{ $index }}][image]" accept="image/*">
+                                                @if(!empty($instagram['image_path']))
+                                                    <img class="preview-img" src="{{ asset('storage/' . $instagram['image_path']) }}" alt="">
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                             <div class="pull-right">

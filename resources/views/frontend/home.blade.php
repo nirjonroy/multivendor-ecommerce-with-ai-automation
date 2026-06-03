@@ -18,8 +18,38 @@
     ['title' => 'camera', 'subtitle' => 'lenses', 'button_text' => 'shop now', 'button_url' => '#', 'image_asset' => 'assets/images/layout-2/collection-banner/2.jpg'],
     ['title' => 'refrigerator', 'subtitle' => 'lG mini', 'button_text' => 'shop now', 'button_url' => '#', 'image_asset' => 'assets/images/layout-2/collection-banner/3.jpg'],
   ];
+  $defaultContentBlocks = [
+    'discount' => ['subtitle' => 'Discount on every single item on our site.', 'title' => 'OMG! Just Look at the', 'highlight' => 'great Deals!', 'description' => 'How does it feel, when you see great discount deals for each product?'],
+    'wide_banner' => ['subtitle' => 'save up to 30% off', 'title' => 'women', 'highlight' => 'fashion', 'button_text' => 'shop now', 'button_url' => '#', 'image_asset' => 'assets/images/layout-2/collection-banner/7.jpg'],
+    'deal_banner' => ['subtitle' => 'save up to 30% to 40% off', 'title' => 'omg! just look at the great deals!', 'button_text' => 'View more', 'button_url' => '#'],
+    'coupon_tiles' => [
+      ['title' => '10% off', 'url' => '#'], ['title' => 'under @99', 'url' => '#'], ['title' => 'free shipping', 'url' => '#'],
+      ['title' => 'extra 10% off', 'url' => '#'], ['title' => '$79 cashback', 'url' => '#'], ['title' => '80% off', 'url' => '#'],
+    ],
+    'secondary_banners' => [
+      ['title' => 'Leather', 'subtitle' => 'new bag', 'button_text' => 'shop now', 'button_url' => '#', 'image_asset' => 'assets/images/layout-2/collection-banner/4.jpg'],
+      ['title' => 'Nike', 'subtitle' => 'breeze', 'button_text' => 'shop now', 'button_url' => '#', 'image_asset' => 'assets/images/layout-2/collection-banner/5.jpg'],
+      ['title' => 'Printing 3D', 'subtitle' => 'USB moon', 'button_text' => 'shop now', 'button_url' => '#', 'image_asset' => 'assets/images/layout-2/collection-banner/6.jpg'],
+    ],
+    'hot_deal' => [
+      'title' => "today's hot deal", 'product_title' => 'Simply dummy text of the printing.',
+      'description' => 'It is a long established fact that a reader. It is a long established fact that a reader.',
+      'price' => '$45.00', 'old_price' => '$50.30',
+      'images' => [
+        ['image_asset' => 'assets/images/layout-2/hot-deal/8.jpg'], ['image_asset' => 'assets/images/layout-2/hot-deal/7.jpg'],
+        ['image_asset' => 'assets/images/layout-2/hot-deal/6.jpg'], ['image_asset' => 'assets/images/layout-2/hot-deal/5.jpg'],
+      ],
+    ],
+    'testimonials' => [
+      ['name' => 'mark jecno', 'description' => 'Contrary to popular belief, Lorem Ipsum is not simply random text.', 'image_asset' => 'assets/images/testimonial/1.jpg'],
+      ['name' => 'mark jecno', 'description' => 'Contrary to popular belief, Lorem Ipsum is not simply random text.', 'image_asset' => 'assets/images/testimonial/2.jpg'],
+      ['name' => 'mark jecno', 'description' => 'Contrary to popular belief, Lorem Ipsum is not simply random text.', 'image_asset' => 'assets/images/testimonial/3.jpg'],
+    ],
+    'instagram' => collect(range(1, 8))->map(fn($i) => ['url' => '#', 'image_asset' => "assets/images/insta/{$i}.jpg"])->all(),
+  ];
   $heroSlides = $globalHomeSection?->hero_slides ?: $defaultHeroSlides;
   $collectionBanners = $globalHomeSection?->collection_banners ?: $defaultCollectionBanners;
+  $contentBlocks = array_replace_recursive($defaultContentBlocks, $globalHomeSection?->content_blocks ?: []);
 @endphp
 
 @if ($globalFrontendBrands->isNotEmpty())
@@ -117,11 +147,11 @@
     <div class="row">
       <div class="col-12">
         <div class="discount-banner-contain">
-          <h2>Discount on every single item on our site.</h2>
-          <h1><span>OMG! Just Look at the</span> <span>great Deals!</span></h1>
+          <h2>{{ $contentBlocks['discount']['subtitle'] }}</h2>
+          <h1><span>{{ $contentBlocks['discount']['title'] }}</span> <span>{{ $contentBlocks['discount']['highlight'] }}</span></h1>
           <div class="rounded-contain rounded-inverse">
             <div class="rounded-subcontain">
-              How does it feel, when you see great discount deals for each product?
+              {{ $contentBlocks['discount']['description'] }}
             </div>
           </div>
         </div>
@@ -193,20 +223,25 @@
 
 <!--collection banner start-->
 <section class="collection-banner section-pb-space ">
+  @php
+    $wideBannerImage = !empty($contentBlocks['wide_banner']['image_path'])
+      ? asset('storage/' . $contentBlocks['wide_banner']['image_path'])
+      : asset($contentBlocks['wide_banner']['image_asset']);
+  @endphp
   <div class="custom-container">
     <div class="row">
       <div class="col">
         <div class="collection-banner-main banner-5 p-center">
           <div class="collection-img">
-            <img src="/assets/images/layout-2/collection-banner/7.jpg" class="bg-img  " alt="banner">
+            <img src="{{ $wideBannerImage }}" class="bg-img  " alt="banner">
           </div>
           <div class="collection-banner-contain ">
             <div class="sub-contain">
-              <h3>save up to 30% off</h3>
-              <h4>women<span>fashion</span></h4>
+              <h3>{{ $contentBlocks['wide_banner']['subtitle'] }}</h3>
+              <h4>{{ $contentBlocks['wide_banner']['title'] }}<span>{{ $contentBlocks['wide_banner']['highlight'] }}</span></h4>
               <div class="shop">
-                <a class="btn btn-normal" href="#">
-                  shop now
+                <a class="btn btn-normal" href="{{ $contentBlocks['wide_banner']['button_url'] }}">
+                  {{ $contentBlocks['wide_banner']['button_text'] }}
                 </a>
               </div>
             </div>
@@ -225,18 +260,18 @@
       <div class="col-md-12 col-lg-8">
         <div class="deal-banner-containe">
           <h2>
-            save up to  30% to 40% off
+            {{ $contentBlocks['deal_banner']['subtitle'] }}
           </h2>
           <h1>
-            omg! just look at the great deals!
+            {{ $contentBlocks['deal_banner']['title'] }}
           </h1>
         </div>
       </div>
       <div class="col-md-12 col-lg-4 ">
         <div class="deal-banner-containe">
           <diV class="deal-btn">
-            <a class="btn-white">
-              View more
+            <a class="btn-white" href="{{ $contentBlocks['deal_banner']['button_url'] }}">
+              {{ $contentBlocks['deal_banner']['button_text'] }}
             </a>
           </div>
         </div>
@@ -286,83 +321,15 @@
     <div class="row">
       <div class="col pl-0">
         <div class="slide-10 no-arrow">
-          <div>
-            <a href="#">
-              <div class="box-category-contain">
-                <h4>10% off</h4>
-              </div>
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <div class="box-category-contain">
-                <h4>under @@99</h4>
-              </div>
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <div class="box-category-contain">
-                <h4>free shipping</h4>
-              </div>
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <div class="box-category-contain">
-                <h4>extra 10% off</h4>
-              </div>
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <div class="box-category-contain">
-                <h4>$79 cashback</h4>
-              </div>
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <div class="box-category-contain">
-                <h4>80% off</h4>
-              </div>
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <div class="box-category-contain">
-                <h4>on sale</h4>
-              </div>
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <div class="box-category-contain">
-                <h4>only $49</h4>
-              </div>
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <div class="box-category-contain">
-                <h4>under @@150</h4>
-              </div>
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <div class="box-category-contain">
-                <h4>save money</h4>
-              </div>
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <div class="box-category-contain">
-                <h4>80% off</h4>
-              </div>
-            </a>
-          </div>
+          @foreach($contentBlocks['coupon_tiles'] as $tile)
+            <div>
+              <a href="{{ $tile['url'] ?? '#' }}">
+                <div class="box-category-contain">
+                  <h4>{{ $tile['title'] ?? '' }}</h4>
+                </div>
+              </a>
+            </div>
+          @endforeach
         </div>
       </div>
     </div>
@@ -2091,60 +2058,31 @@
 <section class="collection-banner section-py-space">
   <div class="container-fluid">
     <div class="row collection2">
-      <div class="col-md-4">
-        <div class="collection-banner-main banner-1 p-left">
-          <div class="collection-img">
-            <img src="/assets/images/layout-2/collection-banner/4.jpg" class="img-fluid bg-img " alt="banner">
-          </div>
-          <div class="collection-banner-contain ">
-            <div>
-              <h3>Leather</h3>
-              <h4>new bag</h4>
-              <div class="shop">
-                <a>
-                  shop now
-                </a>
+      @foreach($contentBlocks['secondary_banners'] as $secondaryBanner)
+        @php
+          $secondaryBannerImage = !empty($secondaryBanner['image_path'])
+            ? asset('storage/' . $secondaryBanner['image_path'])
+            : asset($secondaryBanner['image_asset'] ?? 'assets/images/layout-2/collection-banner/4.jpg');
+        @endphp
+        <div class="col-md-4">
+          <div class="collection-banner-main banner-1 p-left">
+            <div class="collection-img">
+              <img src="{{ $secondaryBannerImage }}" class="img-fluid bg-img " alt="banner">
+            </div>
+            <div class="collection-banner-contain ">
+              <div>
+                <h3>{{ $secondaryBanner['title'] ?? '' }}</h3>
+                <h4>{{ $secondaryBanner['subtitle'] ?? '' }}</h4>
+                <div class="shop">
+                  <a href="{{ $secondaryBanner['button_url'] ?? '#' }}">
+                    {{ $secondaryBanner['button_text'] ?? 'shop now' }}
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="collection-banner-main banner-1 p-left">
-          <div class="collection-img">
-            <img src="/assets/images/layout-2/collection-banner/5.jpg" class="img-fluid bg-img " alt="banner">
-          </div>
-          <div class="collection-banner-contain ">
-            <div>
-              <h3>nike</h3>
-              <h4>breeze</h4>
-              <div class="shop">
-                <a>
-                  shop now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="collection-banner-main banner-1 p-left">
-          <div class="collection-img">
-            <img src="/assets/images/layout-2/collection-banner/6.jpg" class="img-fluid bg-img " alt="banner">
-          </div>
-          <div class="collection-banner-contain ">
-            <div>
-              <h3>Printing 3D</h3>
-              <h4>USB moon</h4>
-              <div class="shop">
-                <a>
-                  shop now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      @endforeach
     </div>
   </div>
 </section>
@@ -2152,12 +2090,19 @@
 
 <!--hot deal start-->
 <section class="hot-deal b-g-white section-big-pb-space space-abjust">
+  @php
+    $hotDealImages = collect($contentBlocks['hot_deal']['images'] ?? [])->map(function ($image, $index) {
+      return !empty($image['image_path'])
+        ? asset('storage/' . $image['image_path'])
+        : asset($image['image_asset'] ?? 'assets/images/layout-2/hot-deal/' . (8 - $index) . '.jpg');
+    })->values();
+  @endphp
   <div class="custom-container">
     <div class="row hot-2">
       <div class="col-12">
         <!--title start-->
         <div class="title3 b-g-white text-left">
-          <h4>today's hot deal</h4>
+          <h4>{{ $contentBlocks['hot_deal']['title'] }}</h4>
         </div>
         <!--titel end-->
       </div>
@@ -2169,17 +2114,16 @@
               <div class="row hot-deal-subcontain">
                 <div class="col-lg-4 col-md-4 ">
                   <div class="hotdeal-right-slick border-0">
-                    <div><img src="/assets/images/layout-2/hot-deal/8.jpg" alt="hot-deal" class="img-fluid  "></div>
-                    <div><img src="/assets/images/layout-2/hot-deal/7.jpg" alt="hot-deal" class="img-fluid  "></div>
-                    <div><img src="/assets/images/layout-2/hot-deal/6.jpg" alt="hot-deal" class="img-fluid  "></div>
-                    <div><img src="/assets/images/layout-2/hot-deal/5.jpg" alt="hot-deal" class="img-fluid  "></div>
+                    @foreach($hotDealImages as $hotDealImage)
+                      <div><img src="{{ $hotDealImage }}" alt="hot-deal" class="img-fluid  "></div>
+                    @endforeach
                   </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                   <div class="hot-deal-center">
                     <div>
                       <div>
-                        <h5>Simply dummy text of the printing. </h5>
+                        <h5>{{ $contentBlocks['hot_deal']['product_title'] }}</h5>
                       </div>
                       <div class="rating">
                         <i class="fa fa-star"></i>
@@ -2190,11 +2134,11 @@
                       </div>
                       <div>
                         <p>
-                          It is a long established fact that a reader. It is a long established fact that a reader.It is a long established fact that a reader. It is a long established fact that a reader.
+                          {{ $contentBlocks['hot_deal']['description'] }}
                         </p>
                         <div class="price">
-                          <span>$45.00</span>
-                          <span>$50.30</span>
+                          <span>{{ $contentBlocks['hot_deal']['price'] }}</span>
+                          <span>{{ $contentBlocks['hot_deal']['old_price'] }}</span>
                         </div>
                       </div>
                       <div class="timer">
@@ -2222,10 +2166,9 @@
                 </div>
                 <div class="col-md-2 ">
                   <div class="hotdeal-right-nav">
-                    <div><img src="/assets/images/layout-2/hot-deal/8.jpg" alt="hot-dea" class="img-fluid  " ></div>
-                    <div><img src="/assets/images/layout-2/hot-deal/7.jpg" alt="hot-dea" class="img-fluid  " ></div>
-                    <div><img src="/assets/images/layout-2/hot-deal/6.jpg" alt="hot-dea" class="img-fluid  " ></div>
-                    <div><img src="/assets/images/layout-2/hot-deal/5.jpg" alt="hot-dea" class="img-fluid  " ></div>
+                    @foreach($hotDealImages as $hotDealImage)
+                      <div><img src="{{ $hotDealImage }}" alt="hot-dea" class="img-fluid  " ></div>
+                    @endforeach
                   </div>
                 </div>
               </div>
@@ -2236,17 +2179,16 @@
               <div class="row hot-deal-subcontain">
                 <div class="col-lg-4 col-md-4 ">
                   <div class="hotdeal-right-slick border-0">
-                    <div><img src="/assets/images/layout-2/hot-deal/8.jpg" alt="hot-deal" class="img-fluid  "></div>
-                    <div><img src="/assets/images/layout-2/hot-deal/7.jpg" alt="hot-deal" class="img-fluid  "></div>
-                    <div><img src="/assets/images/layout-2/hot-deal/6.jpg" alt="hot-deal" class="img-fluid  "></div>
-                    <div><img src="/assets/images/layout-2/hot-deal/5.jpg" alt="hot-deal" class="img-fluid  "></div>
+                    @foreach($hotDealImages as $hotDealImage)
+                      <div><img src="{{ $hotDealImage }}" alt="hot-deal" class="img-fluid  "></div>
+                    @endforeach
                   </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                   <div class="hot-deal-center">
                     <div>
                       <div>
-                        <h5>Simply dummy text of the printing. </h5>
+                        <h5>{{ $contentBlocks['hot_deal']['product_title'] }}</h5>
                       </div>
                       <div class="rating">
                         <i class="fa fa-star"></i>
@@ -2257,11 +2199,11 @@
                       </div>
                       <div>
                         <p>
-                          It is a long established fact that a reader. It is a long established fact that a reader.It is a long established fact that a reader. It is a long established fact that a reader.
+                          {{ $contentBlocks['hot_deal']['description'] }}
                         </p>
                         <div class="price">
-                          <span>$45.00</span>
-                          <span>$50.30</span>
+                          <span>{{ $contentBlocks['hot_deal']['price'] }}</span>
+                          <span>{{ $contentBlocks['hot_deal']['old_price'] }}</span>
                         </div>
                       </div>
                       <div class="timer">
@@ -2289,10 +2231,9 @@
                 </div>
                 <div class="col-md-2 ">
                   <div class="hotdeal-right-nav">
-                    <div><img src="/assets/images/layout-2/hot-deal/8.jpg" alt="hot-dea" class="img-fluid  " ></div>
-                    <div><img src="/assets/images/layout-2/hot-deal/7.jpg" alt="hot-dea" class="img-fluid  " ></div>
-                    <div><img src="/assets/images/layout-2/hot-deal/6.jpg" alt="hot-dea" class="img-fluid  " ></div>
-                    <div><img src="/assets/images/layout-2/hot-deal/5.jpg" alt="hot-dea" class="img-fluid  " ></div>
+                    @foreach($hotDealImages as $hotDealImage)
+                      <div><img src="{{ $hotDealImage }}" alt="hot-dea" class="img-fluid  " ></div>
+                    @endforeach
                   </div>
                 </div>
               </div>
@@ -2564,45 +2505,26 @@
     <div class="row">
       <div class="col-md-12">
         <div class="slide-1 no-arrow">
-          <div>
-            <div class="testimonial-contain">
-              <div class="media">
-                <div class="testimonial-img">
-                  <img src="/assets/images/testimonial/1.jpg" class="img-fluid rounded-circle  " alt="testimonial">
-                </div>
-                <div class="media-body">
-                  <h5>mark jecno</h5>
-                  <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="testimonial-contain">
-              <div class="media">
-                <div class="testimonial-img">
-                  <img src="/assets/images/testimonial/2.jpg" class="img-fluid rounded-circle  " alt="testimonial">
-                </div>
-                <div class="media-body">
-                  <h5>mark jecno</h5>
-                  <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
+          @foreach($contentBlocks['testimonials'] as $testimonial)
+            @php
+              $testimonialImage = !empty($testimonial['image_path'])
+                ? asset('storage/' . $testimonial['image_path'])
+                : asset($testimonial['image_asset'] ?? 'assets/images/testimonial/1.jpg');
+            @endphp
+            <div>
+              <div class="testimonial-contain">
+                <div class="media">
+                  <div class="testimonial-img">
+                    <img src="{{ $testimonialImage }}" class="img-fluid rounded-circle  " alt="testimonial">
+                  </div>
+                  <div class="media-body">
+                    <h5>{{ $testimonial['name'] ?? '' }}</h5>
+                    <p>{{ $testimonial['description'] ?? '' }}</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div>
-            <div class="testimonial-contain">
-              <div class="media">
-                <div class="testimonial-img">
-                  <img src="/assets/images/testimonial/3.jpg" class="img-fluid rounded-circle  " alt="testimonial">
-                </div>
-                <div class="media-body">
-                  <h5>mark jecno</h5>
-                  <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          @endforeach
         </div>
       </div>
     </div>
@@ -2610,6 +2532,54 @@
 </section>
 <!--testimonial end-->
 
+<!--title start-->
+<div class="title1 section-my-space">
+  <h4>Special Products</h4>
+</div>
+<!--title end-->
+
+<!--product start-->
+<section class="product section-pb-space mb--5">
+  <div class="custom-container">
+    <div class="row">
+      <div class="col pr-0">
+        <div class="product-slide-6 no-arrow">
+          @foreach($globalFrontendProducts->where('is_featured', true)->take(8) as $product)
+            @php
+              $specialImage = $product->thumbnail_path ? asset('storage/' . $product->thumbnail_path) : asset('assets/images/layout-2/product/1.jpg');
+            @endphp
+            <div>
+              <div class="product-box">
+                <div class="product-imgbox">
+                  <div class="product-front"><a href="{{ route('products.show', $product) }}"><img src="{{ $specialImage }}" class="img-fluid" alt="{{ $product->name }}"></a></div>
+                  <div class="product-back"><a href="{{ route('products.show', $product) }}"><img src="{{ $specialImage }}" class="img-fluid" alt="{{ $product->name }}"></a></div>
+                  @if($product->is_new)<div class="new-label1"><div>new</div></div>@endif
+                  @if($product->is_on_sale)<div class="on-sale1">on sale</div>@endif
+                  @if($product->stock_quantity <= 0)<div class="on-sale1">stock out</div>@endif
+                </div>
+                <div class="product-detail detail-inline">
+                  <div class="detail-title">
+                    <div class="detail-left">
+                      <div class="rating-star"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                      <a href="{{ route('products.show', $product) }}"><h6 class="price-title">{{ $product->name }}</h6></a>
+                    </div>
+                    <div class="detail-right">
+                      @if($product->offer_price)<div class="check-price">{{ \App\Support\Currency::format($product->price, $globalSiteInfo) }}</div>@endif
+                      <div class="price">{{ \App\Support\Currency::format($product->offer_price ?: $product->price, $globalSiteInfo) }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          @endforeach
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--product end-->
+
+@if(false)
 <!--title start-->
 <div class="title1 section-my-space">
   <h4>Special Products</h4>
@@ -3078,6 +3048,7 @@
   </div>
 </section>
 <!--product end-->
+@endif
 
 <!--instagram start-->
 <section class="instagram">
@@ -3086,70 +3057,23 @@
       <div class="col p-0">
         <div class="insta-contant1 no-arrow">
           <div class="slide-7">
-            <div>
-              <div class="instagram-box">
-                <img src="/assets/images/insta/1.jpg" class="img-fluid  " alt="insta">
-                <div class="insta-cover">
-                  <i class="fa fa-instagram" ></i>
-                </div>
+            @foreach($contentBlocks['instagram'] as $instagram)
+              @php
+                $instagramImage = !empty($instagram['image_path'])
+                  ? asset('storage/' . $instagram['image_path'])
+                  : asset($instagram['image_asset'] ?? 'assets/images/insta/1.jpg');
+              @endphp
+              <div>
+                <a href="{{ $instagram['url'] ?? '#' }}">
+                  <div class="instagram-box">
+                    <img src="{{ $instagramImage }}" class="img-fluid  " alt="insta">
+                    <div class="insta-cover">
+                      <i class="fa fa-instagram" ></i>
+                    </div>
+                  </div>
+                </a>
               </div>
-            </div>
-            <div>
-              <div class="instagram-box">
-                <img src="/assets/images/insta/2.jpg" class="img-fluid  " alt="insta">
-                <div class="insta-cover">
-                  <i class="fa fa-instagram" ></i>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="instagram-box">
-                <img src="/assets/images/insta/3.jpg" class="img-fluid  " alt="insta">
-                <div class="insta-cover">
-                  <i class="fa fa-instagram" ></i>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="instagram-box">
-                <img src="/assets/images/insta/4.jpg" class="img-fluid  " alt="insta">
-                <div class="insta-cover">
-                  <i class="fa fa-instagram" ></i>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="instagram-box">
-                <img src="/assets/images/insta/5.jpg" class="img-fluid  " alt="insta">
-                <div class="insta-cover">
-                  <i class="fa fa-instagram" ></i>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="instagram-box">
-                <img src="/assets/images/insta/6.jpg" class="img-fluid  " alt="insta">
-                <div class="insta-cover">
-                  <i class="fa fa-instagram" ></i>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="instagram-box">
-                <img src="/assets/images/insta/7.jpg" class="img-fluid  " alt="insta">
-                <div class="insta-cover">
-                  <i class="fa fa-instagram" ></i>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="instagram-box">
-                <img src="/assets/images/insta/8.jpg" class="img-fluid  " alt="insta">
-                <div class="insta-cover">
-                  <i class="fa fa-instagram" ></i>
-                </div>
-              </div>
-            </div>
+            @endforeach
           </div>
           <div class="insta-sub-contant1">
             <div class="insta-title">
