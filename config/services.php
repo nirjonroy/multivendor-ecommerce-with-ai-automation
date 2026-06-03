@@ -30,4 +30,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'steadfast' => [
+        'api_key' => env('STEADFAST_API_KEY'),
+        'secret_key' => env('STEADFAST_SECRET_KEY'),
+        'base_url' => env('STEADFAST_BASE_URL', 'https://steadfast.com.bd/api/v1/'),
+    ],
+
 ];

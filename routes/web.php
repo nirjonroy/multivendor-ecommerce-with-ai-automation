@@ -139,6 +139,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
         Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
         Route::put('orders/{order}', [AdminOrderController::class, 'update'])->name('orders.update');
+        Route::post('orders/{order}/send-to-courier', [AdminOrderController::class, 'sendToCourier'])->name('orders.send-to-courier');
         Route::patch('order-items/{item}/status', [AdminOrderController::class, 'updateItemStatus'])->name('order-items.status');
         Route::get('orders/{order}/invoice', [AdminOrderController::class, 'invoice'])->name('orders.invoice');
         Route::resource('blogs', AdminBlogController::class)->except(['show']);

@@ -4,6 +4,12 @@
 @section('page_title', 'Order Details')
 
 @section('page_actions')
+    @if(! $order->courier_tracking_id)
+        <form class="d-inline" method="POST" action="{{ route('admin.orders.send-to-courier', $order) }}">
+            @csrf
+            <button class="btn btn-primary" type="submit" onclick="return confirm('Send this order to Steadfast Courier?')">Send to Courier</button>
+        </form>
+    @endif
     <a class="btn btn-outline-primary" href="{{ route('admin.orders.invoice', $order) }}" target="_blank">Print Invoice</a>
     <a class="btn btn-outline-secondary" href="{{ route('admin.orders.index') }}">Back</a>
 @endsection
@@ -77,6 +83,8 @@
                 <div class="card-body">
                     <p><strong>Order:</strong> {{ $order->order_number }}</p>
                     <p><strong>Transaction:</strong> {{ $order->transaction_id ?: 'N/A' }}</p>
+                    <p><strong>Courier Tracking:</strong> {{ $order->courier_tracking_id ?: 'Not sent yet' }}</p>
+                    <p><strong>Shipping Status:</strong> {{ ucfirst(str_replace('_', ' ', $order->shipping_status ?: 'not_sent')) }}</p>
                     <p><strong>Payment:</strong> {{ strtoupper(str_replace('_', ' ', $order->payment_method)) }}</p>
                     <p><strong>Subtotal:</strong> {{ \App\Support\Currency::format($order->subtotal, $globalSiteInfo) }}</p>
                     <p><strong>Shipping:</strong> {{ \App\Support\Currency::format($order->shipping_amount, $globalSiteInfo) }}</p>
@@ -84,6 +92,16 @@
                     <p class="mb-0"><strong>Placed:</strong> {{ $order->created_at?->format('d M Y h:i A') }}</p>
                 </div>
             </div>
+            @if($order->courier_tracking_id)
+                <div class="card mb-4">
+                    <div class="card-header"><h5>Courier Details</h5></div>
+                    <div class="card-body">
+                        <p><strong>Courier:</strong> Steadfast Courier</p>
+                        <p><strong>Tracking ID:</strong> {{ $order->courier_tracking_id }}</p>
+                        <p class="mb-0"><strong>Status:</strong> {{ ucfirst(str_replace('_', ' ', $order->shipping_status ?: 'sent_to_courier')) }}</p>
+                    </div>
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header"><h5>Customer Billing</h5></div>
                 <div class="card-body">
