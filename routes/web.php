@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\VendorController as AdminVendorController;
 use App\Http\Controllers\MessageReadController;
 use App\Http\Controllers\Frontend\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\Auth\RegisteredUserController;
+use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\ProductController as FrontendProductController;
@@ -43,6 +44,9 @@ Route::get('/', function () {
     return view('frontend.home');
 })->name('home');
 
+Route::get('shop', [FrontendProductController::class, 'index'])->name('shop.index');
+Route::get('blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('blog/{blog:slug}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('products/{product:slug}', [FrontendProductController::class, 'show'])->name('products.show');
 Route::post('products/{product:slug}/contact-vendor', [VendorContactController::class, 'store'])->middleware('auth:web')->name('products.contact-vendor');
 Route::get('cart', [CartController::class, 'index'])->name('cart.index');

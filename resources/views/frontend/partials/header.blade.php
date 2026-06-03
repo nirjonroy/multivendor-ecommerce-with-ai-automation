@@ -67,7 +67,7 @@
             <ul class="nav-slide">
               <li><div class="nav-sm-back">back <i class="fa fa-angle-right pl-2"></i></div></li>
               @foreach ($globalFrontendCategories->take(12) as $category)
-                <li><a href="#">{{ $category->name }}</a></li>
+                <li><a href="{{ route('shop.index', ['category_id' => $category->id]) }}">{{ $category->name }}</a></li>
               @endforeach
             </ul>
           </div>
@@ -76,15 +76,15 @@
           </div>
           <div class="input-block">
             <div class="input-box">
-              <form class="big-deal-form">
+              <form class="big-deal-form" method="GET" action="{{ route('shop.index') }}">
                 <div class="input-group">
-                  <div class="input-group-prepend"><span class="search"><i class="fa fa-search"></i></span></div>
-                  <input type="text" class="form-control" placeholder="Search a Product">
+                  <div class="input-group-prepend"><button class="search" type="submit" style="border:0"><i class="fa fa-search"></i></button></div>
+                  <input type="text" class="form-control" name="q" value="{{ request('q') }}" placeholder="Search a Product">
                   <div class="input-group-prepend">
-                    <select>
-                      <option>All Category</option>
+                    <select name="category_id">
+                      <option value="">All Category</option>
                       @foreach ($globalFrontendCategories->take(8) as $category)
-                        <option>{{ $category->name }}</option>
+                        <option value="{{ $category->id }}" @selected(request('category_id') == $category->id)>{{ $category->name }}</option>
                       @endforeach
                     </select>
                   </div>
@@ -120,7 +120,7 @@
                     <ul class="nav-cat title-font">
                       @foreach ($globalFrontendCategories->take(12) as $categoryIndex => $category)
                         @php($navImage = $category->image_path ? asset('storage/' . $category->image_path) : asset('assets/images/layout-1/nav-img/' . str_pad(($categoryIndex % 12) + 1, 2, '0', STR_PAD_LEFT) . '.png'))
-                        <li><img src="{{ $navImage }}" alt="category-product"> <a href="#">{{ $category->name }}</a></li>
+                        <li><img src="{{ $navImage }}" alt="category-product"> <a href="{{ route('shop.index', ['category_id' => $category->id]) }}">{{ $category->name }}</a></li>
                       @endforeach
                     </ul>
                   </div>
@@ -132,11 +132,8 @@
                   <ul id="main-menu" class="sm pixelstrap sm-horizontal">
                     <li><div class="mobile-back text-right">Back<i class="fa fa-angle-right pl-2" aria-hidden="true"></i></div></li>
                     <li><a href="{{ route('home') }}" class="dark-menu-item">Home</a></li>
-                    <li><a href="#" class="dark-menu-item">Shop</a></li>
-                    <li><a href="#" class="dark-menu-item">Product</a></li>
-                    <li><a href="#" class="dark-menu-item">Features</a></li>
-                    <li><a href="#" class="dark-menu-item">Pages</a></li>
-                    <li><a href="#" class="dark-menu-item">Blog</a></li>
+                    <li><a href="{{ route('shop.index') }}" class="dark-menu-item">Shop</a></li>
+                    <li><a href="{{ route('blog.index') }}" class="dark-menu-item">Blog</a></li>
                   </ul>
                 </nav>
               </div>
