@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\Auth\AuthenticatedSessionController as AdminAuthenticatedSessionController;
+use App\Http\Controllers\Backend\BlogController as AdminBlogController;
 use App\Http\Controllers\Backend\Auth\RegisteredAdminController;
 use App\Http\Controllers\Backend\CatalogTaxonomyController;
 use App\Http\Controllers\Backend\HomeSectionController;
@@ -137,6 +138,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::patch('products/{product}/approve', [AdminProductController::class, 'approve'])->name('products.approve');
         Route::patch('products/{product}/reject', [AdminProductController::class, 'reject'])->name('products.reject');
         Route::resource('products', AdminProductController::class)->except(['show']);
+        Route::resource('blogs', AdminBlogController::class)->except(['show']);
         Route::get('vendors', [AdminVendorController::class, 'index'])->name('vendors.index');
         Route::get('vendors/{vendor}', [AdminVendorController::class, 'show'])->name('vendors.show');
         Route::patch('vendors/{vendor}/approve', [AdminVendorController::class, 'approve'])->name('vendors.approve');

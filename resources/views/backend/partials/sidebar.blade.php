@@ -7,6 +7,7 @@
         || (request()->routeIs('admin.catalog.*') && in_array($catalogResource, ['categories', 'sub-categories', 'child-categories', 'brands'], true));
     $vendorsOpen = request()->routeIs('admin.vendors.*');
     $messagesOpen = request()->routeIs('admin.messages.*');
+    $blogsOpen = request()->routeIs('admin.blogs.*');
     $settingsOpen = request()->routeIs('admin.site-info.*') || request()->routeIs('admin.home-section.*');
     $adminUnreadMessageCount = ($globalAdminUnreadMessages ?? collect())->count();
 @endphp
@@ -33,6 +34,7 @@
                 </ul>
             </li>
             <li><a class="sidebar-header {{ $vendorsOpen ? 'active' : '' }}" href="{{ route('admin.vendors.index') }}"><i data-feather="users"></i><span>Vendors</span></a></li>
+            <li><a class="sidebar-header {{ $blogsOpen ? 'active' : '' }}" href="{{ route('admin.blogs.index') }}"><i data-feather="file-text"></i><span>Blogs</span></a></li>
             <li>
                 <a class="sidebar-header {{ $messagesOpen ? 'active' : '' }}" href="{{ route('admin.messages.index') }}">
                     <i data-feather="message-square"></i><span>Messages</span>
