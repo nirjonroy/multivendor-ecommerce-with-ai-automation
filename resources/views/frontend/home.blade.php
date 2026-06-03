@@ -3276,21 +3276,27 @@
 <!-- Add to cart bar end-->
 
 <!--Newsletter modal popup start-->
+@if($globalSiteInfo?->newsletter_popup_enabled)
+  @php
+    $newsletterPopupImage = $globalSiteInfo->newsletter_popup_image_path
+      ? asset('storage/' . $globalSiteInfo->newsletter_popup_image_path)
+      : asset('assets/images/layout-2/product/a1.jpg');
+  @endphp
 <div class="modal fade bd-example-modal-lg theme-modal" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
         <div class="news-latter">
-          <div class="modal-bg">
+          <div class="modal-bg" style="background-image:url('{{ $newsletterPopupImage }}');">
             <div class="offer-content">
               <div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h2>newsletter</h2>
-                <p>Subscribe to our website mailling list <br> and get a Offer, Just for you!</p>
+                <h2>{{ $globalSiteInfo->newsletter_popup_title ?: 'Newsletter' }}</h2>
+                <p>{!! nl2br(e($globalSiteInfo->newsletter_popup_description ?: 'Subscribe to our website mailing list and get a special offer, just for you!')) !!}</p>
                 <form action="https://pixelstrap.us19.list-manage.com/subscribe/post?u=5a128856334b598b395f1fc9b&amp;id=082f74cbda" class="auth-form needs-validation" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
                   <div class="form-group mx-sm-3">
                     <input type="email" class="form-control" name="EMAIL" id="mce-EMAIL" placeholder="Enter your email" required="required">
-                    <button type="submit" class="btn btn-theme btn-normal btn-sm " id="mc-submit">subscribe</button>
+                    <button type="submit" class="btn btn-theme btn-normal btn-sm " id="mc-submit">{{ $globalSiteInfo->newsletter_popup_button_text ?: 'Subscribe' }}</button>
                   </div>
                 </form>
               </div>
@@ -3301,6 +3307,7 @@
     </div>
   </div>
 </div>
+@endif
 <!--Newsletter Modal popup end-->
 
 <!-- Quick-view modal popup start-->

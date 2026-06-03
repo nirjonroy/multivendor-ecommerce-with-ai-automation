@@ -33,6 +33,11 @@ class SiteInfoController extends Controller
             'currency_symbol' => ['required', 'string', 'max:10'],
             'currency_position' => ['required', 'in:left,right'],
             'currency_rate' => ['required', 'numeric', 'min:0.0001'],
+            'newsletter_popup_enabled' => ['nullable', 'boolean'],
+            'newsletter_popup_title' => ['required', 'string', 'max:255'],
+            'newsletter_popup_description' => ['nullable', 'string'],
+            'newsletter_popup_button_text' => ['required', 'string', 'max:50'],
+            'newsletter_popup_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif,svg', 'max:2048'],
             'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif,svg', 'max:2048'],
             'favicon' => ['nullable', 'image', 'mimes:ico,jpg,jpeg,png,webp,gif,svg', 'max:1024'],
             'facebook_url' => ['nullable', 'url', 'max:255'],
@@ -41,6 +46,7 @@ class SiteInfoController extends Controller
         ]);
 
         $siteInfo = SiteInfo::query()->firstOrNew(['id' => 1]);
+        $data['newsletter_popup_enabled'] = $request->boolean('newsletter_popup_enabled');
 
         if ($request->hasFile('logo')) {
             if ($siteInfo->logo_path) {
@@ -58,8 +64,17 @@ class SiteInfoController extends Controller
             $data['favicon_path'] = $request->file('favicon')->store('site-info', 'public');
         }
 
+        if ($request->hasFile('newsletter_popup_image')) {
+            if ($siteInfo->newsletter_popup_image_path) {
+                Storage::disk('public')->delete($siteInfo->newsletter_popup_image_path);
+            }
+
+            $data['newsletter_popup_image_path'] = $request->file('newsletter_popup_image')->store('site-info', 'public');
+        }
+
         unset($data['logo']);
         unset($data['favicon']);
+        unset($data['newsletter_popup_image']);
 
         $siteInfo->fill($data);
         $siteInfo->save();

@@ -138,6 +138,9 @@
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#social" role="tab"><i data-feather="share-2" class="mr-2"></i>Social</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#notification" role="tab"><i data-feather="bell" class="mr-2"></i>Notification</a>
+                                    </li>
                                 </ul>
 
                                 <form class="needs-validation user-add" method="POST" action="{{ route('admin.site-info.update') }}" enctype="multipart/form-data">
@@ -224,6 +227,40 @@
                                             <div class="form-group row">
                                                 <label for="youtube_url" class="col-xl-3 col-md-4">YouTube URL</label>
                                                 <input class="form-control col-xl-8 col-md-7" id="youtube_url" name="youtube_url" type="url" value="{{ old('youtube_url', $siteInfo->youtube_url) }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="notification" role="tabpanel">
+                                            <h5 class="f-w-600">Newsletter Popup</h5>
+                                            <div class="form-group row">
+                                                <label for="newsletter_popup_enabled" class="col-xl-3 col-md-4">Status</label>
+                                                <div class="col-xl-8 col-md-7 p-0">
+                                                    <label class="mb-0">
+                                                        <input id="newsletter_popup_enabled" name="newsletter_popup_enabled" type="checkbox" value="1" @checked(old('newsletter_popup_enabled', $siteInfo->newsletter_popup_enabled ?? true))>
+                                                        Show popup on frontend home page
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="newsletter_popup_title" class="col-xl-3 col-md-4"><span>*</span> Title</label>
+                                                <input class="form-control col-xl-8 col-md-7" id="newsletter_popup_title" name="newsletter_popup_title" type="text" value="{{ old('newsletter_popup_title', $siteInfo->newsletter_popup_title ?? 'Newsletter') }}" required>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="newsletter_popup_description" class="col-xl-3 col-md-4">Description</label>
+                                                <textarea class="form-control col-xl-8 col-md-7" id="newsletter_popup_description" name="newsletter_popup_description" rows="4">{{ old('newsletter_popup_description', $siteInfo->newsletter_popup_description ?? 'Subscribe to our website mailing list and get a special offer, just for you!') }}</textarea>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="newsletter_popup_button_text" class="col-xl-3 col-md-4"><span>*</span> Button Text</label>
+                                                <input class="form-control col-xl-8 col-md-7" id="newsletter_popup_button_text" name="newsletter_popup_button_text" type="text" value="{{ old('newsletter_popup_button_text', $siteInfo->newsletter_popup_button_text ?? 'Subscribe') }}" required>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="newsletter_popup_image" class="col-xl-3 col-md-4">Popup Image</label>
+                                                <div class="col-xl-8 col-md-7 p-0">
+                                                    <input class="form-control" id="newsletter_popup_image" name="newsletter_popup_image" type="file" accept="image/*">
+                                                    @if ($siteInfo->newsletter_popup_image_path)
+                                                        <img src="{{ asset('storage/' . $siteInfo->newsletter_popup_image_path) }}" class="mt-3" style="max-height:120px;" alt="Current popup image">
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
