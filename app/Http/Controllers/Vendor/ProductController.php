@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\ProductColor;
 use App\Models\ProductSize;
 use App\Models\SubCategory;
+use App\Services\N8nWebhookService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -48,6 +49,7 @@ class ProductController extends Controller
 
         $product = new Product();
         $this->fillAndSave($request, $product, $this->validated($request));
+        app(N8nWebhookService::class)->sendProductCreated($product);
 
         return redirect()->route('vendor.products.index')->with('status', 'Product submitted for admin approval.');
     }

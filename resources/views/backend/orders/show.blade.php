@@ -10,6 +10,10 @@
             <button class="btn btn-primary" type="submit" onclick="return confirm('Send this order to Steadfast Courier?')">Send to Courier</button>
         </form>
     @endif
+    <form class="d-inline" method="POST" action="{{ route('admin.orders.check-with-n8n', $order) }}">
+        @csrf
+        <button class="btn btn-outline-primary" type="submit">Check with n8n</button>
+    </form>
     <a class="btn btn-outline-primary" href="{{ route('admin.orders.invoice', $order) }}" target="_blank">Print Invoice</a>
     <a class="btn btn-outline-secondary" href="{{ route('admin.orders.index') }}">Back</a>
 @endsection

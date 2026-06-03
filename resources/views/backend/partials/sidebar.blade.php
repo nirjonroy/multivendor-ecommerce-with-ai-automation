@@ -9,7 +9,7 @@
     $messagesOpen = request()->routeIs('admin.messages.*');
     $blogsOpen = request()->routeIs('admin.blogs.*');
     $reportsOpen = request()->routeIs('admin.reports.*');
-    $settingsOpen = request()->routeIs('admin.site-info.*') || request()->routeIs('admin.home-section.*');
+    $settingsOpen = request()->routeIs('admin.site-info.*') || request()->routeIs('admin.home-section.*') || request()->routeIs('admin.integrations.*');
     $adminUnreadMessageCount = ($globalAdminUnreadMessages ?? collect())->count();
 @endphp
 <div class="page-sidebar">
@@ -56,6 +56,7 @@
                 <ul class="sidebar-submenu" style="{{ $settingsOpen ? 'display:block;' : '' }}">
                     <li><a class="{{ request()->routeIs('admin.site-info.*') ? 'active' : '' }}" href="{{ route('admin.site-info.edit') }}"><i class="fa fa-circle"></i>Site Info</a></li>
                     <li><a class="{{ request()->routeIs('admin.home-section.*') ? 'active' : '' }}" href="{{ route('admin.home-section.edit') }}"><i class="fa fa-circle"></i>Home Section</a></li>
+                    <li><a class="{{ request()->routeIs('admin.integrations.*') ? 'active' : '' }}" href="{{ route('admin.integrations.edit') }}"><i class="fa fa-circle"></i>Integrations</a></li>
                 </ul>
             </li>
         </ul>

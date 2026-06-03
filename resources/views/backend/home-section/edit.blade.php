@@ -136,6 +136,7 @@
                         <ul class="sidebar-submenu menu-open" style="display:block;">
                             <li><a href="{{ route('admin.site-info.edit') }}"><i class="fa fa-circle"></i>Site Info</a></li>
                             <li><a class="active" href="{{ route('admin.home-section.edit') }}"><i class="fa fa-circle"></i>Home Section</a></li>
+                            <li><a href="{{ route('admin.integrations.edit') }}"><i class="fa fa-circle"></i>Integrations</a></li>
                         </ul>
                     </li>
                 </ul>

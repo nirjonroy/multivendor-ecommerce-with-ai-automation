@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\DashboardController as AdminDashboardController
 use App\Http\Controllers\Backend\Auth\RegisteredAdminController;
 use App\Http\Controllers\Backend\CatalogTaxonomyController;
 use App\Http\Controllers\Backend\HomeSectionController;
+use App\Http\Controllers\Backend\IntegrationSettingController;
 use App\Http\Controllers\Backend\MessageController as AdminMessageController;
 use App\Http\Controllers\Backend\OrderController as AdminOrderController;
 use App\Http\Controllers\Backend\ProductController as AdminProductController;
@@ -127,6 +128,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('site-info', [SiteInfoController::class, 'update'])->name('site-info.update');
         Route::get('home-section', [HomeSectionController::class, 'edit'])->name('home-section.edit');
         Route::put('home-section', [HomeSectionController::class, 'update'])->name('home-section.update');
+        Route::get('integrations', [IntegrationSettingController::class, 'edit'])->name('integrations.edit');
+        Route::put('integrations', [IntegrationSettingController::class, 'update'])->name('integrations.update');
         Route::get('catalog/{resource}', [CatalogTaxonomyController::class, 'index'])->name('catalog.index');
         Route::get('catalog/{resource}/create', [CatalogTaxonomyController::class, 'create'])->name('catalog.create');
         Route::post('catalog/{resource}', [CatalogTaxonomyController::class, 'store'])->name('catalog.store');
@@ -140,6 +143,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
         Route::put('orders/{order}', [AdminOrderController::class, 'update'])->name('orders.update');
         Route::post('orders/{order}/send-to-courier', [AdminOrderController::class, 'sendToCourier'])->name('orders.send-to-courier');
+        Route::post('orders/{order}/check-with-n8n', [AdminOrderController::class, 'checkWithN8n'])->name('orders.check-with-n8n');
         Route::patch('order-items/{item}/status', [AdminOrderController::class, 'updateItemStatus'])->name('order-items.status');
         Route::get('orders/{order}/invoice', [AdminOrderController::class, 'invoice'])->name('orders.invoice');
         Route::resource('blogs', AdminBlogController::class)->except(['show']);

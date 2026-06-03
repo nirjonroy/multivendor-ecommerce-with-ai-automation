@@ -11,6 +11,7 @@ use App\Models\ProductColor;
 use App\Models\ProductSize;
 use App\Models\SubCategory;
 use App\Models\Vendor;
+use App\Services\N8nWebhookService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -35,6 +36,7 @@ class ProductController extends Controller
         $data = $this->validated($request);
         $product = new Product();
         $this->fillAndSave($request, $product, $data);
+        app(N8nWebhookService::class)->sendProductCreated($product);
 
         return redirect()->route('admin.products.index')->with('status', 'Product created successfully.');
     }

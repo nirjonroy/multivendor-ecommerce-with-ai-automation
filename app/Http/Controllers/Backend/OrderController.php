@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\N8nWebhookService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rule;
@@ -121,6 +122,17 @@ class OrderController extends Controller
         ]);
 
         return back()->with('status', 'Order sent to Steadfast Courier. Tracking ID: ' . $trackingId);
+    }
+
+    public function checkWithN8n(Order $order, N8nWebhookService $n8nWebhookService)
+    {
+        $result = $n8nWebhookService->checkOrder($order);
+
+        if (! $result['ok']) {
+            return back()->withErrors($result['message']);
+        }
+
+        return back()->with('status', $result['message']);
     }
 
     public function invoice(Order $order)
