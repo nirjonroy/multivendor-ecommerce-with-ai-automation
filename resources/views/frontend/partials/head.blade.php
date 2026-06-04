@@ -5,8 +5,8 @@
 <meta name="keywords" content="{{ $globalSiteInfo?->site_name ?? 'multivendor ecommerce marketplace' }}">
 <meta name="author" content="{{ $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce' }}">
 <title>{{ $title ?? ($globalSiteInfo?->site_name ?? 'Multivendor Ecommerce') }}</title>
-<link rel="icon" href="{{ $globalSiteInfo?->favicon_path ? asset('storage/' . $globalSiteInfo->favicon_path) : asset('assets/images/favicon/favicon.ico') }}" type="image/x-icon">
-<link rel="shortcut icon" href="{{ $globalSiteInfo?->favicon_path ? asset('storage/' . $globalSiteInfo->favicon_path) : asset('assets/images/favicon/favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ \App\Support\PublicMedia::url($globalSiteInfo?->favicon_path, 'assets/images/favicon/favicon.ico') }}" type="image/x-icon">
+<link rel="shortcut icon" href="{{ \App\Support\PublicMedia::url($globalSiteInfo?->favicon_path, 'assets/images/favicon/favicon.ico') }}" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.css">

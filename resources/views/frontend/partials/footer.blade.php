@@ -7,7 +7,7 @@
             <div class="col-lg-4 col-md-12">
               <div class="footer-left">
                 <div class="footer-logo">
-                  <a href="{{ route('home') }}"><img src="{{ $globalSiteInfo?->logo_path ? asset('storage/' . $globalSiteInfo->logo_path) : asset('assets/images/layout-2/logo/logo.png') }}" class="img-fluid frontend-site-logo" alt="{{ $globalSiteInfo?->site_name ?? 'logo' }}"></a>
+                  <a href="{{ route('home') }}"><img src="{{ \App\Support\PublicMedia::url($globalSiteInfo?->logo_path, 'assets/images/layout-2/logo/logo.png') }}" class="img-fluid frontend-site-logo" alt="{{ $globalSiteInfo?->site_name ?? 'logo' }}"></a>
                 </div>
                 <div class="footer-detail">
                   <p>{{ $globalSiteInfo?->short_description ?? 'A modern multivendor ecommerce marketplace.' }}</p>

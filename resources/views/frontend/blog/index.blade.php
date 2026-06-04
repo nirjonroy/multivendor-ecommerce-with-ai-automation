@@ -40,7 +40,7 @@
                 <div class="col-lg-4 col-md-6 mb-4">
                     <article class="blog-card">
                         <a href="{{ route('blog.show', $blog) }}">
-                            <img class="blog-card-img" src="{{ $blog->image_path ? asset('storage/'.$blog->image_path) : asset('assets/images/blog/1.jpg') }}" alt="{{ $blog->title }}">
+                            <img class="blog-card-img" src="{{ \App\Support\PublicMedia::url($blog->image_path, 'assets/images/blog/1.jpg') }}" alt="{{ $blog->title }}">
                         </a>
                         <div class="blog-card-body">
                             <p class="mb-2">{{ $blog->published_at?->format('d M Y') }} / {{ $blog->author_name }}</p>

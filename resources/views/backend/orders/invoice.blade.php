@@ -20,7 +20,7 @@
 <div class="invoice-wrap">
     <div class="invoice-head">
         <div>
-            <img class="invoice-logo" src="{{ $globalSiteInfo?->logo_path ? asset('storage/' . $globalSiteInfo->logo_path) : asset('assets/images/layout-2/logo/logo.png') }}" alt="{{ $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce' }}">
+            <img class="invoice-logo" src="{{ \App\Support\PublicMedia::url($globalSiteInfo?->logo_path, 'assets/images/layout-2/logo/logo.png') }}" alt="{{ $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce' }}">
             <h4 class="mt-3">{{ $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce' }}</h4>
             <p class="mb-0">{{ $globalSiteInfo?->address }}</p>
             <p class="mb-0">{{ $globalSiteInfo?->contact_email }} {{ $globalSiteInfo?->contact_phone ? ' | ' . $globalSiteInfo->contact_phone : '' }}</p>

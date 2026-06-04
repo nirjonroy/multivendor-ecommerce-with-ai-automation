@@ -246,7 +246,7 @@
                                             @foreach($wishlistProducts as $wishlistProduct)
                                                 <tr>
                                                     <td>
-                                                        <img class="cart-img mr-2" src="{{ $wishlistProduct->thumbnail_path ? asset('storage/'.$wishlistProduct->thumbnail_path) : asset('assets/images/layout-2/product/1.jpg') }}" alt="{{ $wishlistProduct->name }}">
+                                                        <img class="cart-img mr-2" src="{{ \App\Support\PublicMedia::url($wishlistProduct->thumbnail_path, 'assets/images/layout-2/product/1.jpg') }}" alt="{{ $wishlistProduct->name }}">
                                                         <a href="{{ route('products.show', $wishlistProduct) }}">{{ $wishlistProduct->name }}</a>
                                                     </td>
                                                     <td>{{ \App\Support\Currency::format($wishlistProduct->offer_price ?: $wishlistProduct->price, $globalSiteInfo) }}</td>

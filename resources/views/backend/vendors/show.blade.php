@@ -69,7 +69,7 @@
                         <dd class="col-sm-7">{{ $vendor->kyc_reviewed_at?->format('d M Y h:i A') ?: 'Not reviewed' }}</dd>
                     </dl>
                     @if($vendor->kyc_document_path)
-                        <a class="btn btn-outline-primary btn-sm" target="_blank" href="{{ asset('storage/' . $vendor->kyc_document_path) }}">Open KYC Document</a>
+                        <a class="btn btn-outline-primary btn-sm" target="_blank" href="{{ \App\Support\PublicMedia::url($vendor->kyc_document_path) }}">Open KYC Document</a>
                     @endif
                     @if($vendor->kyc_rejection_reason)
                         <div class="alert alert-danger mt-3 mb-0">{{ $vendor->kyc_rejection_reason }}</div>

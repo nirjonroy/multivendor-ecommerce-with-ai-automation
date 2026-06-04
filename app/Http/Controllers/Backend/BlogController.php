@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Support\PublicMedia;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -51,7 +51,7 @@ class BlogController extends Controller
     public function destroy(Blog $blog)
     {
         if ($blog->image_path) {
-            Storage::disk('public')->delete($blog->image_path);
+            PublicMedia::delete($blog->image_path);
         }
 
         $blog->delete();
@@ -69,10 +69,10 @@ class BlogController extends Controller
 
         if ($request->hasFile('image')) {
             if ($blog->image_path) {
-                Storage::disk('public')->delete($blog->image_path);
+                PublicMedia::delete($blog->image_path);
             }
 
-            $data['image_path'] = $request->file('image')->store('blogs', 'public');
+            $data['image_path'] = PublicMedia::store($request->file('image'), 'blogs');
         }
 
         unset($data['image']);

@@ -8,9 +8,9 @@ use App\Models\Category;
 use App\Models\ChildCategory;
 use App\Models\SubCategory;
 use App\Models\Vendor;
+use App\Support\PublicMedia;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -114,7 +114,7 @@ class CatalogTaxonomyController extends Controller
         $item = $config['model']::query()->findOrFail($id);
 
         if (! empty($item->{$config['image_field']})) {
-            Storage::disk('public')->delete($item->{$config['image_field']});
+            PublicMedia::delete($item->{$config['image_field']});
         }
 
         $item->delete();
@@ -132,10 +132,10 @@ class CatalogTaxonomyController extends Controller
 
         if ($request->hasFile($config['upload_input'])) {
             if (! empty($item->{$config['image_field']})) {
-                Storage::disk('public')->delete($item->{$config['image_field']});
+                PublicMedia::delete($item->{$config['image_field']});
             }
 
-            $data[$config['image_field']] = $request->file($config['upload_input'])->store('catalog', 'public');
+            $data[$config['image_field']] = PublicMedia::store($request->file($config['upload_input']), 'catalog');
         }
 
         unset($data[$config['upload_input']]);

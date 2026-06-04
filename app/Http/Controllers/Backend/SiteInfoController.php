@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\SiteInfo;
+use App\Support\PublicMedia;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class SiteInfoController extends Controller
 {
@@ -16,6 +17,8 @@ class SiteInfoController extends Controller
         ], [
             'site_name' => config('app.name', 'Multivendor Ecommerce'),
         ]);
+
+        $this->migrateSiteInfoImagesToPublic($siteInfo);
 
         return view('backend.site-info.edit', compact('siteInfo'));
     }
@@ -46,30 +49,23 @@ class SiteInfoController extends Controller
         ]);
 
         $siteInfo = SiteInfo::query()->firstOrNew(['id' => 1]);
+        $this->migrateSiteInfoImagesToPublic($siteInfo);
+
         $data['newsletter_popup_enabled'] = $request->boolean('newsletter_popup_enabled');
 
         if ($request->hasFile('logo')) {
-            if ($siteInfo->logo_path) {
-                Storage::disk('public')->delete($siteInfo->logo_path);
-            }
-
-            $data['logo_path'] = $request->file('logo')->store('site-info', 'public');
+            PublicMedia::delete($siteInfo->logo_path);
+            $data['logo_path'] = PublicMedia::store($request->file('logo'), 'site-info');
         }
 
         if ($request->hasFile('favicon')) {
-            if ($siteInfo->favicon_path) {
-                Storage::disk('public')->delete($siteInfo->favicon_path);
-            }
-
-            $data['favicon_path'] = $request->file('favicon')->store('site-info', 'public');
+            PublicMedia::delete($siteInfo->favicon_path);
+            $data['favicon_path'] = PublicMedia::store($request->file('favicon'), 'site-info');
         }
 
         if ($request->hasFile('newsletter_popup_image')) {
-            if ($siteInfo->newsletter_popup_image_path) {
-                Storage::disk('public')->delete($siteInfo->newsletter_popup_image_path);
-            }
-
-            $data['newsletter_popup_image_path'] = $request->file('newsletter_popup_image')->store('site-info', 'public');
+            PublicMedia::delete($siteInfo->newsletter_popup_image_path);
+            $data['newsletter_popup_image_path'] = PublicMedia::store($request->file('newsletter_popup_image'), 'site-info');
         }
 
         unset($data['logo']);
@@ -82,5 +78,42 @@ class SiteInfoController extends Controller
         return redirect()
             ->route('admin.site-info.edit')
             ->with('status', 'Site information updated successfully.');
+    }
+
+    private function migrateSiteInfoImagesToPublic(SiteInfo $siteInfo): void
+    {
+        if (! $siteInfo->exists) {
+            return;
+        }
+
+        $changed = false;
+
+        foreach (['logo_path', 'favicon_path', 'newsletter_popup_image_path'] as $field) {
+            $path = $siteInfo->{$field};
+
+            if (! $path || str_starts_with($path, 'uploads/')) {
+                continue;
+            }
+
+            $source = storage_path('app/public/' . ltrim($path, '/'));
+
+            if (! File::exists($source)) {
+                continue;
+            }
+
+            $targetDirectory = public_path('uploads/site-info');
+            if (! File::isDirectory($targetDirectory)) {
+                File::makeDirectory($targetDirectory, 0755, true);
+            }
+
+            $targetPath = 'uploads/site-info/' . basename($path);
+            File::copy($source, public_path($targetPath));
+            $siteInfo->{$field} = $targetPath;
+            $changed = true;
+        }
+
+        if ($changed) {
+            $siteInfo->save();
+        }
     }
 }

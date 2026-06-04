@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
+use App\Support\PublicMedia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -38,7 +39,8 @@ class ShopSettingsController extends Controller
         unset($data['kyc_document']);
 
         if ($request->hasFile('kyc_document')) {
-            $data['kyc_document_path'] = $request->file('kyc_document')->store('vendor-kyc', 'public');
+            PublicMedia::delete($vendor->kyc_document_path);
+            $data['kyc_document_path'] = PublicMedia::store($request->file('kyc_document'), 'vendor-kyc');
         }
 
         $hasKycData = collect([

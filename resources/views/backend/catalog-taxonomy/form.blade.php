@@ -85,7 +85,7 @@
                     <div class="col-xl-8 col-md-7">
                         <input class="form-control" type="file" name="{{ $config['upload_input'] }}" accept="image/*">
                         @if ($item && $item->{$config['image_field']})
-                            <img class="preview-img" src="{{ asset('storage/' . $item->{$config['image_field']}) }}" alt="">
+                            <img class="preview-img" src="{{ \App\Support\PublicMedia::url($item->{$config['image_field']}) }}" alt="">
                         @endif
                     </div>
                 </div>

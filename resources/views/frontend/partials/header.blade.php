@@ -72,7 +72,7 @@
             </ul>
           </div>
           <div class="logo-block">
-            <a href="{{ route('home') }}"><img src="{{ $globalSiteInfo?->logo_path ? asset('storage/' . $globalSiteInfo->logo_path) : asset('assets/images/layout-2/logo/logo.png') }}" class="img-fluid frontend-site-logo" alt="{{ $globalSiteInfo?->site_name ?? 'logo' }}"></a>
+            <a href="{{ route('home') }}"><img src="{{ \App\Support\PublicMedia::url($globalSiteInfo?->logo_path, 'assets/images/layout-2/logo/logo.png') }}" class="img-fluid frontend-site-logo" alt="{{ $globalSiteInfo?->site_name ?? 'logo' }}"></a>
           </div>
           <div class="input-block">
             <div class="input-box">
@@ -119,7 +119,7 @@
                   <div class="collapse nav-desk" id="navbarToggleExternalContent">
                     <ul class="nav-cat title-font">
                       @foreach ($globalFrontendCategories->take(12) as $categoryIndex => $category)
-                        @php($navImage = $category->image_path ? asset('storage/' . $category->image_path) : asset('assets/images/layout-1/nav-img/' . str_pad(($categoryIndex % 12) + 1, 2, '0', STR_PAD_LEFT) . '.png'))
+                        @php($navImage = \App\Support\PublicMedia::url($category->image_path, 'assets/images/layout-1/nav-img/' . str_pad(($categoryIndex % 12) + 1, 2, '0', STR_PAD_LEFT) . '.png'))
                         <li><img src="{{ $navImage }}" alt="category-product"> <a href="{{ route('shop.index', ['category_id' => $category->id]) }}">{{ $category->name }}</a></li>
                       @endforeach
                     </ul>

@@ -80,7 +80,7 @@
                             <input class="form-control" type="file" name="kyc_document" accept=".jpg,.jpeg,.png,.pdf">
                             <div class="form-text">Upload trade license, NID, tax certificate, or another verification document. Accepted: JPG, PNG, PDF up to 4MB.</div>
                             @if($vendor->kyc_document_path)
-                                <a class="btn btn-outline-secondary btn-sm mt-2" target="_blank" href="{{ asset('storage/' . $vendor->kyc_document_path) }}">View Current Document</a>
+                                <a class="btn btn-outline-secondary btn-sm mt-2" target="_blank" href="{{ \App\Support\PublicMedia::url($vendor->kyc_document_path) }}">View Current Document</a>
                             @endif
                         </div>
                     </div>

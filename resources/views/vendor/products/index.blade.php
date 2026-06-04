@@ -35,7 +35,7 @@
                         <tr>
                             <td>
                                 @if($product->thumbnail_path)
-                                    <img style="width:56px;height:56px;object-fit:contain;border:1px solid #e5e7eb" src="{{ asset('storage/' . $product->thumbnail_path) }}" alt="{{ $product->name }}">
+                                    <img style="width:56px;height:56px;object-fit:contain;border:1px solid #e5e7eb" src="{{ \App\Support\PublicMedia::url($product->thumbnail_path) }}" alt="{{ $product->name }}">
                                 @else
                                     <span class="text-secondary">No image</span>
                                 @endif

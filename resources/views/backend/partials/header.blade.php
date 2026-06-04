@@ -2,7 +2,7 @@
     <div class="main-header-left">
         <div class="logo-wrapper">
             <a href="{{ route('admin.dashboard') }}">
-                <img class="blur-up lazyloaded" src="{{ $globalSiteInfo?->logo_path ? asset('storage/' . $globalSiteInfo->logo_path) : asset('assets/images/layout-2/logo/logo.png') }}" alt="{{ $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce' }}">
+                <img class="blur-up lazyloaded" src="{{ \App\Support\PublicMedia::url($globalSiteInfo?->logo_path, 'assets/images/layout-2/logo/logo.png') }}" alt="{{ $globalSiteInfo?->site_name ?? 'Multivendor Ecommerce' }}">
             </a>
         </div>
     </div>

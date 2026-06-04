@@ -33,7 +33,7 @@
                     <div class="col-xl-9 col-md-8 p-0">
                         <input class="form-control" id="image" name="image" type="file" accept="image/*">
                         @if($blog->image_path)
-                            <img class="mt-3" src="{{ asset('storage/' . $blog->image_path) }}" style="max-height:120px;" alt="{{ $blog->title }}">
+                            <img class="mt-3" src="{{ \App\Support\PublicMedia::url($blog->image_path) }}" style="max-height:120px;" alt="{{ $blog->title }}">
                         @endif
                     </div>
                 </div>

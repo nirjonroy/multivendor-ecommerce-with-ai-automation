@@ -25,7 +25,7 @@
 </head>
 <body>
 @php
-    $logo = $globalSiteInfo?->logo_path ? asset('storage/' . $globalSiteInfo->logo_path) : asset('assets/images/layout-2/logo/logo.png');
+    $logo = \App\Support\PublicMedia::url($globalSiteInfo?->logo_path, 'assets/images/layout-2/logo/logo.png');
 @endphp
 <main class="invoice-wrap">
     <div class="invoice-head">

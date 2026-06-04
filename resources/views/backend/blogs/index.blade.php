@@ -26,7 +26,7 @@
                         <tr>
                             <td>
                                 @if($blog->image_path)
-                                    <img class="table-img" src="{{ asset('storage/' . $blog->image_path) }}" alt="{{ $blog->title }}">
+                                    <img class="table-img" src="{{ \App\Support\PublicMedia::url($blog->image_path) }}" alt="{{ $blog->title }}">
                                 @endif
                             </td>
                             <td>

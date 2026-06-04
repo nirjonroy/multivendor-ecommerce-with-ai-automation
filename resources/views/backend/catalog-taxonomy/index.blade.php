@@ -30,7 +30,7 @@
                             <td>
                                 @php($path = $item->{$config['image_field']})
                                 @if ($path)
-                                    <img class="table-img" src="{{ asset('storage/' . $path) }}" alt="{{ $item->name }}">
+                                    <img class="table-img" src="{{ \App\Support\PublicMedia::url($path) }}" alt="{{ $item->name }}">
                                 @endif
                             </td>
                             <td>{{ $item->name }}<br><small>{{ $item->slug }}</small></td>

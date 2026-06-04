@@ -60,7 +60,7 @@
 
                 <div class="row">
                     @forelse($products as $product)
-                        @php($image = $product->thumbnail_path ? asset('storage/'.$product->thumbnail_path) : asset('assets/images/layout-2/product/1.jpg'))
+                        @php($image = \App\Support\PublicMedia::url($product->thumbnail_path, 'assets/images/layout-2/product/1.jpg'))
                         <div class="col-xl-4 col-md-6">
                             <div class="product-box shop-card">
                                 <div class="product-imgbox">

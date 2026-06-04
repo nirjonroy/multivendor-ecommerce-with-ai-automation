@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-lg-8">
                 <article class="blog-detail">
-                    <img class="blog-detail-img" src="{{ $blog->image_path ? asset('storage/'.$blog->image_path) : asset('assets/images/blog/1.jpg') }}" alt="{{ $blog->title }}">
+                    <img class="blog-detail-img" src="{{ \App\Support\PublicMedia::url($blog->image_path, 'assets/images/blog/1.jpg') }}" alt="{{ $blog->title }}">
                     <p>{{ $blog->published_at?->format('d M Y') }} / {{ $blog->author_name }}</p>
                     <h2 class="mb-3">{{ $blog->title }}</h2>
                     <div class="blog-content">{!! $blog->content !!}</div>

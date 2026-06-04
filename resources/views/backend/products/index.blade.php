@@ -29,7 +29,7 @@
                         <tr>
                             <td>
                                 @if($product->thumbnail_path)
-                                    <img class="table-img" src="{{ asset('storage/' . $product->thumbnail_path) }}" alt="{{ $product->name }}">
+                                    <img class="table-img" src="{{ \App\Support\PublicMedia::url($product->thumbnail_path) }}" alt="{{ $product->name }}">
                                 @endif
                             </td>
                             <td>{{ $product->name }}<br><small>{{ $product->sku }}</small></td>

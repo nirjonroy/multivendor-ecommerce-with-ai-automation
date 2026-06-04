@@ -37,7 +37,7 @@
             <div class="col-md-3 mb-3">
                 <label class="form-label">Thumbnail Image Preview</label><br>
                 @if($product?->thumbnail_path)
-                    <img class="preview-img" src="{{ asset('storage/' . $product->thumbnail_path) }}" alt="{{ $product->name }}">
+                    <img class="preview-img" src="{{ \App\Support\PublicMedia::url($product->thumbnail_path) }}" alt="{{ $product->name }}">
                 @else
                     <img class="preview-img" src="/assets/images/placeholder.jpg" alt="Preview">
                 @endif

@@ -21,7 +21,7 @@
                         <tbody>
                             @foreach($cartItems as $item)
                                 <tr data-cart-row="{{ $item['product']->id }}">
-                                    <td><img class="cart-img mr-2" src="{{ $item['product']->thumbnail_path ? asset('storage/'.$item['product']->thumbnail_path) : asset('assets/images/layout-2/product/1.jpg') }}" alt="{{ $item['product']->name }}"> {{ $item['product']->name }}</td>
+                                    <td><img class="cart-img mr-2" src="{{ \App\Support\PublicMedia::url($item['product']->thumbnail_path, 'assets/images/layout-2/product/1.jpg') }}" alt="{{ $item['product']->name }}"> {{ $item['product']->name }}</td>
                                     <td>Size: {{ $item['size'] ?: 'N/A' }}<br>Color: {{ $item['color'] ?: 'N/A' }}</td>
                                     <td>{{ \App\Support\Currency::format($item['price'], $globalSiteInfo) }}</td>
                                     <td>

@@ -44,7 +44,7 @@
                         <div class="col-xl-4 col-lg-5">
                             <div class="d-flex gap-3">
                                 @if($product->thumbnail_path)
-                                    <img src="{{ asset('storage/' . $product->thumbnail_path) }}" alt="{{ $product->name }}" style="width:72px;height:72px;object-fit:contain;border:1px solid #e5e7eb;background:#fff">
+                                    <img src="{{ \App\Support\PublicMedia::url($product->thumbnail_path) }}" alt="{{ $product->name }}" style="width:72px;height:72px;object-fit:contain;border:1px solid #e5e7eb;background:#fff">
                                 @else
                                     <div style="width:72px;height:72px;border:1px solid #e5e7eb;background:#f8fafc" class="d-flex align-items-center justify-content-center text-secondary">No image</div>
                                 @endif

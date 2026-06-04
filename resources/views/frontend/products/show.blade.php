@@ -42,14 +42,14 @@
                         @php($productImages = collect([$product->thumbnail_path])->merge($product->gallery_paths ?: [])->filter()->values())
                         @foreach ($productImages as $index => $path)
                             <div class="col-12 p-1">
-                                <img src="{{ asset('storage/'.$path) }}" class="img-fluid product-thumb {{ $index === 0 ? 'active' : '' }}" data-full-image="{{ asset('storage/'.$path) }}" alt="{{ $product->name }}">
+                                <img src="{{ \App\Support\PublicMedia::url($path) }}" class="img-fluid product-thumb {{ $index === 0 ? 'active' : '' }}" data-full-image="{{ \App\Support\PublicMedia::url($path) }}" alt="{{ $product->name }}">
                             </div>
                         @endforeach
                     </div>
                 </div>
                 <div class="col-lg-5 col-sm-10 col-xs-12">
                     <div class="product-main-image-wrap">
-                        <img id="product-main-image" src="{{ $product->thumbnail_path ? asset('storage/'.$product->thumbnail_path) : asset('assets/images/layout-2/product/1.jpg') }}" class="img-fluid product-main-image" alt="{{ $product->name }}">
+                        <img id="product-main-image" src="{{ \App\Support\PublicMedia::url($product->thumbnail_path, 'assets/images/layout-2/product/1.jpg') }}" class="img-fluid product-main-image" alt="{{ $product->name }}">
                     </div>
                     @if($product->owner_type === 'vendor' && $product->vendor)
                         <div class="vendor-contact-card">
@@ -154,7 +154,7 @@
         </div>
         <div class="row">
             @foreach($relatedProducts as $relatedProduct)
-                @php($relatedImage = $relatedProduct->thumbnail_path ? asset('storage/' . $relatedProduct->thumbnail_path) : asset('assets/images/layout-2/product/1.jpg'))
+                @php($relatedImage = \App\Support\PublicMedia::url($relatedProduct->thumbnail_path, 'assets/images/layout-2/product/1.jpg'))
                 <div class="col-xl-3 col-lg-3 col-md-4 col-6 mb-4">
                     <div class="product-box">
                         <div class="product-imgbox">

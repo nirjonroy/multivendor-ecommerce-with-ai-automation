@@ -11,8 +11,8 @@ use App\Models\ProductColor;
 use App\Models\ProductSize;
 use App\Models\SubCategory;
 use App\Services\N8nWebhookService;
+use App\Support\PublicMedia;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -80,11 +80,11 @@ class ProductController extends Controller
         $this->authorizeVendorProduct($product);
 
         if ($product->thumbnail_path) {
-            Storage::disk('public')->delete($product->thumbnail_path);
+            PublicMedia::delete($product->thumbnail_path);
         }
 
         foreach ($product->gallery_paths ?: [] as $path) {
-            Storage::disk('public')->delete($path);
+            PublicMedia::delete($path);
         }
 
         $product->delete();
@@ -115,9 +115,9 @@ class ProductController extends Controller
             $colorImages[$index]['image_path'] = $oldImage;
             if ($request->hasFile("color_images.$index.image")) {
                 if ($oldImage) {
-                    Storage::disk('public')->delete($oldImage);
+                    PublicMedia::delete($oldImage);
                 }
-                $colorImages[$index]['image_path'] = $request->file("color_images.$index.image")->store('products/colors', 'public');
+                $colorImages[$index]['image_path'] = PublicMedia::store($request->file("color_images.$index.image"), 'products/colors');
             }
             unset($colorImages[$index]['image']);
         }
@@ -125,17 +125,17 @@ class ProductController extends Controller
 
         if ($request->hasFile('thumbnail')) {
             if ($product->thumbnail_path) {
-                Storage::disk('public')->delete($product->thumbnail_path);
+                PublicMedia::delete($product->thumbnail_path);
             }
-            $data['thumbnail_path'] = $request->file('thumbnail')->store('products', 'public');
+            $data['thumbnail_path'] = PublicMedia::store($request->file('thumbnail'), 'products');
         }
 
         if ($request->hasFile('gallery')) {
             foreach ($product->gallery_paths ?: [] as $path) {
-                Storage::disk('public')->delete($path);
+                PublicMedia::delete($path);
             }
             $data['gallery_paths'] = collect($request->file('gallery'))
-                ->map(fn ($file) => $file->store('products', 'public'))
+                ->map(fn ($file) => PublicMedia::store($file, 'products'))
                 ->values()
                 ->all();
         }

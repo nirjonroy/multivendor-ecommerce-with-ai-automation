@@ -184,7 +184,7 @@
               <div class="product-slide-6 product-m no-arrow">
                 @forelse ($globalFrontendProducts as $product)
                   @php
-                    $productImage = $product->thumbnail_path ? asset('storage/' . $product->thumbnail_path) : asset('assets/images/layout-2/product/1.jpg');
+                    $productImage = \App\Support\PublicMedia::url($product->thumbnail_path, 'assets/images/layout-2/product/1.jpg');
                     $displayPrice = $product->offer_price ?: $product->price;
                   @endphp
                   <div>
@@ -210,9 +210,9 @@
                 @endforelse
               </div>
             </div>
-            <div id="tab-2" class="tab-content"><div class="product-slide-6 product-m no-arrow">@foreach($globalFrontendProducts->where('is_featured', true) as $product)<div><div class="product-box"><div class="product-imgbox"><a href="{{ route('products.show', $product) }}"><img src="{{ $product->thumbnail_path ? asset('storage/'.$product->thumbnail_path) : asset('assets/images/layout-2/product/3.jpg') }}" class="img-fluid" alt="{{ $product->name }}"></a>@if ($product->stock_quantity <= 0)<div class="on-sale1">stock out</div>@endif</div><div class="product-detail detail-inline"><a href="{{ route('products.show', $product) }}"><h6 class="price-title">{{ $product->name }}</h6></a><div class="price">{{ \App\Support\Currency::format($product->offer_price ?: $product->price, $globalSiteInfo) }}</div></div></div></div>@endforeach</div></div>
-            <div id="tab-3" class="tab-content"><div class="product-slide-6 product-m no-arrow">@foreach($globalFrontendProducts->take(6) as $product)<div><div class="product-box"><div class="product-imgbox"><a href="{{ route('products.show', $product) }}"><img src="{{ $product->thumbnail_path ? asset('storage/'.$product->thumbnail_path) : asset('assets/images/layout-2/product/4.jpg') }}" class="img-fluid" alt="{{ $product->name }}"></a>@if ($product->stock_quantity <= 0)<div class="on-sale1">stock out</div>@endif</div><div class="product-detail detail-inline"><a href="{{ route('products.show', $product) }}"><h6 class="price-title">{{ $product->name }}</h6></a><div class="price">{{ \App\Support\Currency::format($product->offer_price ?: $product->price, $globalSiteInfo) }}</div></div></div></div>@endforeach</div></div>
-            <div id="tab-4" class="tab-content"><div class="product-slide-6 product-m no-arrow">@foreach($globalFrontendProducts->where('is_on_sale', true) as $product)<div><div class="product-box"><div class="product-imgbox"><a href="{{ route('products.show', $product) }}"><img src="{{ $product->thumbnail_path ? asset('storage/'.$product->thumbnail_path) : asset('assets/images/layout-2/product/5.jpg') }}" class="img-fluid" alt="{{ $product->name }}"></a>@if ($product->stock_quantity <= 0)<div class="on-sale1">stock out</div>@endif</div><div class="product-detail detail-inline"><a href="{{ route('products.show', $product) }}"><h6 class="price-title">{{ $product->name }}</h6></a><div class="price">{{ \App\Support\Currency::format($product->offer_price ?: $product->price, $globalSiteInfo) }}</div></div></div></div>@endforeach</div></div>
+            <div id="tab-2" class="tab-content"><div class="product-slide-6 product-m no-arrow">@foreach($globalFrontendProducts->where('is_featured', true) as $product)<div><div class="product-box"><div class="product-imgbox"><a href="{{ route('products.show', $product) }}"><img src="{{ \App\Support\PublicMedia::url($product->thumbnail_path, 'assets/images/layout-2/product/3.jpg') }}" class="img-fluid" alt="{{ $product->name }}"></a>@if ($product->stock_quantity <= 0)<div class="on-sale1">stock out</div>@endif</div><div class="product-detail detail-inline"><a href="{{ route('products.show', $product) }}"><h6 class="price-title">{{ $product->name }}</h6></a><div class="price">{{ \App\Support\Currency::format($product->offer_price ?: $product->price, $globalSiteInfo) }}</div></div></div></div>@endforeach</div></div>
+            <div id="tab-3" class="tab-content"><div class="product-slide-6 product-m no-arrow">@foreach($globalFrontendProducts->take(6) as $product)<div><div class="product-box"><div class="product-imgbox"><a href="{{ route('products.show', $product) }}"><img src="{{ \App\Support\PublicMedia::url($product->thumbnail_path, 'assets/images/layout-2/product/4.jpg') }}" class="img-fluid" alt="{{ $product->name }}"></a>@if ($product->stock_quantity <= 0)<div class="on-sale1">stock out</div>@endif</div><div class="product-detail detail-inline"><a href="{{ route('products.show', $product) }}"><h6 class="price-title">{{ $product->name }}</h6></a><div class="price">{{ \App\Support\Currency::format($product->offer_price ?: $product->price, $globalSiteInfo) }}</div></div></div></div>@endforeach</div></div>
+            <div id="tab-4" class="tab-content"><div class="product-slide-6 product-m no-arrow">@foreach($globalFrontendProducts->where('is_on_sale', true) as $product)<div><div class="product-box"><div class="product-imgbox"><a href="{{ route('products.show', $product) }}"><img src="{{ \App\Support\PublicMedia::url($product->thumbnail_path, 'assets/images/layout-2/product/5.jpg') }}" class="img-fluid" alt="{{ $product->name }}"></a>@if ($product->stock_quantity <= 0)<div class="on-sale1">stock out</div>@endif</div><div class="product-detail detail-inline"><a href="{{ route('products.show', $product) }}"><h6 class="price-title">{{ $product->name }}</h6></a><div class="price">{{ \App\Support\Currency::format($product->offer_price ?: $product->price, $globalSiteInfo) }}</div></div></div></div>@endforeach</div></div>
           </div>
         </div>
       </div>
@@ -290,9 +290,7 @@
         <div class="slide-6 no-arrow">
           @foreach ($globalFrontendCategories->take(10) as $categoryIndex => $category)
             @php
-              $roundedImage = $category->image_path
-                ? asset('storage/' . $category->image_path)
-                : asset('assets/images/layout-1/rounded-cat/' . (($categoryIndex % 7) + 1) . '.png');
+              $roundedImage = \App\Support\PublicMedia::url($category->image_path, 'assets/images/layout-1/rounded-cat/' . (($categoryIndex % 7) + 1) . '.png');
             @endphp
             <div>
               <div class="category-contain">
@@ -2550,7 +2548,7 @@
         <div class="product-slide-6 no-arrow">
           @foreach($globalFrontendProducts->where('is_featured', true)->take(8) as $product)
             @php
-              $specialImage = $product->thumbnail_path ? asset('storage/' . $product->thumbnail_path) : asset('assets/images/layout-2/product/1.jpg');
+              $specialImage = \App\Support\PublicMedia::url($product->thumbnail_path, 'assets/images/layout-2/product/1.jpg');
             @endphp
             <div>
               <div class="product-box">
@@ -3207,9 +3205,10 @@
 <!--Newsletter modal popup start-->
 @if($globalSiteInfo?->newsletter_popup_enabled)
   @php
-    $newsletterPopupImage = $globalSiteInfo->newsletter_popup_image_path
-      ? asset('storage/' . $globalSiteInfo->newsletter_popup_image_path)
-      : asset('assets/images/layout-2/product/a1.jpg');
+    $newsletterPopupImage = \App\Support\PublicMedia::url(
+      $globalSiteInfo->newsletter_popup_image_path,
+      'assets/images/layout-2/product/a1.jpg'
+    );
   @endphp
 <div class="modal fade bd-example-modal-lg theme-modal" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
