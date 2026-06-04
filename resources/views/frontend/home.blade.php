@@ -77,8 +77,8 @@
           @foreach ($heroSlides as $slideIndex => $slide)
             @php
               $fallbackSlide = $defaultHeroSlides[$slideIndex] ?? $defaultHeroSlides[0];
-              $imageOne = ! empty($slide['image_one_path']) ? asset('storage/' . $slide['image_one_path']) : asset($fallbackSlide['image_one_asset']);
-              $imageTwo = ! empty($slide['image_two_path']) ? asset('storage/' . $slide['image_two_path']) : asset($fallbackSlide['image_two_asset']);
+              $imageOne = \App\Support\PublicMedia::url($slide['image_one_path'] ?? null, $fallbackSlide['image_one_asset']);
+              $imageTwo = \App\Support\PublicMedia::url($slide['image_two_path'] ?? null, $fallbackSlide['image_two_asset']);
             @endphp
             <div>
               <div class="slider-banner p-center slide-banner-1">
@@ -115,7 +115,7 @@
       @foreach ($collectionBanners as $bannerIndex => $banner)
         @php
           $fallbackBanner = $defaultCollectionBanners[$bannerIndex] ?? $defaultCollectionBanners[0];
-          $bannerImage = ! empty($banner['image_path']) ? asset('storage/' . $banner['image_path']) : asset($fallbackBanner['image_asset']);
+          $bannerImage = \App\Support\PublicMedia::url($banner['image_path'] ?? null, $fallbackBanner['image_asset']);
         @endphp
         <div class="col-md-4">
           <div class="collection-banner-main banner-1 {{ $bannerIndex === 0 ? ' p-right' : 'p-right' }}">
@@ -224,9 +224,10 @@
 <!--collection banner start-->
 <section class="collection-banner section-pb-space ">
   @php
-    $wideBannerImage = !empty($contentBlocks['wide_banner']['image_path'])
-      ? asset('storage/' . $contentBlocks['wide_banner']['image_path'])
-      : asset($contentBlocks['wide_banner']['image_asset']);
+    $wideBannerImage = \App\Support\PublicMedia::url(
+      $contentBlocks['wide_banner']['image_path'] ?? null,
+      $contentBlocks['wide_banner']['image_asset']
+    );
   @endphp
   <div class="custom-container">
     <div class="row">
@@ -2060,9 +2061,10 @@
     <div class="row collection2">
       @foreach($contentBlocks['secondary_banners'] as $secondaryBanner)
         @php
-          $secondaryBannerImage = !empty($secondaryBanner['image_path'])
-            ? asset('storage/' . $secondaryBanner['image_path'])
-            : asset($secondaryBanner['image_asset'] ?? 'assets/images/layout-2/collection-banner/4.jpg');
+          $secondaryBannerImage = \App\Support\PublicMedia::url(
+            $secondaryBanner['image_path'] ?? null,
+            $secondaryBanner['image_asset'] ?? 'assets/images/layout-2/collection-banner/4.jpg'
+          );
         @endphp
         <div class="col-md-4">
           <div class="collection-banner-main banner-1 p-left">
@@ -2092,9 +2094,10 @@
 <section class="hot-deal b-g-white section-big-pb-space space-abjust">
   @php
     $hotDealImages = collect($contentBlocks['hot_deal']['images'] ?? [])->map(function ($image, $index) {
-      return !empty($image['image_path'])
-        ? asset('storage/' . $image['image_path'])
-        : asset($image['image_asset'] ?? 'assets/images/layout-2/hot-deal/' . (8 - $index) . '.jpg');
+      return \App\Support\PublicMedia::url(
+        $image['image_path'] ?? null,
+        $image['image_asset'] ?? 'assets/images/layout-2/hot-deal/' . (8 - $index) . '.jpg'
+      );
     })->values();
   @endphp
   <div class="custom-container">
@@ -2507,9 +2510,10 @@
         <div class="slide-1 no-arrow">
           @foreach($contentBlocks['testimonials'] as $testimonial)
             @php
-              $testimonialImage = !empty($testimonial['image_path'])
-                ? asset('storage/' . $testimonial['image_path'])
-                : asset($testimonial['image_asset'] ?? 'assets/images/testimonial/1.jpg');
+              $testimonialImage = \App\Support\PublicMedia::url(
+                $testimonial['image_path'] ?? null,
+                $testimonial['image_asset'] ?? 'assets/images/testimonial/1.jpg'
+              );
             @endphp
             <div>
               <div class="testimonial-contain">
@@ -3059,9 +3063,10 @@
           <div class="slide-7">
             @foreach($contentBlocks['instagram'] as $instagram)
               @php
-                $instagramImage = !empty($instagram['image_path'])
-                  ? asset('storage/' . $instagram['image_path'])
-                  : asset($instagram['image_asset'] ?? 'assets/images/insta/1.jpg');
+                $instagramImage = \App\Support\PublicMedia::url(
+                  $instagram['image_path'] ?? null,
+                  $instagram['image_asset'] ?? 'assets/images/insta/1.jpg'
+                );
               @endphp
               <div>
                 <a href="{{ $instagram['url'] ?? '#' }}">

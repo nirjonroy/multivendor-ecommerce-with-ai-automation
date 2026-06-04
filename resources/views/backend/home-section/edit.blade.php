@@ -224,14 +224,14 @@
                                                     <label>Left Image</label>
                                                     <input class="form-control" type="file" name="hero_slides[{{ $index }}][image_one]" accept="image/*">
                                                     @if (! empty($slide['image_one_path']))
-                                                        <img class="preview-img" src="{{ asset('storage/' . $slide['image_one_path']) }}" alt="">
+                                                        <img class="preview-img" src="{{ \App\Support\PublicMedia::url($slide['image_one_path']) }}" alt="">
                                                     @endif
                                                 </div>
                                                 <div class="col-md-6 form-group">
                                                     <label>Right Image</label>
                                                     <input class="form-control" type="file" name="hero_slides[{{ $index }}][image_two]" accept="image/*">
                                                     @if (! empty($slide['image_two_path']))
-                                                        <img class="preview-img" src="{{ asset('storage/' . $slide['image_two_path']) }}" alt="">
+                                                        <img class="preview-img" src="{{ \App\Support\PublicMedia::url($slide['image_two_path']) }}" alt="">
                                                     @endif
                                                 </div>
                                             </div>
@@ -266,7 +266,7 @@
                                                     <label>Image</label>
                                                     <input class="form-control" type="file" name="collection_banners[{{ $index }}][image]" accept="image/*">
                                                     @if (! empty($banner['image_path']))
-                                                        <img class="preview-img" src="{{ asset('storage/' . $banner['image_path']) }}" alt="">
+                                                        <img class="preview-img" src="{{ \App\Support\PublicMedia::url($banner['image_path']) }}" alt="">
                                                     @endif
                                                 </div>
                                             </div>
@@ -297,7 +297,7 @@
                                             <label>Image</label>
                                             <input class="form-control" type="file" name="content_blocks[wide_banner][image]" accept="image/*">
                                             @if(!empty($contentBlocks['wide_banner']['image_path']))
-                                                <img class="preview-img" src="{{ asset('storage/' . $contentBlocks['wide_banner']['image_path']) }}" alt="">
+                                                <img class="preview-img" src="{{ \App\Support\PublicMedia::url($contentBlocks['wide_banner']['image_path']) }}" alt="">
                                             @endif
                                         </div>
                                     </div>
@@ -338,7 +338,7 @@
                                                     <label>Image</label>
                                                     <input class="form-control" type="file" name="content_blocks[secondary_banners][{{ $index }}][image]" accept="image/*">
                                                     @if(!empty($banner['image_path']))
-                                                        <img class="preview-img" src="{{ asset('storage/' . $banner['image_path']) }}" alt="">
+                                                        <img class="preview-img" src="{{ \App\Support\PublicMedia::url($banner['image_path']) }}" alt="">
                                                     @endif
                                                 </div>
                                             </div>
@@ -362,7 +362,7 @@
                                                 <label>Hot Deal Image {{ $index + 1 }}</label>
                                                 <input class="form-control" type="file" name="content_blocks[hot_deal][images][{{ $index }}][image]" accept="image/*">
                                                 @if(!empty($image['image_path']))
-                                                    <img class="preview-img" src="{{ asset('storage/' . $image['image_path']) }}" alt="">
+                                                    <img class="preview-img" src="{{ \App\Support\PublicMedia::url($image['image_path']) }}" alt="">
                                                 @endif
                                             </div>
                                         @endforeach
@@ -379,7 +379,7 @@
                                                     <label>Image</label>
                                                     <input class="form-control" type="file" name="content_blocks[testimonials][{{ $index }}][image]" accept="image/*">
                                                     @if(!empty($testimonial['image_path']))
-                                                        <img class="preview-img" src="{{ asset('storage/' . $testimonial['image_path']) }}" alt="">
+                                                        <img class="preview-img" src="{{ \App\Support\PublicMedia::url($testimonial['image_path']) }}" alt="">
                                                     @endif
                                                 </div>
                                             </div>
@@ -394,7 +394,7 @@
                                                 <input class="form-control mb-2" name="content_blocks[instagram][{{ $index }}][url]" value="{{ $instagram['url'] ?? '#' }}" placeholder="URL">
                                                 <input class="form-control" type="file" name="content_blocks[instagram][{{ $index }}][image]" accept="image/*">
                                                 @if(!empty($instagram['image_path']))
-                                                    <img class="preview-img" src="{{ asset('storage/' . $instagram['image_path']) }}" alt="">
+                                                    <img class="preview-img" src="{{ \App\Support\PublicMedia::url($instagram['image_path']) }}" alt="">
                                                 @endif
                                             </div>
                                         @endforeach

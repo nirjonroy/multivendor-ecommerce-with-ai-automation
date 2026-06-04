@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\HomeSection;
+use App\Support\PublicMedia;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class HomeSectionController extends Controller
 {
     public function edit()
     {
         $homeSection = HomeSection::query()->firstOrNew(['id' => 1]);
+        $this->migrateHomeSectionImagesToPublic($homeSection);
 
         return view('backend.home-section.edit', compact('homeSection'));
     }
@@ -74,6 +75,7 @@ class HomeSectionController extends Controller
         ]);
 
         $homeSection = HomeSection::query()->firstOrNew(['id' => 1]);
+        $this->migrateHomeSectionImagesToPublic($homeSection);
         $heroSlides = $homeSection->hero_slides ?: [];
         $collectionBanners = $homeSection->collection_banners ?: [];
 
@@ -83,12 +85,12 @@ class HomeSectionController extends Controller
 
             if ($request->hasFile("hero_slides.$index.image_one")) {
                 $this->deleteStoredFile($slide['image_one_path']);
-                $slide['image_one_path'] = $request->file("hero_slides.$index.image_one")->store('home-sections', 'public');
+                $slide['image_one_path'] = PublicMedia::store($request->file("hero_slides.$index.image_one"), 'home-sections');
             }
 
             if ($request->hasFile("hero_slides.$index.image_two")) {
                 $this->deleteStoredFile($slide['image_two_path']);
-                $slide['image_two_path'] = $request->file("hero_slides.$index.image_two")->store('home-sections', 'public');
+                $slide['image_two_path'] = PublicMedia::store($request->file("hero_slides.$index.image_two"), 'home-sections');
             }
 
             unset($slide['image_one'], $slide['image_two']);
@@ -100,7 +102,7 @@ class HomeSectionController extends Controller
 
             if ($request->hasFile("collection_banners.$index.image")) {
                 $this->deleteStoredFile($banner['image_path']);
-                $banner['image_path'] = $request->file("collection_banners.$index.image")->store('home-sections', 'public');
+                $banner['image_path'] = PublicMedia::store($request->file("collection_banners.$index.image"), 'home-sections');
             }
 
             unset($banner['image']);
@@ -113,7 +115,7 @@ class HomeSectionController extends Controller
         $contentBlocks['wide_banner']['image_path'] = $oldContentBlocks['wide_banner']['image_path'] ?? null;
         if ($request->hasFile('content_blocks.wide_banner.image')) {
             $this->deleteStoredFile($contentBlocks['wide_banner']['image_path']);
-            $contentBlocks['wide_banner']['image_path'] = $request->file('content_blocks.wide_banner.image')->store('home-sections', 'public');
+            $contentBlocks['wide_banner']['image_path'] = PublicMedia::store($request->file('content_blocks.wide_banner.image'), 'home-sections');
         }
         unset($contentBlocks['wide_banner']['image']);
 
@@ -121,7 +123,7 @@ class HomeSectionController extends Controller
             $banner['image_path'] = $oldContentBlocks['secondary_banners'][$index]['image_path'] ?? null;
             if ($request->hasFile("content_blocks.secondary_banners.$index.image")) {
                 $this->deleteStoredFile($banner['image_path']);
-                $banner['image_path'] = $request->file("content_blocks.secondary_banners.$index.image")->store('home-sections', 'public');
+                $banner['image_path'] = PublicMedia::store($request->file("content_blocks.secondary_banners.$index.image"), 'home-sections');
             }
             unset($banner['image']);
             $contentBlocks['secondary_banners'][$index] = $banner;
@@ -131,7 +133,7 @@ class HomeSectionController extends Controller
             $image['image_path'] = $oldContentBlocks['hot_deal']['images'][$index]['image_path'] ?? null;
             if ($request->hasFile("content_blocks.hot_deal.images.$index.image")) {
                 $this->deleteStoredFile($image['image_path']);
-                $image['image_path'] = $request->file("content_blocks.hot_deal.images.$index.image")->store('home-sections', 'public');
+                $image['image_path'] = PublicMedia::store($request->file("content_blocks.hot_deal.images.$index.image"), 'home-sections');
             }
             unset($image['image']);
             $contentBlocks['hot_deal']['images'][$index] = $image;
@@ -141,7 +143,7 @@ class HomeSectionController extends Controller
             $testimonial['image_path'] = $oldContentBlocks['testimonials'][$index]['image_path'] ?? null;
             if ($request->hasFile("content_blocks.testimonials.$index.image")) {
                 $this->deleteStoredFile($testimonial['image_path']);
-                $testimonial['image_path'] = $request->file("content_blocks.testimonials.$index.image")->store('home-sections', 'public');
+                $testimonial['image_path'] = PublicMedia::store($request->file("content_blocks.testimonials.$index.image"), 'home-sections');
             }
             unset($testimonial['image']);
             $contentBlocks['testimonials'][$index] = $testimonial;
@@ -151,7 +153,7 @@ class HomeSectionController extends Controller
             $item['image_path'] = $oldContentBlocks['instagram'][$index]['image_path'] ?? null;
             if ($request->hasFile("content_blocks.instagram.$index.image")) {
                 $this->deleteStoredFile($item['image_path']);
-                $item['image_path'] = $request->file("content_blocks.instagram.$index.image")->store('home-sections', 'public');
+                $item['image_path'] = PublicMedia::store($request->file("content_blocks.instagram.$index.image"), 'home-sections');
             }
             unset($item['image']);
             $contentBlocks['instagram'][$index] = $item;
@@ -172,7 +174,110 @@ class HomeSectionController extends Controller
     private function deleteStoredFile(?string $path): void
     {
         if ($path) {
-            Storage::disk('public')->delete($path);
+            PublicMedia::delete($path);
         }
+    }
+
+    private function migrateHomeSectionImagesToPublic(HomeSection $homeSection): void
+    {
+        if (! $homeSection->exists) {
+            return;
+        }
+
+        $changed = false;
+        $heroSlides = $homeSection->hero_slides ?: [];
+        $collectionBanners = $homeSection->collection_banners ?: [];
+        $contentBlocks = $homeSection->content_blocks ?: [];
+
+        foreach ($heroSlides as $index => $slide) {
+            foreach (['image_one_path', 'image_two_path'] as $field) {
+                if (! empty($slide[$field])) {
+                    $newPath = $this->moveOldHomeSectionFile($slide[$field]);
+                    if ($newPath !== $slide[$field]) {
+                        $heroSlides[$index][$field] = $newPath;
+                        $changed = true;
+                    }
+                }
+            }
+        }
+
+        foreach ($collectionBanners as $index => $banner) {
+            if (! empty($banner['image_path'])) {
+                $newPath = $this->moveOldHomeSectionFile($banner['image_path']);
+                if ($newPath !== $banner['image_path']) {
+                    $collectionBanners[$index]['image_path'] = $newPath;
+                    $changed = true;
+                }
+            }
+        }
+
+        $walkImages = function (&$items) use (&$changed) {
+            foreach (($items ?? []) as $index => $item) {
+                if (! empty($item['image_path'])) {
+                    $newPath = $this->moveOldHomeSectionFile($item['image_path']);
+                    if ($newPath !== $item['image_path']) {
+                        $items[$index]['image_path'] = $newPath;
+                        $changed = true;
+                    }
+                }
+            }
+        };
+
+        if (! empty($contentBlocks['wide_banner']['image_path'])) {
+            $newPath = $this->moveOldHomeSectionFile($contentBlocks['wide_banner']['image_path']);
+            if ($newPath !== $contentBlocks['wide_banner']['image_path']) {
+                $contentBlocks['wide_banner']['image_path'] = $newPath;
+                $changed = true;
+            }
+        }
+
+        if (isset($contentBlocks['secondary_banners'])) {
+            $walkImages($contentBlocks['secondary_banners']);
+        }
+
+        if (isset($contentBlocks['hot_deal']['images'])) {
+            $walkImages($contentBlocks['hot_deal']['images']);
+        }
+
+        if (isset($contentBlocks['testimonials'])) {
+            $walkImages($contentBlocks['testimonials']);
+        }
+
+        if (isset($contentBlocks['instagram'])) {
+            $walkImages($contentBlocks['instagram']);
+        }
+
+        if ($changed) {
+            $homeSection->forceFill([
+                'hero_slides' => $heroSlides,
+                'collection_banners' => $collectionBanners,
+                'content_blocks' => $contentBlocks,
+            ])->save();
+            $homeSection->refresh();
+        }
+    }
+
+    private function moveOldHomeSectionFile(string $path): string
+    {
+        if (str_starts_with($path, 'uploads/') || ! str_starts_with($path, 'home-sections/')) {
+            return $path;
+        }
+
+        $oldPath = storage_path('app/public/' . $path);
+
+        if (! file_exists($oldPath)) {
+            return $path;
+        }
+
+        $targetDirectory = public_path('uploads/home-sections');
+
+        if (! is_dir($targetDirectory)) {
+            mkdir($targetDirectory, 0755, true);
+        }
+
+        $newPath = 'uploads/' . $path;
+        copy($oldPath, public_path($newPath));
+
+        return $newPath;
     }
 }
