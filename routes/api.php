@@ -19,4 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('n8n/product-callback', N8nProductCallbackController::class)->name('api.n8n.product-callback');
+// Route::post('n8n/product-callback', N8nProductCallbackController::class)->name('api.n8n.product-callback');
+// Route::get('n8n/product-callback', N8ProductCallbackController::class)->name('api.n8n.product-callback');
+Route::post('/webhook/gemini', [N8nProductCallbackController::class, 'handleCallback']);

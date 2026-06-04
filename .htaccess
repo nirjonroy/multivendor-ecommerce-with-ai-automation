@@ -1,0 +1,22 @@
+<IfModule mod_rewrite.c>
+    Options -Indexes
+    RewriteEngine On
+
+    # Never expose Laravel/system files from the project root.
+    <FilesMatch "^(\.env|\.env\..*|composer\.(json|lock)|package(-lock)?\.json|webpack\.mix\.js|artisan|phpunit\.xml)$">
+        <IfModule mod_authz_core.c>
+            Require all denied
+        </IfModule>
+        <IfModule !mod_authz_core.c>
+            Order allow,deny
+            Deny from all
+        </IfModule>
+    </FilesMatch>
+
+    # Keep public URLs clean if someone visits /public/ directly.
+    RewriteRule ^public/(.*)$ $1 [R=301,L]
+
+    # Serve the Laravel application from /public while keeping the domain root clean.
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
