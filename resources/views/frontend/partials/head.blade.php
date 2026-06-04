@@ -27,6 +27,10 @@
   .cart-wrap,.checkout-wrap{padding:60px 0}
   .cart-actions form{display:inline-block}
   .summary-line{display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding:10px 0}
+  .nav-cat li img{width:39px;height:39px;object-fit:cover;border-radius:50%;background:#f4f4f4}
+  .rounded-category .category-contain .img-wrapper{width:110px;height:110px;padding:5px;display:flex;align-items:center;justify-content:center;background:#fff;overflow:hidden}
+  .rounded-category .category-contain .img-wrapper img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+  .rounded-category .category-contain .btn-rounded{max-width:150px;min-height:38px;display:inline-flex;align-items:center;justify-content:center;line-height:1.1;white-space:normal;text-align:center}
   @media (max-width: 767px){.cart-option-grid{grid-template-columns:1fr}.product-buttons form{display:block;margin:0 0 10px}}
 </style>
 @stack('styles')
